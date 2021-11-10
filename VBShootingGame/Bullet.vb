@@ -1,7 +1,9 @@
 ﻿Public Class Bullet
 	Inherits GameObject
 
-	Public IsPlayer As Boolean = True
+	Private IsPlayer As Boolean = True
+
+	Private IsDestroyed As Boolean = False
 
 	Public Sub New(sender As GameObject, IsP As Boolean)
 		USpeed = 20
@@ -21,8 +23,26 @@
 
 	Public Overrides Sub Move(dire As Form1.InputKeys)
 		If IsPlayer Then
-
+			UPos = New Point(UPos.X + USpeed, UPos.Y)
+		Else
+			UPos = New Point(UPos.X - USpeed, UPos.Y)
 		End If
 	End Sub
+
+	Public Overrides Function CheckDestroyed() As Boolean
+		If IsDestroyed = True Then
+			Return True
+		ElseIf UPos.X < 0 Or UPos.X > Form1.BoardWidth Then
+			IsDestroyed = True
+			Return True
+		Else
+			Return False
+		End If
+	End Function
+
+	Protected Overrides Sub Finalize()
+		USprite.Dispose()
+	End Sub
+
 
 End Class

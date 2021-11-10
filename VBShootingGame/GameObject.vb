@@ -95,5 +95,8 @@ Public Class GameObject
 		sprite = Image.FromFile(f_name)
 	End Sub
 
+	Public Overridable Function CheckDestroyed() As Boolean
+
+	End Function
 
 End Class
