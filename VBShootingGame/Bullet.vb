@@ -12,11 +12,11 @@
 		SetObjID(id)
 		If IsP Then
 			IsPlayer = True
-			SetSprite("P_Bullet.png")
+			SetSprite("P_Bullet")
 			UPos = New Point(sender.UPos.X + sender.UWidth - 10, sender.UPos.Y + 20)
 		Else
 			IsPlayer = False
-			SetSprite("E_Bullet.png")
+			SetSprite("E_Bullet")
 			UPos = New Point(sender.UPos.X, sender.UPos.Y + 20)
 		End If
 

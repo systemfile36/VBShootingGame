@@ -7,7 +7,7 @@
 
 
 	Public Sub New()
-		SetSprite("P_Default.png")
+		SetSprite("P_Default")
 		UPos = New Point(100, 100)
 		USpeed = 10
 		UWidth = 122

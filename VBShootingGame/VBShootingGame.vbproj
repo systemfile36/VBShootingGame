@@ -123,5 +123,17 @@
     </None>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Player\P_Bullet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Player\P_Default.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Enemy\E_Bullet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Enemy\E_Default.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

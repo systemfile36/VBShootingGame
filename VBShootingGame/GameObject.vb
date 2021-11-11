@@ -105,7 +105,8 @@ Public Class GameObject
 	End Sub
 
 	Public Sub SetSprite(f_name As String)
-		sprite = Image.FromFile(f_name)
+		'sprite = Image.FromFile(f_name)
+		sprite = My.Resources.ResourceManager.GetObject(f_name)
 	End Sub
 
 	Public Overridable Function CheckDestroyed() As Boolean
