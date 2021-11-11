@@ -5,17 +5,20 @@
 
 	Private IsDestroyed As Boolean = False
 
-	Public Sub New(sender As GameObject, IsP As Boolean, id As Integer)
+	Public Sub New(sender As GameObject, IsP As Boolean, id As String)
 		USpeed = 20
 		UWidth = 42
 		UHeight = 13
-		SetObjID(id)
+
+		'플레이어의 탄인지 아닌지 비교해서 다르게 초기화
 		If IsP Then
 			IsPlayer = True
+			SetObjID("P_B" & id)
 			SetSprite("P_Bullet")
 			UPos = New Point(sender.UPos.X + sender.UWidth - 10, sender.UPos.Y + 20)
 		Else
 			IsPlayer = False
+			SetObjID("E_B" & id)
 			SetSprite("E_Bullet")
 			UPos = New Point(sender.UPos.X, sender.UPos.Y + 20)
 		End If

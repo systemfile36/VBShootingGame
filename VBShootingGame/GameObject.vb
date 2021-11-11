@@ -5,7 +5,10 @@ Public Class GameObject
 
 	'Equals구현을 위한 고유 아이디
 	'ReadOnly프로퍼티로 읽기만 함, 초기화는 생성자에서만
-	Private ObjID As Integer = 0
+	Private ObjID As String = ""
+
+	'생성될때의 시간을 틱으로 저장
+	Public ReadOnly SpawnedTime As Long = 0
 
 	Private sprite As Image
 	Private pos As Point
@@ -74,7 +77,7 @@ Public Class GameObject
 	End Property
 
 	Public Sub New()
-
+		SpawnedTime = Now.Ticks
 	End Sub
 
 	Public Overridable Sub Move(dire As Form1.InputKeys)
@@ -137,7 +140,7 @@ Public Class GameObject
 		Return Me.ObjID.Equals(other.ObjID)
 	End Function
 
-	Public Sub SetObjID(value As Integer)
+	Protected Sub SetObjID(value As String)
 		ObjID = value
 	End Sub
 

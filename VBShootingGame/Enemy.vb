@@ -3,12 +3,14 @@
 
 	Private IsUp As Boolean = False
 
-	Public Sub New(id As Integer)
+
+
+	Public Sub New(id As String)
 		SetSprite("E_Default")
 		USpeed = 5
 		UWidth = 122
 		UHeight = 32
-		SetObjID(id)
+		SetObjID("E" & id)
 		UPos = New Point(Form1.BoardWidth - UWidth - 100, 100)
 	End Sub
 

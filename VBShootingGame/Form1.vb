@@ -12,6 +12,7 @@ Imports System.Collections.Concurrent
 Public Class Form1
 	Private player As GameObject
 
+	'적 생성 간격 변수
 	Private TermTickEnemy As Long = 50000000L
 	Private DelayTickEnemy As Long = 0
 
@@ -19,8 +20,10 @@ Public Class Form1
 	Private OtherObjects As New List(Of GameObject)
 	Private NumberofObj As Integer = 0
 
+	'플레이어 컨트롤 변수
 	Private p_control As InputKeys = InputKeys.None
 
+	'발사 여부 함수
 	Private launch_control As Boolean = False
 
 	'입력 갱신 스레드
@@ -41,6 +44,7 @@ Public Class Form1
 		None
 	End Enum
 
+	'캔버스 크기 상수
 	Public Const BoardWidth As Integer = 1200, BoardHeight As Integer = 600
 
 	Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -102,7 +106,7 @@ Public Class Form1
 		Catch ex As Exception
 			lbDebug.Text = "Exception Iter"
 		End Try
-
+		lbDebug.Text = NumberofObj
 	End Sub
 
 	'부드러운 움직임을 위해 스레드 사용
@@ -125,34 +129,56 @@ Public Class Form1
 
 	'플레이어 외 오브젝트 갱신
 	Private Sub ThreadOther()
+		'삭제할 물건 저장용 리스트
+		Dim removeObj As New List(Of GameObject)
 		Do
 			Try
 				'적 생성
 				If Now.Ticks - DelayTickEnemy > TermTickEnemy Then
-					OtherObjects.Add(New Enemy(NumberofObj))
 					NumberofObj += 1
+					OtherObjects.Add(New Enemy(NumberofObj))
+
 					DelayTickEnemy = Now.Ticks
 				End If
+
+				'총탄 생성
 				If launch_control Then
-					OtherObjects.Add(New Bullet(player, True, NumberofObj))
 					NumberofObj += 1
+					OtherObjects.Add(New Bullet(player, True, NumberofObj))
+
 					launch_control = False
 				End If
 
+				'오브젝트들 갱신
 				For Each obj As GameObject In OtherObjects
 					obj.Move(-1)
+					'파괴 확인
 					If obj.CheckDestroyed() Then
-						'Equals로 생성시 부여한 아이디 비교 후 일치하는 것 삭제
-						If Not OtherObjects.Remove(obj) Then
-							Continue For
-						Else
-							NumberofObj -= 1
-						End If
+						'파괴할 물건을 저장 (열거 오류를 막기위해)
+						removeObj.Add(obj)
 					End If
+
+
 				Next
+
+				'실제 삭제 반영
+				For Each obj As GameObject In removeObj
+					'removeObj에 있는 것과 같은 아이디를 가진 물건 삭제
+					If OtherObjects.Remove(obj) Then
+						NumberofObj -= 1
+					End If
+
+				Next
+
+				'삭제를 위한 배열 비우기
+				removeObj.Clear()
+
 				Thread.Sleep(20)
 			Catch ex As Exception
 				'열거가 잘못되는 오류가 발생할 수 있지만 무시함
+				Task.Run(Sub()
+							 MsgBox(ex.ToString())
+						 End Sub)
 				Thread.Sleep(0)
 				Continue Do
 			End Try
