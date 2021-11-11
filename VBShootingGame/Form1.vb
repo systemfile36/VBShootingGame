@@ -1,14 +1,16 @@
 ﻿'게임이 실행되는 메인 폼
 '객체 지향을 통해 다형성 구현
 '처리 함수는 일관되게 하고 수정은 각 오브젝트 클래스에서 행함
+'삭제 과정에서 오버헤드 가능성 있음
 
 Imports System.Threading
 Imports System.Collections.Concurrent
 Public Class Form1
 	Private player As GameObject
-	'Private OtherObjects As New List(Of GameObject)
-	'Private OtherObjects As New ConcurrentQueue(Of GameObject)
-	Private OtherObjects As New BlockingCollection(Of GameObject)
+
+	'ThreadOther에서 조작하는 기타 오브젝트 List<T>
+	Private OtherObjects As New List(Of GameObject)
+
 	Private p_control As InputKeys = InputKeys.None
 
 	Private launch_control As Boolean = False
@@ -38,7 +40,7 @@ Public Class Form1
 		trd_input.IsBackground = True
 		trd_input.Start()
 
-
+		'다른 오브젝트 갱신용 스레드 생성 후 실행
 		trd_other = New Thread(AddressOf ThreadOther)
 		trd_other.IsBackground = True
 		trd_other.Start()
@@ -81,7 +83,7 @@ Public Class Form1
 		For i As Integer = 0 To OtherObjects.Count - 1
 			e.Graphics.DrawImage(OtherObjects(i).USprite, New Rectangle(OtherObjects(i).UPos.X, OtherObjects(i).UPos.Y, OtherObjects(i).UWidth, OtherObjects(i).UHeight))
 		Next
-		'lbDebug.Text = player.GetPos().X & " " & player.GetPos().Y
+		lbDebug.Text = OtherObjects.Count()
 	End Sub
 
 	'부드러운 움직임을 위해 스레드 사용
@@ -105,25 +107,28 @@ Public Class Form1
 
 	Private Sub ThreadOther()
 		Do
-			If launch_control Then
-				If OtherObjects.TryAdd(New Bullet(player, True), 10) Then
-					Continue Do
+			Try
+				If launch_control Then
+					OtherObjects.Add(New Bullet(player, True, OtherObjects.Count - 1))
+					launch_control = False
 				End If
-				launch_control = False
-			End If
 
-			For i As Integer = 0 To OtherObjects.Count - 1
-				Dim j = i
-				With OtherObjects(i)
-					.Move(-1)
-					If .CheckDestroyed() Then
-						If OtherObjects.TryTake(OtherObjects(j), 10) Then
-							Continue Do
+				For Each obj As GameObject In OtherObjects
+					obj.Move(-1)
+					If obj.CheckDestroyed() Then
+						'Equals로 생성시 부여한 아이디 비교 후 일치하는 것 삭제
+						If Not OtherObjects.Remove(obj) Then
+							Continue For
 						End If
 					End If
-				End With
-			Next
-			Thread.Sleep(20)
+				Next
+				Thread.Sleep(20)
+			Catch ex As Exception
+				'열거가 잘못되는 오류가 발생할 수 있지만 무시함
+				Continue Do
+			End Try
+
+
 		Loop
 	End Sub
 

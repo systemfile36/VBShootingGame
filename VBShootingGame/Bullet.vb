@@ -5,10 +5,11 @@
 
 	Private IsDestroyed As Boolean = False
 
-	Public Sub New(sender As GameObject, IsP As Boolean)
+	Public Sub New(sender As GameObject, IsP As Boolean, id As Integer)
 		USpeed = 20
 		UWidth = 42
 		UHeight = 13
+		SetObjID(id)
 		If IsP Then
 			IsPlayer = True
 			SetSprite("P_Bullet.png")

@@ -1,6 +1,12 @@
 ﻿'게임 오브젝트의 기본 틀
 '모든 오브젝트는 이 클래스를 상속 받음
 Public Class GameObject
+	Implements IEquatable(Of GameObject)
+
+	'Equals구현을 위한 고유 아이디
+	'ReadOnly프로퍼티로 읽기만 함, 초기화는 생성자에서만
+	Private ObjID As Integer = 0
+
 	Private sprite As Image
 	Private pos As Point
 	Private SPEED As Integer
@@ -60,6 +66,13 @@ Public Class GameObject
 			Return sprite
 		End Get
 	End Property
+
+	Public ReadOnly Property UObjID As Integer
+		Get
+			Return ObjID
+		End Get
+	End Property
+
 	Public Sub New()
 
 	End Sub
@@ -96,7 +109,34 @@ Public Class GameObject
 	End Sub
 
 	Public Overridable Function CheckDestroyed() As Boolean
+		Return False
+	End Function
+
+	'일치 연산을 위한 Equals 오버로딩과정
+	'microsoft dotnet 문서 List<T> 문서 참조함
+	Public Overrides Function Equals(obj As Object) As Boolean
+		If obj Is Nothing Then
+			Return False
+		End If
+		Dim other As GameObject = TryCast(obj, GameObject)
+		If other Is Nothing Then
+			Return False
+		Else
+			Return Equals(other)
+		End If
 
 	End Function
+
+	Public Overloads Function Equals(other As GameObject) As Boolean _
+		Implements IEquatable(Of GameObject).Equals
+		If other Is Nothing Then
+			Return False
+		End If
+		Return Me.ObjID.Equals(other.ObjID)
+	End Function
+
+	Public Sub SetObjID(value As Integer)
+		ObjID = value
+	End Sub
 
 End Class
