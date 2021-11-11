@@ -4,22 +4,48 @@
 Public Class GameObject
 	Implements IEquatable(Of GameObject)
 
+	'타입 정의 열거형
+	Public Enum Type
+		None
+		Player
+		Enemy
+		PBullet
+		EBullet
+	End Enum
+
 	'Equals구현을 위한 고유 아이디
-	'ReadOnly프로퍼티로 읽기만 함, 초기화는 생성자에서만
 	Private ObjID As String = ""
 
 	'생성될때의 시간을 틱으로 저장
 	Public ReadOnly SpawnedTime As Long = 0
 
-	'적인지 여부를 판단
-	Public IsEnemy As Boolean = False
+	'타입 멤버
+	Protected objType As Type
+
+	Public ReadOnly Property UType
+		Get
+			Return objType
+		End Get
+	End Property
 
 	'발사 여부를 판단, 발사 간격 유지를 위함
 	Public IsFire As Boolean = False
 
+	'파괴 여부를 판단
+	Private IsDestroyed As Boolean = False
+
+	'스프라이트 이미지
 	Private sprite As Image
+
+	'위치 정보
 	Private pos As Point
+
+	'충돌판정을 위한 범위
+	Private Collider As Rectangle
+
+	'속도(프레임당 이동 좌표값)
 	Private SPEED As Integer
+
 	'private 접근을 위해 property 사용
 	Public Property USpeed As Integer
 		Get
@@ -83,6 +109,12 @@ Public Class GameObject
 		End Get
 	End Property
 
+	Public ReadOnly Property UCollider As Rectangle
+		Get
+			Return Collider
+		End Get
+	End Property
+
 
 	Public Sub New()
 		SpawnedTime = Now.Ticks
@@ -113,6 +145,8 @@ Public Class GameObject
 		If pos.Y + HEIGHT > Form1.BoardHeight Then
 			pos.Y = Form1.BoardHeight - HEIGHT
 		End If
+
+		SetCollider(UPos, UWidth, UHeight)
 	End Sub
 
 	Public Sub SetSprite(f_name As String)
@@ -121,9 +155,7 @@ Public Class GameObject
 		sprite = My.Resources.ResourceManager.GetObject(f_name)
 	End Sub
 
-	Public Overridable Function CheckDestroyed() As Boolean
-		Return False
-	End Function
+
 
 	'일치 연산을 위한 Equals 오버로딩과정
 	'microsoft dotnet 문서 List<T> 문서 참조함
@@ -152,6 +184,51 @@ Public Class GameObject
 		ObjID = value
 	End Sub
 
+	Public Function GetIsDest() As Boolean
+		Return IsDestroyed
+	End Function
 
+	Public Sub SetIsDest(value As Boolean)
+		IsDestroyed = value
+	End Sub
 
+	'충돌 범위 설정 함수
+	Public Sub SetCollider(point As Point, width As Integer, height As Integer)
+		Collider = New Rectangle(point.X, point.Y, width, height)
+	End Sub
+
+	'충돌 판정 후 Boolean 값 반환
+	'매개변수의 네개의 꼭짓점이 자신의 충돌 범위에 하나라도 포함되면 충돌인걸로 판정
+	'전달 받은 객체와 자신의 파괴 여부를 True로 만들고 destroy 호출
+	Public Overridable Function CollisionCheck(obj As GameObject)
+		If Me.Collider.Contains(obj.UCollider.Left, obj.UCollider.Top) OrElse
+			Me.Collider.Contains(obj.UCollider.Left, obj.UCollider.Bottom) OrElse
+			Me.Collider.Contains(obj.UCollider.Right, obj.UCollider.Top) OrElse
+			Me.Collider.Contains(obj.UCollider.Right, obj.UCollider.Bottom) Then
+			Me.IsDestroyed = True
+			obj.SetIsDest(True)
+			Me.Destroy()
+			obj.Destroy()
+			Return True
+		Else
+			Return False
+		End If
+	End Function
+
+	'파괴 여부를 확인한 뒤 True이면 충돌 범위를 보이지 않는 곳으로 옮김
+	'그리고 파괴하면 True, 아니면 False를 반환
+	Public Overridable Function Destroy() As Boolean
+		If IsDestroyed = True Then
+			SetCollider(New Point(0, -300), 1, 1)
+			Return True
+		Else
+			Return False
+		End If
+	End Function
+
+	'소멸 될때 스프라이트도 해제
+	Protected Overrides Sub Finalize()
+		MyBase.Finalize()
+		sprite.Dispose()
+	End Sub
 End Class

@@ -6,18 +6,24 @@
 '삭제 과정에서 오버헤드 가능성 있음
 'Resource를 사용하여 모든 리소스 파일이 실행파일에 합쳐집니다!
 '총탄과 적 처리에서 삭제용 배열과 추가용 배열을 따로 만듬 (열거 오류 예방)
+'	이때 삭제용과 추가용 배열은 반영하고 나면 다시 비워야 함(안그러면 중복)
 'enum loop안에서 리스트를 수정하면 오류가 나기 때문
 '20211111 21:57 이동방식을 F로 수동으로 멈추는 것으로 변환
 '	움직임이 더욱 부드러워짐
-
+'충돌 구현
+'	충돌 범위(콜라이더)를 오브젝트 크기와 위치를 이용해 Rentangle형태로 설정한다.
+'	그리고 Move함수 호출 시 마다 갱신한다.
+'	충돌 함수에서 obj를 받아서 각 사각형의 점이 자신의 충돌 범위에 포함되면
+'	자신과 obj를 파괴한다.
+'	충돌 함수는 GameObject의 것을 오버라이딩해서 쓴다.
+'GameObject 타입 변수 추가
 
 Imports System.Threading
-Imports System.Collections.Concurrent
 Public Class Form1
 	Private player As GameObject
 
 	'적 생성 간격 변수
-	Private TermTickEnemy As Long = 50000000L
+	Private SpawnTerm As Long = 50000000L
 	Private DelayTickEnemy As Long = 0
 
 	'ThreadOther에서 조작하는 기타 오브젝트 List<T>
@@ -38,6 +44,7 @@ Public Class Form1
 	'난수 생성기
 	Private rand As New Random()
 
+	'입력 키 열거형
 	Public Enum InputKeys
 		Left
 		Right
@@ -140,7 +147,7 @@ Public Class Form1
 			'디버깅용 Try문
 			Try
 				'적 생성
-				If Now.Ticks - DelayTickEnemy > TermTickEnemy Then
+				If Now.Ticks - DelayTickEnemy > SpawnTerm Then
 					NumberofObj += 1
 					OtherObjects.Add(New Enemy(NumberofObj))
 
@@ -161,15 +168,10 @@ Public Class Form1
 				'오브젝트들 갱신
 				For Each obj As GameObject In OtherObjects
 					obj.Move(-1)
-					'파괴 확인
-					If obj.CheckDestroyed() Then
-						'파괴할 물건을 저장 (열거 오류를 막기위해)
-						removeObj.Add(obj)
-					End If
 
 					'enemy인지 판단하고 enemy타입으로 하향 형변환한다.
-
-					If obj.IsEnemy Then
+					'enemy 발사 시퀸스 확인
+					If obj.UType = GameObject.Type.Enemy Then
 						Dim temp = TryCast(obj, Enemy)
 						'enemy타입이 맞다면 시간비교함수 호출해서 플래그 셋팅
 						If Not (temp Is Nothing) Then
@@ -178,10 +180,29 @@ Public Class Form1
 							If temp.IsFire Then
 								'다형성으로 부모자리에 자식을 넣을 수 있다.
 								'추가할 물건 저장
+								NumberofObj += 1
 								addObj.Add(New Bullet(temp, False, NumberofObj))
 								temp.IsFire = False
 							End If
 						End If
+					End If
+
+					'충돌 판정을 위해 한번 더 루프를 돌며 충돌판정 함수 호출
+					'오브젝트가 아직 파괴되지 않은 탄이라면
+					If obj.UType = GameObject.Type.PBullet And Not obj.Destroy() Then
+						'적들의 충돌 판정 함수 실행
+						'총탄의 CollisionCheck는 아무것도 하지 않으므로
+						'적들의 것만이 작동한다.
+						For Each obj_c As GameObject In OtherObjects
+							obj_c.CollisionCheck(obj)
+						Next
+					End If
+
+					'파괴 확인
+					If obj.Destroy() Then
+						'파괴할 물건을 저장 (열거 오류를 막기위해)
+						NumberofObj -= 1
+						removeObj.Add(obj)
 					End If
 
 
@@ -190,15 +211,13 @@ Public Class Form1
 				'실제 삭제 반영
 				For Each obj As GameObject In removeObj
 					'removeObj에 있는 것과 같은 아이디를 가진 물건 삭제
-					If OtherObjects.Remove(obj) Then
-						NumberofObj -= 1
-					End If
+					OtherObjects.Remove(obj)
+
 				Next
 
 				'실제 추가 반영
 				For Each obj As GameObject In addObj
 					OtherObjects.Add(obj)
-					NumberofObj += 1
 				Next
 
 				'삭제를 위한 배열 비우기
@@ -207,12 +226,17 @@ Public Class Form1
 				addObj.Clear()
 
 			Catch ex As Exception
+				'이렇게 출력하면 게임은 멈추지 않음
 				Task.Run(Sub()
 							 MsgBox(ex.ToString())
 						 End Sub)
 			End Try
 			Thread.Sleep(20)
 		Loop
+	End Sub
+
+	Private Sub SetSpawnTerm(second As Integer)
+		SpawnTerm = second * 10000000
 	End Sub
 
 End Class
