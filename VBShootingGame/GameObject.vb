@@ -1,5 +1,6 @@
 ﻿'게임 오브젝트의 기본 틀
 '모든 오브젝트는 이 클래스를 상속 받음
+'아이디 비교를 위한 IEquatable 인터페이스 상속
 Public Class GameObject
 	Implements IEquatable(Of GameObject)
 
@@ -9,6 +10,12 @@ Public Class GameObject
 
 	'생성될때의 시간을 틱으로 저장
 	Public ReadOnly SpawnedTime As Long = 0
+
+	'적인지 여부를 판단
+	Public IsEnemy As Boolean = False
+
+	'발사 여부를 판단, 발사 간격 유지를 위함
+	Public IsFire As Boolean = False
 
 	Private sprite As Image
 	Private pos As Point
@@ -70,11 +77,12 @@ Public Class GameObject
 		End Get
 	End Property
 
-	Public ReadOnly Property UObjID As Integer
+	Public ReadOnly Property UObjID As String
 		Get
 			Return ObjID
 		End Get
 	End Property
+
 
 	Public Sub New()
 		SpawnedTime = Now.Ticks

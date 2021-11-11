@@ -33,6 +33,7 @@
 		End If
 	End Sub
 
+	'파괴 여부
 	Public Overrides Function CheckDestroyed() As Boolean
 		If IsDestroyed = True Then
 			Return True
@@ -44,6 +45,7 @@
 		End If
 	End Function
 
+	'소멸자
 	Protected Overrides Sub Finalize()
 		USprite.Dispose()
 	End Sub

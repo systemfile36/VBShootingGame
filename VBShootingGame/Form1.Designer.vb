@@ -30,7 +30,7 @@ Partial Class Form1
 		'MainTimer
 		'
 		Me.MainTimer.Enabled = True
-		Me.MainTimer.Interval = 30
+		Me.MainTimer.Interval = 20
 		'
 		'lbDebug
 		'
