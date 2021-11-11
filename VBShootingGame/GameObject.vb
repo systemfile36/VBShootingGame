@@ -106,6 +106,7 @@ Public Class GameObject
 
 	Public Sub SetSprite(f_name As String)
 		'sprite = Image.FromFile(f_name)
+		'리소스에서 이름에 맞는 파일을 불러옴
 		sprite = My.Resources.ResourceManager.GetObject(f_name)
 	End Sub
 
@@ -139,5 +140,7 @@ Public Class GameObject
 	Public Sub SetObjID(value As Integer)
 		ObjID = value
 	End Sub
+
+
 
 End Class

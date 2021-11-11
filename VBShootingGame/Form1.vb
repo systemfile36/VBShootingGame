@@ -1,15 +1,23 @@
 ﻿'게임이 실행되는 메인 폼
 '객체 지향을 통해 다형성 구현
 '처리 함수는 일관되게 하고 수정은 각 오브젝트 클래스에서 행함
+'ex)각 객체에 자신의 좌표를 변경하는 Move함수가 오버로딩 되어 있음
+'갱신 할때 Move함수를 호출만 하면 됨, 오류가 생기면 그 객체만 고치면 됨
 '삭제 과정에서 오버헤드 가능성 있음
+'Resource를 사용하여 모든 리소스 파일이 실행파일에 합쳐집니다!
+
 
 Imports System.Threading
 Imports System.Collections.Concurrent
 Public Class Form1
 	Private player As GameObject
 
+	Private TermTickEnemy As Long = 50000000L
+	Private DelayTickEnemy As Long = 0
+
 	'ThreadOther에서 조작하는 기타 오브젝트 List<T>
 	Private OtherObjects As New List(Of GameObject)
+	Private NumberofObj As Integer = 0
 
 	Private p_control As InputKeys = InputKeys.None
 
@@ -20,6 +28,9 @@ Public Class Form1
 
 	'기타 오브젝트 갱신 스레드
 	Private trd_other As Thread
+
+	'난수 생성기
+	Private rand As New Random()
 
 	Public Enum InputKeys
 		Left
@@ -44,6 +55,10 @@ Public Class Form1
 		trd_other = New Thread(AddressOf ThreadOther)
 		trd_other.IsBackground = True
 		trd_other.Start()
+
+		'적 생성 간격용
+		DelayTickEnemy = Now.Ticks
+
 
 		Me.KeyPreview = True
 	End Sub
@@ -79,11 +94,15 @@ Public Class Form1
 		'플레이어를 그림
 		e.Graphics.DrawImage(player.USprite, New Rectangle(player.UPos.X, player.UPos.Y, 122, 32))
 
-		'다른 오브젝트를 그림
-		For i As Integer = 0 To OtherObjects.Count - 1
-			e.Graphics.DrawImage(OtherObjects(i).USprite, New Rectangle(OtherObjects(i).UPos.X, OtherObjects(i).UPos.Y, OtherObjects(i).UWidth, OtherObjects(i).UHeight))
-		Next
-		lbDebug.Text = OtherObjects.Count()
+		'열거 오류 예외 처리
+		Try
+			For Each obj As GameObject In OtherObjects
+				e.Graphics.DrawImage(obj.USprite, New Rectangle(obj.UPos.X, obj.UPos.Y, obj.UWidth, obj.UHeight))
+			Next
+		Catch ex As Exception
+			lbDebug.Text = "Exception Iter"
+		End Try
+
 	End Sub
 
 	'부드러운 움직임을 위해 스레드 사용
@@ -100,16 +119,23 @@ Public Class Form1
 				Case InputKeys.Right
 					player.Move(InputKeys.Right)
 			End Select
-
 			Thread.Sleep(20)
 		Loop
 	End Sub
 
+	'플레이어 외 오브젝트 갱신
 	Private Sub ThreadOther()
 		Do
 			Try
+				'적 생성
+				If Now.Ticks - DelayTickEnemy > TermTickEnemy Then
+					OtherObjects.Add(New Enemy(NumberofObj))
+					NumberofObj += 1
+					DelayTickEnemy = Now.Ticks
+				End If
 				If launch_control Then
-					OtherObjects.Add(New Bullet(player, True, OtherObjects.Count - 1))
+					OtherObjects.Add(New Bullet(player, True, NumberofObj))
+					NumberofObj += 1
 					launch_control = False
 				End If
 
@@ -119,15 +145,17 @@ Public Class Form1
 						'Equals로 생성시 부여한 아이디 비교 후 일치하는 것 삭제
 						If Not OtherObjects.Remove(obj) Then
 							Continue For
+						Else
+							NumberofObj -= 1
 						End If
 					End If
 				Next
 				Thread.Sleep(20)
 			Catch ex As Exception
 				'열거가 잘못되는 오류가 발생할 수 있지만 무시함
+				Thread.Sleep(0)
 				Continue Do
 			End Try
-
 
 		Loop
 	End Sub
