@@ -50,12 +50,15 @@ Public Class Enemy
 
 	'기록한 시간을 비교해서 발사간격 시간에 도달하면
 	'IsFire를 True로 바꾸고 FIreTick 조정
-	Public Sub EnemyCanShot()
+	Public Function CheckFireTerm()
 		If Now.Ticks - FireTick > FireTerm Then
 			IsFire = True
 			FireTick = Now.Ticks
+			Return True
+		Else
+			Return False
 		End If
-	End Sub
+	End Function
 
 	'발사간격 설정 함수
 	Public Sub SetFireTerm(second As Integer)

@@ -17,6 +17,11 @@
 
 '플레이어 객체를 변경하는 함수를 전부 메소드 내부로 이동, 캡슐화 강화
 
+'객체는 참조형 변수이므로 For Each 내부에서 수정하면 원본 객체에 반영됨
+'하지만 내부에서 obj에 Nothing 같은 걸 넣는다 해서 리스트 내부가 변경 되진 않음
+
+'연사 속도 추가 (기본 0.4초) (Set/GetFireDelay추가, ReleaseControl추가)
+
 Imports System.Threading
 Public Class Form1
 	Private player As Player
@@ -77,6 +82,9 @@ Public Class Form1
 	Private Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
 		player.SetControl(e.KeyCode)
 	End Sub
+	Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles MyBase.KeyUp
+		player.ReleaseControl(e.KeyCode)
+	End Sub
 
 	Private Sub Form1_Paint(sender As Object, e As PaintEventArgs) Handles MyBase.Paint
 		'플레이어를 그림
@@ -90,7 +98,7 @@ Public Class Form1
 		Catch ex As Exception
 			lbDebug.Text = "Exception Iter"
 		End Try
-		lbDebug.Text = NumberofObj
+		lbDebug.Text = NumberofObj & " " & player.GetFireDelay()
 	End Sub
 
 	'부드러운 움직임을 위해 스레드 사용
@@ -122,14 +130,10 @@ Public Class Form1
 				End If
 
 				'총탄 생성
-				'IsFire 플래그가 True면 총탄을 생성 후 플래그 False로 변경
-				'한번 발사 할때마다 플래그를 False로 변경하므로 한번의 입력으론 한번만 발사
-				'지속 입력의 경우엔 예외
-				If player.IsFire Then
+				'CheckFireDelay()가 True를 반환하면 총탄 생성
+				If player.CheckFireDelay() Then
 					NumberofObj += 1
 					OtherObjects.Add(New Bullet(player, True, NumberofObj))
-
-					player.IsFire = False
 				End If
 
 				'오브젝트들 갱신
@@ -142,9 +146,7 @@ Public Class Form1
 						Dim temp = TryCast(obj, Enemy)
 						'enemy타입이 맞다면 시간비교함수 호출해서 플래그 셋팅
 						If Not (temp Is Nothing) Then
-							temp.EnemyCanShot()
-
-							If temp.IsFire Then
+							If temp.CheckFireTerm() Then
 								'다형성으로 부모자리에 자식을 넣을 수 있다.
 								'추가할 물건 저장
 								NumberofObj += 1
@@ -201,6 +203,8 @@ Public Class Form1
 			Thread.Sleep(20)
 		Loop
 	End Sub
+
+
 
 	Private Sub SetSpawnTerm(second As Integer)
 		SpawnTerm = second * 10000000

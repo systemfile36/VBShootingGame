@@ -11,7 +11,15 @@
 	End Enum
 
 	'이동을 위한 플레이어 고유의 플래그
-	Public p_control As InputKeys
+	Public p_control As InputKeys = InputKeys.None
+
+	'기본 발사 간격 0.5초
+	Private FireDelay As Long = 4000000L
+	Private FireTick As Long = 0L
+
+	'발사 입력이 들어왔는지 여부를 판단
+	'SetControl(), ReleaseControl()이 설정함
+	Private IsInputFire As Boolean
 
 	Public Sub New()
 		SetSprite("P_Default")
@@ -21,6 +29,8 @@
 		UHeight = 72
 
 		objType = Type.Player
+
+		FireTick = Now.Ticks
 
 		'충돌 범위 설정
 		SetCollider(UPos, UWidth, UHeight)
@@ -82,8 +92,43 @@
 			Case Keys.F
 				p_control = InputKeys.None
 			Case Keys.Space
-				IsFire = True
+				IsInputFire = True
 		End Select
 	End Sub
+
+	'발사 간격을 조정하기 위함
+	'입력이 들어온 상태이고 이전 발사와의 시간차가 딜레이보다 크면
+	'시간 갱신 후 True 반환 아니면 False반환
+	Public Function CheckFireDelay() As Boolean
+		If IsInputFire = True And Now.Ticks - FireTick > FireDelay Then
+			FireTick = Now.Ticks
+			Return True
+		Else
+			Return False
+		End If
+	End Function
+
+	'스페이스에서 손을 때면 인풋 여부를 False로 바꿈
+	Public Sub ReleaseControl(key As Keys)
+		If key = Keys.Space Then
+			IsInputFire = False
+		End If
+	End Sub
+
+	'시간을 milsec로 받아 FireDelay를 설정함
+	Public Sub SetFireDelay(msec As Integer)
+		If msec < 100 Then
+			FireDelay = 100 * 10000
+		ElseIf msec > 1000 Then
+			FireDelay = 1000 * 10000
+		Else
+			FireDelay = msec * 10000
+		End If
+	End Sub
+
+	'발사 간격을 밀리세컨드 단위로 반환
+	Public Function GetFireDelay() As Integer
+		Return FireDelay / 10000
+	End Function
 
 End Class
