@@ -31,7 +31,7 @@ Public Class Enemy
 
 	End Sub
 
-	Public Overrides Sub Move(dire As Form1.InputKeys)
+	Public Overrides Sub Move()
 		If UPos.Y < 0 Then
 			IsUp = False
 		ElseIf UPos.Y + UHeight > Form1.BoardHeight Then

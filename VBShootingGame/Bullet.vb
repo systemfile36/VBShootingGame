@@ -34,7 +34,7 @@
 
 	End Sub
 
-	Public Overrides Sub Move(dire As Form1.InputKeys)
+	Public Overrides Sub Move()
 		If IsPlayer Then
 			UPos = New Point(UPos.X + USpeed, UPos.Y)
 		Else

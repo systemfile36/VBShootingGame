@@ -1,7 +1,8 @@
 ﻿'게임 오브젝트의 기본 틀
 '모든 오브젝트는 이 클래스를 상속 받음
+'반드시 상속 받아야 사용 가능
 '아이디 비교를 위한 IEquatable 인터페이스 상속
-Public Class GameObject
+Public MustInherit Class GameObject
 	Implements IEquatable(Of GameObject)
 
 	'타입 정의 열거형
@@ -120,34 +121,9 @@ Public Class GameObject
 		SpawnedTime = Now.Ticks
 	End Sub
 
-	Public Overridable Sub Move(dire As Form1.InputKeys)
-		Select Case dire
-			Case Form1.InputKeys.Left
-				pos.X -= USpeed
-			Case Form1.InputKeys.Right
-				pos.X += USpeed
-			Case Form1.InputKeys.Up
-				pos.Y -= USpeed
-			Case Form1.InputKeys.Down
-				pos.Y += USpeed
-		End Select
+	'오버라이딩 해야하는 이동 함수
+	Public MustOverride Sub Move()
 
-		'화면 범위 벗어날 것 같으면 화면 안으로 좌표 변경
-		If pos.X < 0 Then
-			pos.X = 0
-		End If
-		If pos.Y < 0 Then
-			pos.Y = 0
-		End If
-		If pos.X + WIDTH > Form1.BoardWidth Then
-			pos.X = Form1.BoardWidth - WIDTH
-		End If
-		If pos.Y + HEIGHT > Form1.BoardHeight Then
-			pos.Y = Form1.BoardHeight - HEIGHT
-		End If
-
-		SetCollider(UPos, UWidth, UHeight)
-	End Sub
 
 	Public Sub SetSprite(f_name As String)
 		'sprite = Image.FromFile(f_name)
