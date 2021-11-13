@@ -1,6 +1,6 @@
 ﻿'게임이 실행되는 메인 폼
 '객체 지향을 통해 다형성 구현 + 후일 확장성 확보
-'그 객체에 관한 변경은 그 객체에서 담당하게 만듬(디자인 패턴)
+'그 객체에 관한 변경은 그 객체에서 담당하게 만듬
 '유니티랑 비슷한 방식으로 만듬, 게임 엔진이 해주던걸 직접 할 뿐...
 'Resource를 사용하여 모든 리소스 파일이 실행파일에 합쳐집니다!
 '총탄과 적 처리에서 삭제용 배열과 추가용 배열을 따로 만듬 (열거 오류 예방)
@@ -13,7 +13,7 @@
 '	충돌 함수에서 obj를 받아서 각 사각형의 점이 자신의 충돌 범위에 포함되면
 '	자신과 obj를 파괴한다.
 '	충돌 함수는 GameObject의 것을 오버라이딩해서 쓴다.
-'GameObject 타입 변수 추가
+'GameObject에 타입 변수 추가
 
 '플레이어 객체를 변경하는 함수를 전부 메소드 내부로 이동, 캡슐화 강화
 
@@ -21,6 +21,8 @@
 '하지만 내부에서 obj에 Nothing 같은 걸 넣는다 해서 리스트 내부가 변경 되진 않음
 
 '연사 속도 추가 (기본 0.4초) (Set/GetFireDelay추가, ReleaseControl추가)
+
+'파괴 시 pos 변경(안 그러면 collider를 옮겨도 move에서 다시 설정됨)
 
 Imports System.Threading
 Public Class Form1
@@ -45,13 +47,21 @@ Public Class Form1
 	'난수 생성기
 	Private rand As New Random()
 
-	'스레드 정지를 위한 변수
-	Private reqpause_Other As New AutoResetEvent(False)
-	Private reqpause_Input As New AutoResetEvent(False)
+	'스레드 일시 정지를 위한 변수
+	'AutoResetEvent = 하나의 스레드를 멈추면 자동으로 Reset(False로 바뀜)
+	'MenualResetEvent = 수동으로 Reset호출해야 함
+	Private PauseThread_Input As New AutoResetEvent(False)
+	Private PauseThread_Other As New AutoResetEvent(False)
 
+	'스레드의 종료를 위한 변수
+	'폼이 닫혀도 스레드는 프로그램이 꺼질 때까지 남으므로 종료 해주어야함
+	Private CloseThread As New ManualResetEvent(False)
 
+	'일시 정지 여부 변수(토글을 위해 참조)
 	Private IsPause As Boolean = False
 
+	'타이머에서 참조, 스레드에서 종료 함수를 부를 수 없기에
+	Private IsGameEnd As Boolean = False
 
 	'캔버스 크기 상수
 	Public Const BoardWidth As Integer = 1200, BoardHeight As Integer = 600
@@ -64,7 +74,7 @@ Public Class Form1
 		trd_input.IsBackground = True
 		trd_input.Start()
 
-		'다른 오브젝트 갱신용 스레드 생성 후 실행
+		'오브젝트 갱신용 스레드 생성 후 실행
 		trd_other = New Thread(AddressOf ThreadOther)
 		trd_other.IsBackground = True
 		trd_other.Start()
@@ -72,11 +82,13 @@ Public Class Form1
 		'적 생성 간격용
 		DelayTickEnemy = Now.Ticks
 
-
 		Me.KeyPreview = True
 	End Sub
 
 	Private Sub MainTimer_Tick(sender As Object, e As EventArgs) Handles MainTimer.Tick
+		If IsGameEnd Then
+			EndGame()
+		End If
 		'화면 갱신
 		Invalidate()
 	End Sub
@@ -88,8 +100,11 @@ Public Class Form1
 	Private Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
 		player.SetControl(e.KeyCode)
 
+		'일시정지 키와 종료 연결
 		If e.KeyCode = Keys.Back Then
 			PauseGameToggle()
+		ElseIf e.KeyCode = Keys.C Then
+			EndGame()
 		End If
 
 	End Sub
@@ -119,14 +134,17 @@ Public Class Form1
 		Do
 			player.Move()
 
-			'일시정지 신호가 오면
-			If reqpause_Input.WaitOne(0) Then
-				Task.Run(Sub()
-							 MsgBox("ThreadInput Paused")
-						 End Sub)
+			'AutoResetEvent 신호를 보내면(True로 바뀌면) if 문 실행
+			If PauseThread_Input.WaitOne(0) Then
+				'이 시점에서 자동으로 다시 False로 바뀐다.
 
-				'다음 신호가 올 때까지(= Resume)기다린다.
-				reqpause_Input.WaitOne()
+				'다시 True로 바뀔 때까지 대기한다.
+				PauseThread_Input.WaitOne()
+				'여기서 다시 False로 리셋되므로 다음 루프때 다시 멈추는 일 없음
+			End If
+
+			If CloseThread.WaitOne(0) Then
+				Exit Sub
 			End If
 
 			Thread.Sleep(20)
@@ -207,6 +225,12 @@ Public Class Form1
 
 				Next
 
+				'Player가 파괴되면 게임 종료 플래그를 True로 바꾼다
+				'이 플래그는 타이머에서 참조한다.(게임 종료함수에 폼 열기가 포함되어 있기에)
+				If player.Destroy() Then
+					IsGameEnd = True
+				End If
+
 				'실제 삭제 반영
 				For Each obj As GameObject In removeObj
 					'removeObj에 있는 것과 같은 아이디를 가진 물건 삭제
@@ -231,18 +255,22 @@ Public Class Form1
 						 End Sub)
 			End Try
 
-			'일시정지 신호가 오면
-			If reqpause_Other.WaitOne(0) Then
-				Task.Run(Sub()
-							 MsgBox("ThreadOther Paused")
-						 End Sub)
+			'AutoResetEvent 신호를 보내면(True로 바뀌면) if 문 실행
+			If PauseThread_Other.WaitOne(0) Then
+				'이 시점에서 자동으로 다시 False로 바뀐다.
 
-				'다음 신호가 올 때까지(= Resume)기다린다.
-				reqpause_Other.WaitOne()
+				'다시 True로 바뀔 때까지 대기한다.
+				PauseThread_Other.WaitOne()
+				'여기서 다시 False로 리셋되므로 다음 루프때 다시 멈추는 일 없음
+			End If
+
+			If CloseThread.WaitOne(0) Then
+				Exit Sub
 			End If
 
 			Thread.Sleep(20)
 		Loop
+
 	End Sub
 
 	Private Sub SetSpawnTerm(second As Integer)
@@ -250,21 +278,32 @@ Public Class Form1
 	End Sub
 
 	'일시 정지 토글
-	'AutoResetEvent변수를 사용해서 각 스레드에 일시정지 신호를 보낸다
-	'화면 갱신 타이머도 멈춘다.
+	'각 스레드의 AutoResetEvent를 True로 바꾼다.
+	'그러면 Thread내부에서 False로 바뀌고 다시 True로 바뀌는 것을 대기한다.(일시정지)
+	'화면 갱신 타이머도 멈춘다.(IsPause로 토글)
 	Private Sub PauseGameToggle()
 		If IsPause = False Then
-			reqpause_Other.Set()
-			reqpause_Input.Set()
+			PauseThread_Input.Set()
+			PauseThread_Other.Set()
 			MainTimer.Stop()
 			IsPause = True
 		Else
-			reqpause_Other.Set()
-			reqpause_Input.Set()
+			PauseThread_Input.Set()
+			PauseThread_Other.Set()
 			MainTimer.Start()
 			IsPause = False
 		End If
 
+	End Sub
+
+	'게임 종료 함수 
+	'모든 스레드와 타이머를 끄고 게임 오버창을 연 뒤 현재 폼을 닫는다.
+	Private Sub EndGame()
+		GameOver.Show()
+		CloseThread.Set()
+		MainTimer.Stop()
+		Thread.Sleep(100)
+		Me.Close()
 	End Sub
 
 End Class

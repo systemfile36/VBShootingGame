@@ -33,7 +33,7 @@
 		FireTick = Now.Ticks
 
 		'충돌 범위 설정
-		SetCollider(UPos, UWidth, UHeight)
+		SetCollider(UPos, UWidth - 10, UHeight - 10)
 
 	End Sub
 
@@ -82,9 +82,7 @@
 	Public Overrides Function Destroy() As Boolean
 		If GetIsDest() Then
 			SetCollider(New Point(0, -300), 1, 1)
-			Task.Run(Sub()
-						 MsgBox("Player Destroyed")
-					 End Sub)
+			UPos = New Point(-100, -100)
 			Return True
 		Else
 			Return False
@@ -131,6 +129,7 @@
 	End Sub
 
 	'시간을 milsec로 받아 FireDelay를 설정함
+	'하한선 = 100ms, 상한선은 1000ms
 	Public Sub SetFireDelay(msec As Integer)
 		If msec < 100 Then
 			FireDelay = 100 * 10000

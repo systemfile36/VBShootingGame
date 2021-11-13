@@ -6,7 +6,7 @@ Public Class Enemy
 
 	Private IsUp As Boolean = False
 
-	Private FireTerm As Long = 30000000L
+	Private FireTerm As Long = 20000000L
 	Private FireTick As Long = 0
 
 	Public Sub New(id As String)
@@ -51,7 +51,7 @@ Public Class Enemy
 	'기록한 시간을 비교해서 발사간격 시간에 도달하면
 	'IsFire를 True로 바꾸고 FIreTick 조정
 	Public Function CheckFireTerm()
-		If Now.Ticks - FireTick > FireTerm Then
+		If Now.Ticks - FireTick > FireTerm Or IsFire = True Then
 			IsFire = True
 			FireTick = Now.Ticks
 			Return True
@@ -61,8 +61,15 @@ Public Class Enemy
 	End Function
 
 	'발사간격 설정 함수
-	Public Sub SetFireTerm(second As Integer)
-		FireTerm = second * 10000000
+	'하한선 80ms, 상한선 3000ms
+	Public Sub SetFireTerm(milsec As Integer)
+		If milsec < 80 Then
+			FireTerm = 80 * 10000
+		ElseIf milsec > 3000 Then
+			FireTerm = 3000 * 10000
+		Else
+			FireTerm = milsec * 10000
+		End If
 	End Sub
 
 	'충돌한 것이 플레이어 탄일때만 서로 파괴, 그외엔 무시
