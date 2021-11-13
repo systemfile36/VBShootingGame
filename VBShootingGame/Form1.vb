@@ -1,7 +1,7 @@
 ﻿'게임이 실행되는 메인 폼
 '객체 지향을 통해 다형성 구현 + 후일 확장성 확보
 '그 객체에 관한 변경은 그 객체에서 담당하게 만듬(디자인 패턴)
-'삭제 과정에서 오버헤드 가능성 있음
+'유니티랑 비슷한 방식으로 만듬, 게임 엔진이 해주던걸 직접 할 뿐...
 'Resource를 사용하여 모든 리소스 파일이 실행파일에 합쳐집니다!
 '총탄과 적 처리에서 삭제용 배열과 추가용 배열을 따로 만듬 (열거 오류 예방)
 '	이때 삭제용과 추가용 배열은 반영하고 나면 다시 비워야 함(안그러면 중복)
@@ -45,7 +45,12 @@ Public Class Form1
 	'난수 생성기
 	Private rand As New Random()
 
-	'입력 키 열거형
+	'스레드 정지를 위한 변수
+	Private reqpause_Other As New AutoResetEvent(False)
+	Private reqpause_Input As New AutoResetEvent(False)
+
+
+	Private IsPause As Boolean = False
 
 
 	'캔버스 크기 상수
@@ -78,9 +83,15 @@ Public Class Form1
 
 	'키 입력이 들어오면 Player객체의 SetControl() 메소드에 키 코드를 넘김
 	'플래그 갱신은 객체 내부에서 이루어짐
-	'실제 좌표 변경은 ThreadInput()에서 Move()메소드를 통해이루어짐 
+	'실제 좌표 변경은 ThreadInput()에서 Move()메소드를 통해이루어짐
+	'이렇게 하면 컨트롤 요소가 추가 되어도 플레이어 객체만 수정하면 됨
 	Private Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
 		player.SetControl(e.KeyCode)
+
+		If e.KeyCode = Keys.Back Then
+			PauseGameToggle()
+		End If
+
 	End Sub
 	Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles MyBase.KeyUp
 		player.ReleaseControl(e.KeyCode)
@@ -107,8 +118,20 @@ Public Class Form1
 	Private Sub ThreadInput()
 		Do
 			player.Move()
+
+			'일시정지 신호가 오면
+			If reqpause_Input.WaitOne(0) Then
+				Task.Run(Sub()
+							 MsgBox("ThreadInput Paused")
+						 End Sub)
+
+				'다음 신호가 올 때까지(= Resume)기다린다.
+				reqpause_Input.WaitOne()
+			End If
+
 			Thread.Sleep(20)
 		Loop
+
 	End Sub
 
 	'플레이어 외 오브젝트 갱신
@@ -157,15 +180,22 @@ Public Class Form1
 					End If
 
 					'충돌 판정을 위해 한번 더 루프를 돌며 충돌판정 함수 호출
-					'오브젝트가 아직 파괴되지 않은 탄이라면
-					If obj.UType = GameObject.Type.PBullet And Not obj.Destroy() Then
+					'오브젝트가 아직 파괴되지 않았다면
+					If Not obj.Destroy() Then
+						'총탄의 CollisionCheck는 아무것도 하지 않는다
+						'탄의 타입체크는 각 충돌 판정에서 행한다.
+
 						'적들의 충돌 판정 함수 실행
-						'총탄의 CollisionCheck는 아무것도 하지 않으므로
-						'적들의 것만이 작동한다.
 						For Each obj_c As GameObject In OtherObjects
 							obj_c.CollisionCheck(obj)
 						Next
+
+						'플레이어의 충돌 판정 함수 실행
+						player.CollisionCheck(obj)
+
+
 					End If
+
 
 					'파괴 확인
 					If obj.Destroy() Then
@@ -200,14 +230,41 @@ Public Class Form1
 							 MsgBox(ex.ToString())
 						 End Sub)
 			End Try
+
+			'일시정지 신호가 오면
+			If reqpause_Other.WaitOne(0) Then
+				Task.Run(Sub()
+							 MsgBox("ThreadOther Paused")
+						 End Sub)
+
+				'다음 신호가 올 때까지(= Resume)기다린다.
+				reqpause_Other.WaitOne()
+			End If
+
 			Thread.Sleep(20)
 		Loop
 	End Sub
 
-
-
 	Private Sub SetSpawnTerm(second As Integer)
 		SpawnTerm = second * 10000000
+	End Sub
+
+	'일시 정지 토글
+	'AutoResetEvent변수를 사용해서 각 스레드에 일시정지 신호를 보낸다
+	'화면 갱신 타이머도 멈춘다.
+	Private Sub PauseGameToggle()
+		If IsPause = False Then
+			reqpause_Other.Set()
+			reqpause_Input.Set()
+			MainTimer.Stop()
+			IsPause = True
+		Else
+			reqpause_Other.Set()
+			reqpause_Input.Set()
+			MainTimer.Start()
+			IsPause = False
+		End If
+
 	End Sub
 
 End Class

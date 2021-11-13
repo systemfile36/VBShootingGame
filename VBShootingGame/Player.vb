@@ -10,7 +10,7 @@
 		None
 	End Enum
 
-	'이동을 위한 플레이어 고유의 플래그
+	'이동을 위한 플레이어 고유의 플래그 (초기값 = 정지)
 	Public p_control As InputKeys = InputKeys.None
 
 	'기본 발사 간격 0.5초
@@ -46,6 +46,7 @@
 		End If
 	End Function
 
+	'이렇게 Move()에서 컨트롤을 반영하면 나중에 컨트롤을 확장하기 쉬움
 	Public Overrides Sub Move()
 		Select Case p_control
 			Case InputKeys.Left
@@ -78,6 +79,19 @@
 		SetCollider(UPos, UWidth, UHeight)
 	End Sub
 
+	Public Overrides Function Destroy() As Boolean
+		If GetIsDest() Then
+			SetCollider(New Point(0, -300), 1, 1)
+			Task.Run(Sub()
+						 MsgBox("Player Destroyed")
+					 End Sub)
+			Return True
+		Else
+			Return False
+		End If
+	End Function
+
+
 	'키 코드를 받아서 그에 맞게 p_control과 IsFIre 플래그를 설정함
 	Public Sub SetControl(key As Keys)
 		Select Case key
@@ -99,6 +113,7 @@
 	'발사 간격을 조정하기 위함
 	'입력이 들어온 상태이고 이전 발사와의 시간차가 딜레이보다 크면
 	'시간 갱신 후 True 반환 아니면 False반환
+	'스페이스에서 손을 때면 False로 바뀌므로 외부에서 변경할 필요 없음
 	Public Function CheckFireDelay() As Boolean
 		If IsInputFire = True And Now.Ticks - FireTick > FireDelay Then
 			FireTick = Now.Ticks
