@@ -48,7 +48,7 @@
 		End If
 
 		'콜라이더 갱신
-		SetCollider(UPos, UWidth, UHeight)
+		SetCollider(UPos)
 
 	End Sub
 

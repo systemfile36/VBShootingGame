@@ -33,7 +33,7 @@
 		FireTick = Now.Ticks
 
 		'충돌 범위 설정
-		SetCollider(UPos, UWidth - 10, UHeight - 10)
+		SetCollider(UPos, UWidth, UHeight - 40)
 
 	End Sub
 
@@ -76,17 +76,11 @@
 		End If
 
 		'충돌 판정 갱신
-		SetCollider(UPos, UWidth, UHeight)
+		SetCollider(UPos)
 	End Sub
 
 	Public Overrides Function Destroy() As Boolean
-		If GetIsDest() Then
-			SetCollider(New Point(0, -300), 1, 1)
-			UPos = New Point(-100, -100)
-			Return True
-		Else
-			Return False
-		End If
+		Return MyBase.Destroy()
 	End Function
 
 

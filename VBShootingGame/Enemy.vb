@@ -45,7 +45,7 @@ Public Class Enemy
 		End If
 
 		'콜라이더 갱신
-		SetCollider(UPos, UWidth, UHeight)
+		SetCollider(UPos)
 	End Sub
 
 	'기록한 시간을 비교해서 발사간격 시간에 도달하면

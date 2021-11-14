@@ -36,7 +36,7 @@ Public Class Form1
 	Private OtherObjects As New List(Of GameObject)
 
 	'고유 아이디 부여를 위한 변수
-	Private NumberofObj As Integer = 0
+	Private NumberofObj As Long = 0
 
 	'입력 갱신 스레드
 	Private trd_input As Thread
@@ -116,10 +116,15 @@ Public Class Form1
 		'플레이어를 그림
 		e.Graphics.DrawImage(player.USprite, New Rectangle(player.UPos.X, player.UPos.Y, 122, 32))
 
+		'충돌 범위 가시화용
+		'e.Graphics.DrawRectangle(New Pen(Color.Red), player.UCollider)
+
 		'열거 오류 예외 처리
 		Try
 			For Each obj As GameObject In OtherObjects
 				e.Graphics.DrawImage(obj.USprite, New Rectangle(obj.UPos.X, obj.UPos.Y, obj.UWidth, obj.UHeight))
+				'충돌 범위 가시화용
+				e.Graphics.DrawRectangle(New Pen(Color.Red), obj.UCollider)
 			Next
 		Catch ex As Exception
 			lbDebug.Text = "Exception Iter"
@@ -179,7 +184,11 @@ Public Class Form1
 
 				'오브젝트들 갱신
 				For Each obj As GameObject In OtherObjects
-					obj.Move()
+					'파괴되지 않았을때만 이동 함수 호출
+					If Not obj.GetIsDest() Then
+						obj.Move()
+					End If
+
 
 					'enemy인지 판단하고 enemy타입으로 하향 형변환한다.
 					'enemy 발사 시퀸스 확인

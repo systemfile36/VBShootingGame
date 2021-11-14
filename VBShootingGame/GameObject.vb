@@ -169,14 +169,25 @@ Public MustInherit Class GameObject
 	End Sub
 
 	'충돌 범위 설정 함수
-	Public Sub SetCollider(point As Point, width As Integer, height As Integer)
+	'왠만하면 생성자에서만 호출
+	Public Overloads Sub SetCollider(point As Point, width As Integer, height As Integer)
 		Collider = New Rectangle(point.X, point.Y, width, height)
+	End Sub
+
+	'높이와 넓이는 그대로 둔 채 위치만 옮김
+	Public Overloads Sub SetCollider(point As Point)
+		Collider.Location = point
 	End Sub
 
 	'충돌 판정 후 Boolean 값 반환
 	'매개변수의 네개의 꼭짓점이 자신의 충돌 범위에 하나라도 포함되면 충돌인걸로 판정
 	'전달 받은 객체와 자신의 파괴 여부를 True로 만들고 destroy 호출
 	Public Overridable Function CollisionCheck(obj As GameObject)
+		'충돌한 물체 중 하나라도 콜라이더가 0이라면, 즉 콜라이더가 제거된 상태일 때
+		If Me.Collider.Width = 0 OrElse obj.UCollider.Width = 0 Then
+			Return False
+		End If
+
 		If Me.Collider.Contains(obj.UCollider.Left, obj.UCollider.Top) OrElse
 			Me.Collider.Contains(obj.UCollider.Left, obj.UCollider.Bottom) OrElse
 			Me.Collider.Contains(obj.UCollider.Right, obj.UCollider.Top) OrElse
@@ -191,16 +202,18 @@ Public MustInherit Class GameObject
 		End If
 	End Function
 
-	'파괴 여부를 확인한 뒤 True이면 충돌 범위를 보이지 않는 곳으로 옮김
+	'파괴 여부를 확인한 뒤 True이면 충돌 범위를 0으로 만듬
 	'그리고 파괴하면 True, 아니면 False를 반환
 	Public Overridable Function Destroy() As Boolean
 		If IsDestroyed = True Then
-			SetCollider(New Point(0, -300), 1, 1)
+			'콜라이더 제거 작업
+			SetCollider(New Point(0, 0), 0, 0)
 			Return True
 		Else
 			Return False
 		End If
 	End Function
+
 
 	'소멸 될때 스프라이트도 해제
 	Protected Overrides Sub Finalize()
