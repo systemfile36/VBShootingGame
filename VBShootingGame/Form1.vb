@@ -51,6 +51,7 @@ Public Class Form1
 	'난수 생성기
 	Private rand As New Random()
 
+
 	'스레드 일시 정지를 위한 변수
 	'AutoResetEvent = 하나의 스레드를 멈추면 자동으로 Reset(False로 바뀜)
 	'MenualResetEvent = 수동으로 Reset호출해야 함
@@ -184,7 +185,9 @@ Public Class Form1
 				'적 생성
 				If Now.Ticks - DelayTickEnemy > SpawnTerm Then
 					NumberofObj += 1
-					OtherObjects.Add(New Enemy(NumberofObj))
+
+					'적 스폰 위치 랜덤
+					OtherObjects.Add(New Enemy(NumberofObj, rand.Next(40, 700)))
 
 					DelayTickEnemy = Now.Ticks
 				End If

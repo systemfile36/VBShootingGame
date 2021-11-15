@@ -32,6 +32,16 @@ Public Class Enemy
 
 	End Sub
 
+	'랜덤한 숫자를 받아서 생성 위치를 정하는 생성자
+	Public Sub New(id As String, rNum As Integer)
+		'위의 생성자 호출
+		Me.New(id)
+
+		'여기서 바뀐부분만 실행
+		UPos = New Point(Form1.BoardWidth - UWidth - 100, rNum)
+		SetCollider(UPos, UWidth, UHeight + 10)
+	End Sub
+
 	Public Overrides Sub Move()
 		If UPos.Y < 0 Then
 			IsUp = False
