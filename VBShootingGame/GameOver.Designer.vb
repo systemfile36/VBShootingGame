@@ -23,57 +23,60 @@ Partial Class GameOver
 	<System.Diagnostics.DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
 		Me.btnReset = New System.Windows.Forms.Button()
-		Me.Label1 = New System.Windows.Forms.Label()
 		Me.btnExit = New System.Windows.Forms.Button()
 		Me.btnTitle = New System.Windows.Forms.Button()
 		Me.SuspendLayout()
 		'
 		'btnReset
 		'
-		Me.btnReset.Location = New System.Drawing.Point(298, 133)
+		Me.btnReset.BackColor = System.Drawing.Color.Transparent
+		Me.btnReset.FlatAppearance.BorderSize = 0
+		Me.btnReset.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
+		Me.btnReset.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
+		Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+		Me.btnReset.Location = New System.Drawing.Point(315, 161)
 		Me.btnReset.Name = "btnReset"
 		Me.btnReset.Size = New System.Drawing.Size(173, 79)
 		Me.btnReset.TabIndex = 0
 		Me.btnReset.Text = "Restart Game"
-		Me.btnReset.UseVisualStyleBackColor = True
-		'
-		'Label1
-		'
-		Me.Label1.AutoSize = True
-		Me.Label1.Font = New System.Drawing.Font("HY견고딕", 50.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-		Me.Label1.Location = New System.Drawing.Point(157, 36)
-		Me.Label1.Name = "Label1"
-		Me.Label1.Size = New System.Drawing.Size(454, 67)
-		Me.Label1.TabIndex = 1
-		Me.Label1.Text = "Game Over!"
+		Me.btnReset.UseVisualStyleBackColor = False
 		'
 		'btnExit
 		'
-		Me.btnExit.Location = New System.Drawing.Point(298, 328)
+		Me.btnExit.BackColor = System.Drawing.Color.Transparent
+		Me.btnExit.FlatAppearance.BorderSize = 0
+		Me.btnExit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
+		Me.btnExit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
+		Me.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+		Me.btnExit.Location = New System.Drawing.Point(315, 356)
 		Me.btnExit.Name = "btnExit"
 		Me.btnExit.Size = New System.Drawing.Size(173, 79)
 		Me.btnExit.TabIndex = 2
 		Me.btnExit.Text = "Quit Game"
-		Me.btnExit.UseVisualStyleBackColor = True
+		Me.btnExit.UseVisualStyleBackColor = False
 		'
 		'btnTitle
 		'
-		Me.btnTitle.Location = New System.Drawing.Point(298, 227)
+		Me.btnTitle.BackColor = System.Drawing.Color.Transparent
+		Me.btnTitle.FlatAppearance.BorderSize = 0
+		Me.btnTitle.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
+		Me.btnTitle.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
+		Me.btnTitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+		Me.btnTitle.Location = New System.Drawing.Point(315, 255)
 		Me.btnTitle.Name = "btnTitle"
 		Me.btnTitle.Size = New System.Drawing.Size(173, 79)
 		Me.btnTitle.TabIndex = 3
 		Me.btnTitle.Text = "Go Title"
-		Me.btnTitle.UseVisualStyleBackColor = True
+		Me.btnTitle.UseVisualStyleBackColor = False
 		'
 		'GameOver
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-		Me.ClientSize = New System.Drawing.Size(800, 450)
+		Me.ClientSize = New System.Drawing.Size(819, 464)
 		Me.Controls.Add(Me.btnTitle)
 		Me.Controls.Add(Me.btnExit)
-		Me.Controls.Add(Me.Label1)
 		Me.Controls.Add(Me.btnReset)
 		Me.MaximizeBox = False
 		Me.MinimizeBox = False
@@ -81,12 +84,10 @@ Partial Class GameOver
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
 		Me.Text = "GameOver"
 		Me.ResumeLayout(False)
-		Me.PerformLayout()
 
 	End Sub
 
 	Friend WithEvents btnReset As Button
-	Friend WithEvents Label1 As Label
 	Friend WithEvents btnExit As Button
 	Friend WithEvents btnTitle As Button
 End Class

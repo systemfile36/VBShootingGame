@@ -73,6 +73,8 @@ Public Class Form1
 	Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		player = New Player()
 
+		BackgroundImage = My.Resources.ResourceManager.GetObject("BackGround_0")
+
 		'입력 스레드 생성 후 실행
 		trd_input = New Thread(AddressOf ThreadInput)
 		trd_input.IsBackground = True
@@ -117,6 +119,7 @@ Public Class Form1
 	End Sub
 
 	Private Sub Form1_Paint(sender As Object, e As PaintEventArgs) Handles MyBase.Paint
+
 		'플레이어를 그림
 		e.Graphics.DrawImage(player.USprite, New Rectangle(player.UPos.X, player.UPos.Y, player.UWidth, player.UHeight - 40))
 
