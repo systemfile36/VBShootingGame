@@ -154,5 +154,8 @@
   <ItemGroup>
     <None Include="Image\Enemy\E_Default.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Image\Effect\Destroy_0.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

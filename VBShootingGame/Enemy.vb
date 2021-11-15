@@ -11,6 +11,7 @@ Public Class Enemy
 
 	Public Sub New(id As String)
 		SetSprite("E_Default")
+		SetDestroySprite()
 
 		objType = Type.Enemy
 
@@ -51,6 +52,11 @@ Public Class Enemy
 	'기록한 시간을 비교해서 발사간격 시간에 도달하면
 	'IsFire를 True로 바꾸고 FIreTick 조정
 	Public Function CheckFireTerm()
+		'파괴되었을 때는 무조건 False
+		If GetIsDest() Then
+			Return False
+		End If
+
 		If Now.Ticks - FireTick > FireTerm Or IsFire = True Then
 			IsFire = True
 			FireTick = Now.Ticks

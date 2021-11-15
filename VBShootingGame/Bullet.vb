@@ -8,7 +8,7 @@
 		USpeed = 20
 		UWidth = 42
 		UHeight = 13
-
+		SetDestroySprite()
 
 		'플레이어의 탄인지 아닌지 비교해서 다르게 초기화
 		If IsP Then
@@ -42,7 +42,7 @@
 		End If
 
 		'범위 밖이면 삭제
-		If UPos.X < 0 Or UPos.X > Form1.BoardWidth Then
+		If UPos.X + UWidth < 0 Or UPos.X - UWidth > Form1.BoardWidth Then
 			SetIsDest(True)
 			Destroy()
 		End If

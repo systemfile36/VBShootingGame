@@ -38,16 +38,47 @@ Public MustInherit Class GameObject
 	'스프라이트 이미지
 	Private sprite As Image
 
+	Public ReadOnly Property USprite As Image
+		Get
+			Return sprite
+		End Get
+	End Property
+
+	'파괴 스프라이트
+	Private DestroySprite As Image
+
+	Public ReadOnly Property UDSprite As Image
+		Get
+			Return DestroySprite
+		End Get
+	End Property
+
+	Public ReadOnly DWidth As Integer = 100, DHeight As Integer = 80
+
 	'위치 정보
 	Private pos As Point
+
+	Public Property UPos As Point
+		Get
+			Return pos
+		End Get
+		Set(value As Point)
+			pos = value
+		End Set
+	End Property
 
 	'충돌판정을 위한 범위
 	Private Collider As Rectangle
 
+	Public ReadOnly Property UCollider As Rectangle
+		Get
+			Return Collider
+		End Get
+	End Property
+
 	'속도(프레임당 이동 좌표값)
 	Private SPEED As Integer
 
-	'private 접근을 위해 property 사용
 	Public Property USpeed As Integer
 		Get
 			Return SPEED
@@ -60,6 +91,9 @@ Public MustInherit Class GameObject
 			End If
 		End Set
 	End Property
+
+	'파괴된 시점부터 상승하는 카운터
+	Private DestroyedCount As Integer = 0
 
 	Private WIDTH As Integer, HEIGHT As Integer
 
@@ -89,33 +123,11 @@ Public MustInherit Class GameObject
 		End Set
 	End Property
 
-	Public Property UPos As Point
-		Get
-			Return pos
-		End Get
-		Set(value As Point)
-			pos = value
-		End Set
-	End Property
-
-	Public ReadOnly Property USprite As Image
-		Get
-			Return sprite
-		End Get
-	End Property
-
 	Public ReadOnly Property UObjID As String
 		Get
 			Return ObjID
 		End Get
 	End Property
-
-	Public ReadOnly Property UCollider As Rectangle
-		Get
-			Return Collider
-		End Get
-	End Property
-
 
 	Public Sub New()
 		SpawnedTime = Now.Ticks
@@ -206,6 +218,7 @@ Public MustInherit Class GameObject
 	'그리고 파괴하면 True, 아니면 False를 반환
 	Public Overridable Function Destroy() As Boolean
 		If IsDestroyed = True Then
+			DestroyedCount += 1
 			'콜라이더 제거 작업
 			SetCollider(New Point(0, 0), 0, 0)
 			Return True
@@ -214,10 +227,20 @@ Public MustInherit Class GameObject
 		End If
 	End Function
 
-
 	'소멸 될때 스프라이트도 해제
 	Protected Overrides Sub Finalize()
 		MyBase.Finalize()
 		sprite.Dispose()
 	End Sub
+
+	'파괴된 시점부터 증가하는 변수를 반환
+	Public Function GetDestroyCounter() As Long
+		Return DestroyedCount
+	End Function
+
+	'파괴 모션 세팅 함수
+	Public Sub SetDestroySprite()
+		DestroySprite = My.Resources.ResourceManager.GetObject("Destroy_0")
+	End Sub
+
 End Class

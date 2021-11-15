@@ -23,6 +23,8 @@
 
 	Public Sub New()
 		SetSprite("P_Default")
+		SetDestroySprite()
+
 		UPos = New Point(100, 100)
 		USpeed = 10
 		UWidth = 122

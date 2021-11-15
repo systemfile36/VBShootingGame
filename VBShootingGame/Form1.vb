@@ -22,7 +22,8 @@
 
 '연사 속도 추가 (기본 0.4초) (Set/GetFireDelay추가, ReleaseControl추가)
 
-'파괴 시 pos 변경(안 그러면 collider를 옮겨도 move에서 다시 설정됨)
+'파괴 시 콜라이더의 크기 0으로 변경, 파괴되어도 딜레이에 도달하기 전까진
+'배열에 남아서 그려짐(파괴 모션을 위함), 즉 실제 반영에 딜레이를 줌
 
 Imports System.Threading
 Public Class Form1
@@ -31,6 +32,9 @@ Public Class Form1
 	'적 생성 간격 변수
 	Private SpawnTerm As Long = 50000000L
 	Private DelayTickEnemy As Long = 0
+
+	'파괴된 시점부터 삭제될 때까지의 딜레이, 프레임 단위
+	Private DestroyDelay As Integer = 20
 
 	'ThreadOther에서 조작하는 기타 오브젝트 List<T>
 	Private OtherObjects As New List(Of GameObject)
@@ -86,11 +90,11 @@ Public Class Form1
 	End Sub
 
 	Private Sub MainTimer_Tick(sender As Object, e As EventArgs) Handles MainTimer.Tick
+		'화면 갱신
+		Invalidate()
 		If IsGameEnd Then
 			EndGame()
 		End If
-		'화면 갱신
-		Invalidate()
 	End Sub
 
 	'키 입력이 들어오면 Player객체의 SetControl() 메소드에 키 코드를 넘김
@@ -114,7 +118,7 @@ Public Class Form1
 
 	Private Sub Form1_Paint(sender As Object, e As PaintEventArgs) Handles MyBase.Paint
 		'플레이어를 그림
-		e.Graphics.DrawImage(player.USprite, New Rectangle(player.UPos.X, player.UPos.Y, 122, 32))
+		e.Graphics.DrawImage(player.USprite, New Rectangle(player.UPos.X, player.UPos.Y, player.UWidth, player.UHeight - 40))
 
 		'충돌 범위 가시화용
 		'e.Graphics.DrawRectangle(New Pen(Color.Red), player.UCollider)
@@ -122,14 +126,21 @@ Public Class Form1
 		'열거 오류 예외 처리
 		Try
 			For Each obj As GameObject In OtherObjects
-				e.Graphics.DrawImage(obj.USprite, New Rectangle(obj.UPos.X, obj.UPos.Y, obj.UWidth, obj.UHeight))
-				'충돌 범위 가시화용
-				e.Graphics.DrawRectangle(New Pen(Color.Red), obj.UCollider)
+				'파괴 되었으면 파괴 이펙트 표시
+				If obj.GetIsDest() Then
+					e.Graphics.DrawImage(obj.UDSprite, New Rectangle(obj.UPos.X, obj.UPos.Y, obj.DWidth, obj.DHeight))
+				Else
+					e.Graphics.DrawImage(obj.USprite, New Rectangle(obj.UPos.X, obj.UPos.Y, obj.UWidth, obj.UHeight))
+
+					'충돌 범위 가시화용
+					e.Graphics.DrawRectangle(New Pen(Color.Red), obj.UCollider)
+				End If
 			Next
+
 		Catch ex As Exception
-			lbDebug.Text = "Exception Iter"
+
 		End Try
-		lbDebug.Text = NumberofObj & " " & player.GetFireDelay()
+		'lbDebug.Text = NumberofObj & " " & player.GetFireDelay()
 	End Sub
 
 	'부드러운 움직임을 위해 스레드 사용
@@ -191,7 +202,7 @@ Public Class Form1
 
 
 					'enemy인지 판단하고 enemy타입으로 하향 형변환한다.
-					'enemy 발사 시퀸스 확인
+					'enemy 발사 시퀀스 확인
 					If obj.UType = GameObject.Type.Enemy Then
 						Dim temp = TryCast(obj, Enemy)
 						'enemy타입이 맞다면 시간비교함수 호출해서 플래그 셋팅
@@ -208,7 +219,7 @@ Public Class Form1
 
 					'충돌 판정을 위해 한번 더 루프를 돌며 충돌판정 함수 호출
 					'오브젝트가 아직 파괴되지 않았다면
-					If Not obj.Destroy() Then
+					If Not obj.GetIsDest() Then
 						'총탄의 CollisionCheck는 아무것도 하지 않는다
 						'탄의 타입체크는 각 충돌 판정에서 행한다.
 
@@ -227,7 +238,7 @@ Public Class Form1
 					'파괴 확인
 					If obj.Destroy() Then
 						'파괴할 물건을 저장 (열거 오류를 막기위해)
-						NumberofObj -= 1
+
 						removeObj.Add(obj)
 					End If
 
@@ -241,14 +252,22 @@ Public Class Form1
 				End If
 
 				'실제 삭제 반영
+				'파괴 딜레이에 도달한 물건만 삭제(파괴 모션을 위함)
+				'DestroyCount는 Destroy()가 호출 될때마다(한 프레임마다) 1씩 증가
 				For Each obj As GameObject In removeObj
-					'removeObj에 있는 것과 같은 아이디를 가진 물건 삭제
-					OtherObjects.Remove(obj)
+					If obj.GetDestroyCounter() > DestroyDelay Then
+						'removeObj에 있는 것과 같은 아이디를 가진 물건 삭제
+						OtherObjects.Remove(obj)
+						NumberofObj -= 1
+
+					End If
+
 
 				Next
 
 				'실제 추가 반영
 				For Each obj As GameObject In addObj
+
 					OtherObjects.Add(obj)
 				Next
 
