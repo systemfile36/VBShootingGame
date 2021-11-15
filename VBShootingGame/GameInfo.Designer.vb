@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class GameOver
+Partial Class GameInfo
 	Inherits System.Windows.Forms.Form
 
 	'Form은 Dispose를 재정의하여 구성 요소 목록을 정리합니다.
@@ -22,38 +22,19 @@ Partial Class GameOver
 	'코드 편집기에서는 수정하지 마세요.
 	<System.Diagnostics.DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
-		Me.btnReset = New System.Windows.Forms.Button()
-		Me.btnExit = New System.Windows.Forms.Button()
+		Me.tbInfo = New System.Windows.Forms.TextBox()
 		Me.btnTitle = New System.Windows.Forms.Button()
 		Me.SuspendLayout()
 		'
-		'btnReset
+		'tbInfo
 		'
-		Me.btnReset.BackColor = System.Drawing.Color.Transparent
-		Me.btnReset.FlatAppearance.BorderSize = 0
-		Me.btnReset.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
-		Me.btnReset.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
-		Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-		Me.btnReset.Location = New System.Drawing.Point(12, 373)
-		Me.btnReset.Name = "btnReset"
-		Me.btnReset.Size = New System.Drawing.Size(173, 79)
-		Me.btnReset.TabIndex = 0
-		Me.btnReset.Text = "Restart Game"
-		Me.btnReset.UseVisualStyleBackColor = False
-		'
-		'btnExit
-		'
-		Me.btnExit.BackColor = System.Drawing.Color.Transparent
-		Me.btnExit.FlatAppearance.BorderSize = 0
-		Me.btnExit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
-		Me.btnExit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
-		Me.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-		Me.btnExit.Location = New System.Drawing.Point(634, 373)
-		Me.btnExit.Name = "btnExit"
-		Me.btnExit.Size = New System.Drawing.Size(173, 79)
-		Me.btnExit.TabIndex = 2
-		Me.btnExit.Text = "Quit Game"
-		Me.btnExit.UseVisualStyleBackColor = False
+		Me.tbInfo.Location = New System.Drawing.Point(13, 13)
+		Me.tbInfo.Multiline = True
+		Me.tbInfo.Name = "tbInfo"
+		Me.tbInfo.ReadOnly = True
+		Me.tbInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+		Me.tbInfo.Size = New System.Drawing.Size(779, 350)
+		Me.tbInfo.TabIndex = 0
 		'
 		'btnTitle
 		'
@@ -62,32 +43,31 @@ Partial Class GameOver
 		Me.btnTitle.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
 		Me.btnTitle.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
 		Me.btnTitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-		Me.btnTitle.Location = New System.Drawing.Point(313, 373)
+		Me.btnTitle.Location = New System.Drawing.Point(312, 369)
 		Me.btnTitle.Name = "btnTitle"
-		Me.btnTitle.Size = New System.Drawing.Size(173, 79)
-		Me.btnTitle.TabIndex = 3
-		Me.btnTitle.Text = "Go Title"
+		Me.btnTitle.Size = New System.Drawing.Size(175, 80)
+		Me.btnTitle.TabIndex = 1
+		Me.btnTitle.Text = "Button1"
 		Me.btnTitle.UseVisualStyleBackColor = False
 		'
-		'GameOver
+		'GameInfo
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-		Me.ClientSize = New System.Drawing.Size(819, 464)
+		Me.ClientSize = New System.Drawing.Size(804, 461)
 		Me.Controls.Add(Me.btnTitle)
-		Me.Controls.Add(Me.btnExit)
-		Me.Controls.Add(Me.btnReset)
+		Me.Controls.Add(Me.tbInfo)
 		Me.MaximizeBox = False
 		Me.MinimizeBox = False
-		Me.Name = "GameOver"
+		Me.Name = "GameInfo"
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-		Me.Text = "GameOver"
+		Me.Text = "GameInfo"
 		Me.ResumeLayout(False)
+		Me.PerformLayout()
 
 	End Sub
 
-	Friend WithEvents btnReset As Button
-	Friend WithEvents btnExit As Button
+	Friend WithEvents tbInfo As TextBox
 	Friend WithEvents btnTitle As Button
 End Class

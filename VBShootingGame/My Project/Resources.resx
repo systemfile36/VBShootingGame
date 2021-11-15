@@ -118,6 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="BackGround_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\BackGround\BackGround_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Destroy_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Image\Effect\Destroy_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -127,10 +130,73 @@
   <data name="E_Default" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Image\Enemy\E_Default.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="GameInfo_Click" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Buttons\GameInfo_Click.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GameInfo_Default" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Buttons\GameInfo_Default.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GameInfo_Hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Buttons\GameInfo_Hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GameOver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\TextImage\GameOver.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GameQuit_Click" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Buttons\GameQuit_Click.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GameQuit_Default" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Buttons\GameQuit_Default.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GameQuit_Hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Buttons\GameQuit_Hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GameSetting_Click" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Buttons\GameSetting_Click.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GameSetting_Default" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Buttons\GameSetting_Default.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GameSetting_Hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Buttons\GameSetting_Hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GameStart_Click" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Buttons\GameStart_Click.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GameStart_Default" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Buttons\GameStart_Default.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GameStart_Hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Buttons\GameStart_Hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GoTitle_Click" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Buttons\GoTitle_Click.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GoTitle_Default" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Buttons\GoTitle_Default.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GoTitle_Hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Buttons\GoTitle_Hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="P_Bullet" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Image\Player\P_Bullet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="P_Default" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Image\Player\P_Default.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReadMe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\ReadMe.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Restart_Click" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Buttons\Restart_Click.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Restart_Default" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Buttons\Restart_Default.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Restart_Hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Buttons\Restart_Hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Title" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\TextImage\Title.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

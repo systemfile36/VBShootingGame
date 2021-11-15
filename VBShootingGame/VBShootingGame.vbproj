@@ -82,6 +82,12 @@
       <DependentUpon>Form1.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="GameInfo.Designer.vb">
+      <DependentUpon>GameInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GameInfo.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="GameObject.vb" />
     <Compile Include="GameOver.Designer.vb">
       <DependentUpon>GameOver.vb</DependentUpon>
@@ -116,6 +122,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GameInfo.resx">
+      <DependentUpon>GameInfo.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GameOver.resx">
       <DependentUpon>GameOver.vb</DependentUpon>
@@ -155,7 +164,29 @@
     <None Include="Image\Enemy\E_Default.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Image\BackGround\BackGround_0.png" />
+    <Content Include="Image\Buttons\GameInfo_Click.png" />
+    <Content Include="Image\Buttons\GameInfo_Default.png" />
+    <Content Include="Image\Buttons\GameInfo_Hover.png" />
+    <Content Include="Image\Buttons\GameQuit_Click.png" />
+    <Content Include="Image\Buttons\GameQuit_Default.png" />
+    <Content Include="Image\Buttons\GameQuit_Hover.png" />
+    <Content Include="Image\Buttons\GameSetting_Click.png" />
+    <Content Include="Image\Buttons\GameSetting_Default.png" />
+    <Content Include="Image\Buttons\GameSetting_Hover.png" />
+    <Content Include="Image\Buttons\GameStart_Click.png" />
+    <Content Include="Image\Buttons\GameStart_Default.png" />
+    <Content Include="Image\Buttons\GameStart_Hover.png" />
+    <Content Include="Image\Buttons\GoTitle_Click.png" />
+    <Content Include="Image\Buttons\GoTitle_Default.png" />
+    <Content Include="Image\Buttons\GoTitle_Hover.png" />
+    <Content Include="Image\Buttons\Restart_Click.png" />
+    <Content Include="Image\Buttons\Restart_Default.png" />
+    <Content Include="Image\Buttons\Restart_Hover.png" />
     <Content Include="Image\Effect\Destroy_0.png" />
+    <Content Include="Image\ReadMe.txt" />
+    <Content Include="Image\TextImage\GameOver.png" />
+    <Content Include="Image\TextImage\Title.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
