@@ -47,8 +47,9 @@ Public Class Enemy
 
 		'난이도가 상승할때마다 0.3초씩 빠르게 발사한다.
 		'최소값 = 600ms = 0.6초
-		SetFireTerm(Math.Max(FireTerm - ((dif - 1) * 3000000), 6000000))
+		SetFireTerm(Math.Max((FireTerm / 10000) - ((dif - 1) * 300), 600))
 
+		Debug.WriteLine(FireTerm)
 
 	End Sub
 
