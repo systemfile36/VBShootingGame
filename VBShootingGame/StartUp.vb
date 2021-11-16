@@ -31,6 +31,13 @@ Public Class StartUp
 
 	End Sub
 
+	Private Sub StartUp_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+		'방향키와 엔터키 이외에는 무시한다.(오입력 방지)
+		If Not (e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Left Or e.KeyCode = Keys.Right Or e.KeyCode = Keys.Up Or e.KeyCode = Keys.Down) Then
+			e.Handled = True
+		End If
+	End Sub
+
 	Private Sub StartUp_Paint(sender As Object, e As PaintEventArgs) Handles MyBase.Paint
 		e.Graphics.DrawImage(title, New Point(-20, -20))
 	End Sub

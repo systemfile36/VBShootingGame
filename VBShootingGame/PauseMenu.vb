@@ -16,7 +16,12 @@
 
 	End Sub
 
-
+	Private Sub PauseMenu_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+		'방향키와 엔터키 이외에는 무시한다.(오입력 방지)
+		If Not (e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Left Or e.KeyCode = Keys.Right Or e.KeyCode = Keys.Up Or e.KeyCode = Keys.Down) Then
+			e.Handled = True
+		End If
+	End Sub
 
 	'Quit Game버튼-----------------------------------------------------
 	Private Sub btnExit_MouseMove(sender As Object, e As MouseEventArgs) Handles btnExit.MouseMove
@@ -67,5 +72,6 @@
 	Private Sub btnResume_Leave(sender As Object, e As EventArgs) Handles btnResume.Leave
 		btnResume.BackgroundImage = My.Resources.Resume_Default
 	End Sub
+
 
 End Class

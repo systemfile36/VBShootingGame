@@ -47,6 +47,9 @@ Public Class Form1
 	'기타 오브젝트 갱신 스레드
 	Private trd_other As Thread
 
+	'스레드 갱신 딜레이, 기본 20ms
+	Private Const ThreadSpeed As Integer = 16
+
 	'난수 생성기
 	Private rand As New Random()
 
@@ -80,6 +83,9 @@ Public Class Form1
 		BackgroundImage = My.Resources.ResourceManager.GetObject("BackGround_0")
 
 		MainTimer.Interval = 15
+
+		'오브젝트 사이즈를 미리 넓혀 놓는다.
+		OtherObjects.Capacity = 500
 
 		'입력 스레드 생성 후 실행
 		trd_input = New Thread(AddressOf ThreadInput)
@@ -124,7 +130,6 @@ Public Class Form1
 	End Sub
 
 	Private Sub Form1_Paint(sender As Object, e As PaintEventArgs) Handles MyBase.Paint
-
 		'플레이어를 그림
 		e.Graphics.DrawImage(player.USprite, New Rectangle(player.UPos.X, player.UPos.Y, player.UWidth, player.UHeight - 40))
 
@@ -148,7 +153,7 @@ Public Class Form1
 		Catch ex As Exception
 
 		End Try
-		lbDebug.Text = game.GetGameSec() & " " & game.GetDifficulty()
+		lbDebug.Text = game.GetGameSec() & " " & game.GetDifficulty() & " "
 	End Sub
 
 	'부드러운 움직임을 위해 스레드 사용
@@ -171,7 +176,7 @@ Public Class Form1
 				Exit Sub
 			End If
 
-			Thread.Sleep(20)
+			Thread.Sleep(ThreadSpeed)
 		Loop
 
 	End Sub
@@ -183,6 +188,10 @@ Public Class Form1
 
 		'추가할 적탄 리스트
 		Dim addObj As New List(Of GameObject)
+
+		'미리 사이즈 넓혀 놓기
+		removeObj.Capacity = 200
+		addObj.Capacity = 200
 		Do
 			'디버깅용 Try문
 			Try
@@ -309,7 +318,7 @@ Public Class Form1
 				Exit Sub
 			End If
 
-			Thread.Sleep(20)
+			Thread.Sleep(ThreadSpeed)
 		Loop
 
 	End Sub
