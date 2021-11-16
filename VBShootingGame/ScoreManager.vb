@@ -1,4 +1,5 @@
 ﻿'스코어를 관리하는 클래스
+'스코어는 가산이 아닌 할때마다 갱신
 Public Class ScoreManager
 	Private Score As Integer = 0
 	Private KillCount As Integer = 0

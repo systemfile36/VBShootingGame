@@ -112,6 +112,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="PauseMenu.Designer.vb">
+      <DependentUpon>PauseMenu.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PauseMenu.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Player.vb" />
     <Compile Include="ScoreManager.vb" />
     <Compile Include="StartUp.Designer.vb">
@@ -136,6 +142,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PauseMenu.resx">
+      <DependentUpon>PauseMenu.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StartUp.resx">
       <DependentUpon>StartUp.vb</DependentUpon>
@@ -185,6 +194,9 @@
     <Content Include="Image\Buttons\Restart_Click.png" />
     <Content Include="Image\Buttons\Restart_Default.png" />
     <Content Include="Image\Buttons\Restart_Hover.png" />
+    <Content Include="Image\Buttons\Resume_Click.png" />
+    <Content Include="Image\Buttons\Resume_Default.png" />
+    <Content Include="Image\Buttons\Resume_Hover.png" />
     <Content Include="Image\Effect\Destroy_0.png" />
     <Content Include="Image\ReadMe.txt" />
     <Content Include="Image\TextImage\GameOver.png" />

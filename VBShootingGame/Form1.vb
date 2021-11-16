@@ -314,25 +314,40 @@ Public Class Form1
 
 	End Sub
 
-	'일시 정지 토글
+	'일시 정지 메뉴
 	'각 스레드의 AutoResetEvent를 True로 바꾼다.
 	'그러면 Thread내부에서 False로 바뀌고 다시 True로 바뀌는 것을 대기한다.(일시정지)
-	'화면 갱신 타이머도 멈춘다.(IsPause로 토글)
+	'화면 갱신 타이머도 멈춘다.
 	'게임 시간도 반영해준다.
 	Private Sub PauseGameToggle()
-		If IsPause = False Then
-			game.PauseTime()
-			PauseThread_Input.Set()
-			PauseThread_Other.Set()
-			MainTimer.Stop()
-			IsPause = True
-		Else
+		'일시정지 한다.
+		game.PauseTime()
+		PauseThread_Input.Set()
+		PauseThread_Other.Set()
+		MainTimer.Stop()
+
+		'넘겨줄 스코어를 설정하고 일시 정지 메뉴 폼의 인스턴스를 만든다.
+		scoreBoard.SetScore(game.GetGameSec)
+		Dim pauseForm As New PauseMenu()
+
+		pauseForm.Score = scoreBoard.GetScore()
+		pauseForm.GameTime = game.GetGameSec()
+
+		'ShowDialog()로 연다.
+		pauseForm.ShowDialog()
+
+		'만약 Resume버튼이 눌렸다면(=DialogResult.OK) 게임을 재개하고 아니면 종료한다.
+		If pauseForm.DialogResult = DialogResult.OK Then
 			game.ResumeTime()
 			PauseThread_Input.Set()
 			PauseThread_Other.Set()
 			MainTimer.Start()
-			IsPause = False
+			pauseForm.Dispose()
+		Else
+			pauseForm.Dispose()
+			Me.Close()
 		End If
+
 
 	End Sub
 
@@ -346,7 +361,7 @@ Public Class Form1
 		gameover.Show()
 		CloseThread.Set()
 		MainTimer.Stop()
-		Thread.Sleep(100)
+		Thread.Sleep(10)
 		Me.Close()
 	End Sub
 
