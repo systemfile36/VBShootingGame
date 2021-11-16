@@ -25,6 +25,7 @@ Partial Class GameOver
 		Me.btnReset = New System.Windows.Forms.Button()
 		Me.btnExit = New System.Windows.Forms.Button()
 		Me.btnTitle = New System.Windows.Forms.Button()
+		Me.lbScore = New System.Windows.Forms.Label()
 		Me.SuspendLayout()
 		'
 		'btnReset
@@ -69,12 +70,24 @@ Partial Class GameOver
 		Me.btnTitle.Text = "Go Title"
 		Me.btnTitle.UseVisualStyleBackColor = False
 		'
+		'lbScore
+		'
+		Me.lbScore.AutoSize = True
+		Me.lbScore.BackColor = System.Drawing.Color.Transparent
+		Me.lbScore.Font = New System.Drawing.Font("HY견고딕", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+		Me.lbScore.Location = New System.Drawing.Point(73, 213)
+		Me.lbScore.Name = "lbScore"
+		Me.lbScore.Size = New System.Drawing.Size(217, 29)
+		Me.lbScore.TabIndex = 4
+		Me.lbScore.Text = "Your Score : "
+		'
 		'GameOver
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
 		Me.ClientSize = New System.Drawing.Size(819, 464)
+		Me.Controls.Add(Me.lbScore)
 		Me.Controls.Add(Me.btnTitle)
 		Me.Controls.Add(Me.btnExit)
 		Me.Controls.Add(Me.btnReset)
@@ -84,10 +97,12 @@ Partial Class GameOver
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
 		Me.Text = "GameOver"
 		Me.ResumeLayout(False)
+		Me.PerformLayout()
 
 	End Sub
 
 	Friend WithEvents btnReset As Button
 	Friend WithEvents btnExit As Button
 	Friend WithEvents btnTitle As Button
+	Friend WithEvents lbScore As Label
 End Class

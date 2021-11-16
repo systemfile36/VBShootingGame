@@ -5,7 +5,7 @@
 
 
 	Public Sub New(sender As GameObject, IsP As Boolean, id As String)
-		USpeed = 20
+		'USpeed = 20
 		UWidth = 42
 		UHeight = 13
 		SetDestroySprite()
@@ -16,6 +16,7 @@
 			SetObjID("P_B" & id)
 
 			objType = Type.PBullet
+			USpeed = 25
 
 			SetSprite("P_Bullet")
 			UPos = New Point(sender.UPos.X + sender.UWidth - 10, sender.UPos.Y + 20)
@@ -24,6 +25,7 @@
 			SetObjID("E_B" & id)
 
 			objType = Type.EBullet
+			USpeed = 12
 
 			SetSprite("E_Bullet")
 			UPos = New Point(sender.UPos.X, sender.UPos.Y + 20)

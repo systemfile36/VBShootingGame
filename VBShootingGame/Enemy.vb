@@ -33,13 +33,23 @@ Public Class Enemy
 	End Sub
 
 	'랜덤한 숫자를 받아서 생성 위치를 정하는 생성자
-	Public Sub New(id As String, rNum As Integer)
+	'추가로 난이도도 받아서 발사 간격을 조정
+	Public Sub New(id As String, rNum As Integer, dif As Integer)
 		'위의 생성자 호출
 		Me.New(id)
 
 		'여기서 바뀐부분만 실행
 		UPos = New Point(Form1.BoardWidth - UWidth - 100, rNum)
 		SetCollider(UPos, UWidth, UHeight + 10)
+
+		'랜덤한 숫자에 따라 속도 변경
+		USpeed = 3 + (rNum Mod 4 + 1)
+
+		'난이도가 상승할때마다 0.3초씩 빠르게 발사한다.
+		'최소값 = 600ms = 0.6초
+		SetFireTerm(Math.Max(FireTerm - ((dif - 1) * 3000000), 6000000))
+
+
 	End Sub
 
 	Public Overrides Sub Move()

@@ -1,5 +1,9 @@
 ﻿Public Class GameOver
 	Private gameover_text As Image
+
+	'스코어 정보를 가져오기 위한 변수
+	Public score As ScoreManager
+
 	Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
 		Form1.Show()
 		Me.Close()
@@ -26,6 +30,9 @@
 		gameover_text = My.Resources.GameOver
 
 		Me.BackgroundImage = My.Resources.BackGround_0
+
+		lbScore.Text = "Your Score : " & score.GetScore()
+
 	End Sub
 
 	'Reset 버튼---------------------------------------------------

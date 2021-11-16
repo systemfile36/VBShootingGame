@@ -88,6 +88,7 @@
     <Compile Include="GameInfo.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="GameManager.vb" />
     <Compile Include="GameObject.vb" />
     <Compile Include="GameOver.Designer.vb">
       <DependentUpon>GameOver.vb</DependentUpon>
@@ -112,6 +113,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Player.vb" />
+    <Compile Include="ScoreManager.vb" />
     <Compile Include="StartUp.Designer.vb">
       <DependentUpon>StartUp.vb</DependentUpon>
     </Compile>

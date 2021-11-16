@@ -29,18 +29,17 @@ Imports System.Threading
 Public Class Form1
 	Private player As Player
 
-	'적 생성 간격 변수
-	Private SpawnTerm As Long = 50000000L
-	Private DelayTickEnemy As Long = 0
+	'스코어 관리
+	Private scoreBoard As New ScoreManager()
+
+	'게임 진행 관리
+	Private game As New GameManager()
 
 	'파괴된 시점부터 삭제될 때까지의 딜레이, 프레임 단위
 	Private DestroyDelay As Integer = 20
 
 	'ThreadOther에서 조작하는 기타 오브젝트 List<T>
 	Private OtherObjects As New List(Of GameObject)
-
-	'고유 아이디 부여를 위한 변수
-	Private NumberofObj As Long = 0
 
 	'입력 갱신 스레드
 	Private trd_input As Thread
@@ -51,6 +50,7 @@ Public Class Form1
 	'난수 생성기
 	Private rand As New Random()
 
+	'게임 시간을 밀리세컨드로 변환해서 오브젝트 아이디로 사용(삭제 시 Equal()구현 위함)
 
 	'스레드 일시 정지를 위한 변수
 	'AutoResetEvent = 하나의 스레드를 멈추면 자동으로 Reset(False로 바뀜)
@@ -74,7 +74,12 @@ Public Class Form1
 	Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		player = New Player()
 
+		'게임 관리에 시작시간 등록
+		game.SetSTime(player.SpawnedTime)
+
 		BackgroundImage = My.Resources.ResourceManager.GetObject("BackGround_0")
+
+		MainTimer.Interval = 15
 
 		'입력 스레드 생성 후 실행
 		trd_input = New Thread(AddressOf ThreadInput)
@@ -86,15 +91,13 @@ Public Class Form1
 		trd_other.IsBackground = True
 		trd_other.Start()
 
-		'적 생성 간격용
-		DelayTickEnemy = Now.Ticks
-
 		Me.KeyPreview = True
 	End Sub
 
 	Private Sub MainTimer_Tick(sender As Object, e As EventArgs) Handles MainTimer.Tick
 		'화면 갱신
 		Invalidate()
+
 		If IsGameEnd Then
 			EndGame()
 		End If
@@ -115,6 +118,7 @@ Public Class Form1
 		End If
 
 	End Sub
+	'버튼에서 손을 뗏음을 알려주는 변수
 	Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles MyBase.KeyUp
 		player.ReleaseControl(e.KeyCode)
 	End Sub
@@ -137,14 +141,14 @@ Public Class Form1
 					e.Graphics.DrawImage(obj.USprite, New Rectangle(obj.UPos.X, obj.UPos.Y, obj.UWidth, obj.UHeight))
 
 					'충돌 범위 가시화용
-					e.Graphics.DrawRectangle(New Pen(Color.Red), obj.UCollider)
+					'e.Graphics.DrawRectangle(New Pen(Color.Red), obj.UCollider)
 				End If
 			Next
 
 		Catch ex As Exception
 
 		End Try
-		'lbDebug.Text = NumberofObj & " " & player.GetFireDelay()
+		lbDebug.Text = game.GetGameSec() & " " & game.GetDifficulty()
 	End Sub
 
 	'부드러운 움직임을 위해 스레드 사용
@@ -183,20 +187,20 @@ Public Class Form1
 			'디버깅용 Try문
 			Try
 				'적 생성
-				If Now.Ticks - DelayTickEnemy > SpawnTerm Then
-					NumberofObj += 1
+				If game.CheckSpawnEnemy() Then
 
 					'적 스폰 위치 랜덤
-					OtherObjects.Add(New Enemy(NumberofObj, rand.Next(40, 700)))
+					'난이도를 전달해서 발사 간격 조정
+					OtherObjects.Add(New Enemy(game.GetGameMil(), rand.Next(40, 500), game.GetDifficulty()))
 
-					DelayTickEnemy = Now.Ticks
+					game.ResetDelayTickEnemy()
+
 				End If
 
 				'총탄 생성
 				'CheckFireDelay()가 True를 반환하면 총탄 생성
 				If player.CheckFireDelay() Then
-					NumberofObj += 1
-					OtherObjects.Add(New Bullet(player, True, NumberofObj))
+					OtherObjects.Add(New Bullet(player, True, game.GetGameMil()))
 				End If
 
 				'오브젝트들 갱신
@@ -205,7 +209,6 @@ Public Class Form1
 					If Not obj.GetIsDest() Then
 						obj.Move()
 					End If
-
 
 					'enemy인지 판단하고 enemy타입으로 하향 형변환한다.
 					'enemy 발사 시퀀스 확인
@@ -216,8 +219,7 @@ Public Class Form1
 							If temp.CheckFireTerm() Then
 								'다형성으로 부모자리에 자식을 넣을 수 있다.
 								'추가할 물건 저장
-								NumberofObj += 1
-								addObj.Add(New Bullet(temp, False, NumberofObj))
+								addObj.Add(New Bullet(temp, False, game.GetGameMil()))
 								temp.IsFire = False
 							End If
 						End If
@@ -231,7 +233,12 @@ Public Class Form1
 
 						'적들의 충돌 판정 함수 실행
 						For Each obj_c As GameObject In OtherObjects
-							obj_c.CollisionCheck(obj)
+							'만약 적의 충돌함수가 True를 반환했다면( = 격추되었다면)
+							If obj_c.CollisionCheck(obj) Then
+								'격추 수를 올린다.
+								scoreBoard.IncKillCount()
+							End If
+
 						Next
 
 						'플레이어의 충돌 판정 함수 실행
@@ -264,11 +271,8 @@ Public Class Form1
 					If obj.GetDestroyCounter() > DestroyDelay Then
 						'removeObj에 있는 것과 같은 아이디를 가진 물건 삭제
 						OtherObjects.Remove(obj)
-						NumberofObj -= 1
 
 					End If
-
-
 				Next
 
 				'실제 추가 반영
@@ -289,6 +293,9 @@ Public Class Form1
 						 End Sub)
 			End Try
 
+			'게임 시간 체크 후 난이도 상승
+			game.IncDifficulty()
+
 			'AutoResetEvent 신호를 보내면(True로 바뀌면) if 문 실행
 			If PauseThread_Other.WaitOne(0) Then
 				'이 시점에서 자동으로 다시 False로 바뀐다.
@@ -307,21 +314,20 @@ Public Class Form1
 
 	End Sub
 
-	Private Sub SetSpawnTerm(second As Integer)
-		SpawnTerm = second * 10000000
-	End Sub
-
 	'일시 정지 토글
 	'각 스레드의 AutoResetEvent를 True로 바꾼다.
 	'그러면 Thread내부에서 False로 바뀌고 다시 True로 바뀌는 것을 대기한다.(일시정지)
 	'화면 갱신 타이머도 멈춘다.(IsPause로 토글)
+	'게임 시간도 반영해준다.
 	Private Sub PauseGameToggle()
 		If IsPause = False Then
+			game.PauseTime()
 			PauseThread_Input.Set()
 			PauseThread_Other.Set()
 			MainTimer.Stop()
 			IsPause = True
 		Else
+			game.ResumeTime()
 			PauseThread_Input.Set()
 			PauseThread_Other.Set()
 			MainTimer.Start()
@@ -333,7 +339,11 @@ Public Class Form1
 	'게임 종료 함수 
 	'모든 스레드와 타이머를 끄고 게임 오버창을 연 뒤 현재 폼을 닫는다.
 	Private Sub EndGame()
-		GameOver.Show()
+		'점수 설정
+		scoreBoard.SetScore(game.GetGameSec())
+		Dim gameover As New GameOver()
+		gameover.score = scoreBoard
+		gameover.Show()
 		CloseThread.Set()
 		MainTimer.Stop()
 		Thread.Sleep(100)
