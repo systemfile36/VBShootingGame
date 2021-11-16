@@ -41,8 +41,6 @@ Public Class Form1
 	'ThreadOther에서 조작하는 기타 오브젝트 List<T>
 	Private OtherObjects As New List(Of GameObject)
 
-	Private EnemyObjects As New List(Of Enemy)
-
 	'입력 갱신 스레드
 	Private trd_input As Thread
 
@@ -69,7 +67,7 @@ Public Class Form1
 
 	'타이머에서 참조, 스레드에서 종료 함수를 부를 수 없기에
 	Private IsGameEnd As Boolean = False
-	'ff
+
 	'캔버스 크기 상수
 	Public Const BoardWidth As Integer = 1200, BoardHeight As Integer = 600
 
@@ -150,19 +148,6 @@ Public Class Form1
 		Catch ex As Exception
 
 		End Try
-
-		Try
-			For Each obj As Enemy In EnemyObjects
-				If obj.GetIsDest() Then
-					e.Graphics.DrawImage(obj.UDSprite, New Rectangle(obj.UPos.X, obj.UPos.Y, obj.DWidth, obj.DHeight))
-				Else
-					e.Graphics.DrawImage(obj.USprite, New Rectangle(obj.UPos.X, obj.UPos.Y, obj.UWidth, obj.UHeight))
-				End If
-			Next
-		Catch ex As Exception
-
-		End Try
-
 		lbDebug.Text = game.GetGameSec() & " " & game.GetDifficulty()
 	End Sub
 
@@ -206,7 +191,7 @@ Public Class Form1
 
 					'적 스폰 위치 랜덤
 					'난이도를 전달해서 발사 간격 조정
-					EnemyObjects.Add(New Enemy(game.GetGameMil(), rand.Next(40, 500), game.GetDifficulty()))
+					OtherObjects.Add(New Enemy(game.GetGameMil(), rand.Next(40, 500), game.GetDifficulty()))
 
 					game.ResetDelayTickEnemy()
 
@@ -218,13 +203,6 @@ Public Class Form1
 					OtherObjects.Add(New Bullet(player, True, game.GetGameMil()))
 				End If
 
-				'적의 총알 생성
-				For Each obj As Enemy In EnemyObjects
-					If obj.CheckFireTerm() Then
-						OtherObjects.Add(New Bullet(obj, False, game.GetGameMil()))
-					End If
-				Next
-
 				'오브젝트들 갱신
 				For Each obj As GameObject In OtherObjects
 					'파괴되지 않았을때만 이동 함수 호출
@@ -234,18 +212,18 @@ Public Class Form1
 
 					'enemy인지 판단하고 enemy타입으로 하향 형변환한다.
 					'enemy 발사 시퀀스 확인
-					'If obj.UType = GameObject.Type.Enemy Then
-					'	Dim temp = TryCast(obj, Enemy)
-					'	'enemy타입이 맞다면 시간비교함수 호출해서 플래그 셋팅
-					'	If Not (temp Is Nothing) Then
-					'		If temp.CheckFireTerm() Then
-					'			'다형성으로 부모자리에 자식을 넣을 수 있다.
-					'			'추가할 물건 저장
-					'			addObj.Add(New Bullet(temp, False, game.GetGameMil()))
-					'			temp.IsFire = False
-					'		End If
-					'	End If
-					'End If
+					If obj.UType = GameObject.Type.Enemy Then
+						Dim temp = TryCast(obj, Enemy)
+						'enemy타입이 맞다면 시간비교함수 호출해서 플래그 셋팅
+						If Not (temp Is Nothing) Then
+							If temp.CheckFireTerm() Then
+								'다형성으로 부모자리에 자식을 넣을 수 있다.
+								'추가할 물건 저장
+								addObj.Add(New Bullet(temp, False, game.GetGameMil()))
+								temp.IsFire = False
+							End If
+						End If
+					End If
 
 					'충돌 판정을 위해 한번 더 루프를 돌며 충돌판정 함수 호출
 					'오브젝트가 아직 파괴되지 않았다면
@@ -254,20 +232,13 @@ Public Class Form1
 						'탄의 타입체크는 각 충돌 판정에서 행한다.
 
 						'적들의 충돌 판정 함수 실행
-						'For Each obj_c As GameObject In OtherObjects
-						'	'만약 적의 충돌함수가 True를 반환했다면( = 격추되었다면)
-						'	If obj_c.CollisionCheck(obj) Then
-						'		'격추 수를 올린다.
-						'		scoreBoard.IncKillCount()
-						'	End If
-
-						'Next
-
-
-						For Each obj_c As Enemy In EnemyObjects
+						For Each obj_c As GameObject In OtherObjects
+							'만약 적의 충돌함수가 True를 반환했다면( = 격추되었다면)
 							If obj_c.CollisionCheck(obj) Then
+								'격추 수를 올린다.
 								scoreBoard.IncKillCount()
 							End If
+
 						Next
 
 						'플레이어의 충돌 판정 함수 실행
@@ -282,31 +253,16 @@ Public Class Form1
 						'파괴할 물건을 저장 (열거 오류를 막기위해)
 
 						removeObj.Add(obj)
-
-
 					End If
 
 
 				Next
-
-
-				For Each obj As Enemy In EnemyObjects
-					If obj.Destroy() And obj.GetDestroyCounter() > DestroyDelay Then
-						EnemyObjects.Remove(obj)
-					ElseIf Not obj.GetIsDest() Then
-						obj.Move()
-					End If
-				Next
-
 
 				'Player가 파괴되면 게임 종료 플래그를 True로 바꾼다
 				'이 플래그는 타이머에서 참조한다.(게임 종료함수에 폼 열기가 포함되어 있기에)
 				If player.Destroy() Then
 					IsGameEnd = True
 				End If
-
-
-
 
 				'실제 삭제 반영
 				'파괴 딜레이에 도달한 물건만 삭제(파괴 모션을 위함)
