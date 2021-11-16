@@ -67,7 +67,7 @@ Public Class Form1
 
 	'타이머에서 참조, 스레드에서 종료 함수를 부를 수 없기에
 	Private IsGameEnd As Boolean = False
-
+	'ff
 	'캔버스 크기 상수
 	Public Const BoardWidth As Integer = 1200, BoardHeight As Integer = 600
 
