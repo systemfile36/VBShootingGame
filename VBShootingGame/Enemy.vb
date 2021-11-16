@@ -77,7 +77,7 @@ Public Class Enemy
 			Return False
 		End If
 
-		If Now.Ticks - FireTick > FireTerm Or IsFire = True Then
+		If Now.Ticks - FireTick > FireTerm OrElse IsFire = True Then
 			IsFire = True
 			FireTick = Now.Ticks
 			Return True
