@@ -202,7 +202,8 @@
     <Content Include="Image\ReadMe.txt" />
     <Content Include="Image\TextImage\GameOver.png" />
     <Content Include="Image\TextImage\Title.png" />
-    <Content Include="Sound\LASER_1.mp3" />
+    <Content Include="Sound\Laser_one.wav" />
+    <Content Include="Sound\bgm.mp3" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

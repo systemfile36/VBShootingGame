@@ -38,6 +38,8 @@ Public Class Form1
 	'게임 소리 관리
 	Private sound As New GameSounds
 
+	Private IsPlayed As Boolean = False
+
 	'게임의 메인 루프
 	Private MainLoop As System.Timers.Timer
 
@@ -83,7 +85,7 @@ Public Class Form1
 
 		'메인 타이머
 		'UI Thread에서 작동 해야하는 것만 담당
-		MainTimer.Interval = 15
+		MainTimer.Interval = 20
 		MainTimer.Enabled = True
 
 		'리스트 사이즈를 미리 넓혀 놓는다.
@@ -91,7 +93,10 @@ Public Class Form1
 		removeObj.Capacity = 200
 		addObj.Capacity = 200
 
-		sound.AddSound("Laser", "Sound/LASER_1.mp3")
+		'배경 음악 세팅
+		sound.AddSound("BGM", "Sound/bgm.mp3")
+		sound.Play("BGM", True)
+		sound.SetVolume("BGM", 300)
 
 		'메인 루프를 담당하는 System.Timers.Timer
 		'모든 오브젝트 갱신 담당
@@ -115,11 +120,11 @@ Public Class Form1
 		bg0_x -= 1
 		bg1_x -= 1
 		If bg0_x <= -BoardWidth Then
-			bg0_x = BoardWidth
+			bg0_x = BoardWidth - 2
 		End If
 
 		If bg1_x <= -BoardWidth Then
-			bg1_x = BoardWidth
+			bg1_x = BoardWidth - 2
 		End If
 
 		'화면 갱신
@@ -130,6 +135,7 @@ Public Class Form1
 		If IsGameEnd Then
 			EndGame()
 		End If
+
 		lbDebug.Text = game.GetGameSec() & " " & game.GetDifficulty() & " "
 	End Sub
 
@@ -208,6 +214,8 @@ Public Class Form1
 			If player.CheckFireDelay() Then
 				OtherObjects.Add(New Bullet(player, True, game.GetGameMil()))
 
+				'발사음 재생
+				My.Computer.Audio.Play(My.Resources.Laser_one, AudioPlayMode.Background)
 			End If
 
 			'오브젝트들 갱신
@@ -298,15 +306,14 @@ Public Class Form1
 	End Sub
 
 	'일시 정지 메뉴
-	'각 스레드의 AutoResetEvent를 True로 바꾼다.
-	'그러면 Thread내부에서 False로 바뀌고 다시 True로 바뀌는 것을 대기한다.(일시정지)
-	'화면 갱신 타이머도 멈춘다.
+	'화면 갱신 타이머도 멈춘다. 음악도 멈춘다.
 	'게임 시간도 반영해준다.
 	Private Sub PauseGameToggle()
 		'일시정지 한다.
 		game.PauseTime()
 		MainTimer.Stop()
 		MainLoop.Stop()
+		sound.Pause("BGM")
 
 		'넘겨줄 스코어를 설정하고 일시 정지 메뉴 폼의 인스턴스를 만든다.
 		scoreBoard.SetScore(game.GetGameSec)
@@ -323,6 +330,7 @@ Public Class Form1
 			game.ResumeTime()
 			MainTimer.Start()
 			MainLoop.Start()
+			sound.Resume("BGM")
 			pauseForm.Dispose()
 		Else
 			pauseForm.Dispose()
@@ -334,6 +342,7 @@ Public Class Form1
 
 	'게임 종료 함수 
 	'모든 스레드와 타이머를 끄고 게임 오버창을 연 뒤 현재 폼을 닫는다.
+	'음악도 꺼주어야 함
 	Private Sub EndGame()
 		'점수 설정
 		scoreBoard.SetScore(game.GetGameSec())
@@ -341,6 +350,8 @@ Public Class Form1
 		gameover.score = scoreBoard
 		gameover.Show()
 		MainTimer.Stop()
+		MainLoop.Enabled = False
+		sound.Stop("BGM")
 		Thread.Sleep(10)
 		Me.Close()
 	End Sub

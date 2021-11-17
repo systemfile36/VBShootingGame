@@ -13,7 +13,7 @@
 	'이동을 위한 플레이어 고유의 플래그 (초기값 = 정지)
 	Public p_control As InputKeys = InputKeys.None
 
-	'기본 발사 간격 0.5초
+	'기본 발사 간격 0.4초
 	Private FireDelay As Long = 4000000L
 	Private FireTick As Long = 0L
 

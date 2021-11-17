@@ -63,6 +63,17 @@ Public Class GameSounds
         Return True
     End Function
 
+    Public Function Play(ByVal SoundName As String, IsLoop As Boolean) As Boolean
+        If IsLoop Then
+            If Not Snds.ContainsKey(SoundName) Then Return False
+            mciSendStringW("seek " & Snds.Item(SoundName) & " to start", Nothing, 0, IntPtr.Zero)
+            If mciSendStringW("play " & Snds.Item(SoundName) & " repeat" & " notify", Nothing, 0, Me.Handle) <> 0 Then Return False
+            Return True
+        Else
+            Return Me.Play(SoundName)
+        End If
+    End Function
+
     ''' <summary>Stops the sound.</summary>
     ''' <param name="SoundName">The Name of the sound to stop.</param>
     Public Function [Stop](ByVal SoundName As String) As Boolean
