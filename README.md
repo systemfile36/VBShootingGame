@@ -1,4 +1,5 @@
-# VBShootingGame
+# VBShootingGame |
+220124131 임동하 |
 This is ShootingGame that I made for my University's test |
 Test of OOP |
 Test of Threading |
