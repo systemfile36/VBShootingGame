@@ -74,6 +74,10 @@ Public Class Form1
 	'캔버스 크기 상수
 	Public Const BoardWidth As Integer = 1200, BoardHeight As Integer = 600
 
+	'배경 변화를 위한 변수
+	Private bg0 As Image, bg1 As Image
+	Private bg0_x As Integer = 0, bg1_x As Integer = BoardWidth
+
 	Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		player = New Player()
 
@@ -81,6 +85,10 @@ Public Class Form1
 		game.SetSTime(player.SpawnedTime)
 
 		BackgroundImage = My.Resources.ResourceManager.GetObject("BackGround_0")
+
+		'배경 셋팅
+		bg0 = My.Resources.BackGround_0
+		bg1 = My.Resources.BackGround_0
 
 		MainTimer.Interval = 15
 
@@ -101,6 +109,18 @@ Public Class Form1
 	End Sub
 
 	Private Sub MainTimer_Tick(sender As Object, e As EventArgs) Handles MainTimer.Tick
+
+		'배경 움직임을 위한 로직
+		bg0_x -= 1
+		bg1_x -= 1
+		If bg0_x = -BoardWidth Then
+			bg0_x = BoardWidth
+		End If
+
+		If bg1_x = -BoardWidth Then
+			bg1_x = BoardWidth
+		End If
+
 		'화면 갱신
 		Invalidate()
 
@@ -130,6 +150,11 @@ Public Class Form1
 	End Sub
 
 	Private Sub Form1_Paint(sender As Object, e As PaintEventArgs) Handles MyBase.Paint
+
+		'배경 움직임 구현
+		e.Graphics.DrawImage(bg0, New Rectangle(bg0_x, 0, BoardWidth, BoardHeight))
+		e.Graphics.DrawImage(bg1, New Rectangle(bg1_x, 0, BoardWidth, BoardHeight))
+
 		'플레이어를 그림
 		e.Graphics.DrawImage(player.USprite, New Rectangle(player.UPos.X, player.UPos.Y, player.UWidth, player.UHeight - 40))
 

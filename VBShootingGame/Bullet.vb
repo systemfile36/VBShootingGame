@@ -44,7 +44,7 @@
 		End If
 
 		'범위 밖이면 삭제
-		If UPos.X + UWidth < 0 Or UPos.X - UWidth > Form1.BoardWidth Then
+		If UPos.X + UWidth + 100 < 0 Or UPos.X - UWidth > Form1.BoardWidth Then
 			SetIsDest(True)
 			Destroy()
 		End If
