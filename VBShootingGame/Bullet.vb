@@ -18,7 +18,7 @@
 			objType = Type.PBullet
 			USpeed = 25
 
-			SetSprite("P_Bullet")
+			SetSprite(Type.PBullet)
 			UPos = New Point(sender.UPos.X + sender.UWidth - 10, sender.UPos.Y + 20)
 		Else
 			IsPlayer = False
@@ -27,7 +27,7 @@
 			objType = Type.EBullet
 			USpeed = 12
 
-			SetSprite("E_Bullet")
+			SetSprite(Type.EBullet)
 			UPos = New Point(sender.UPos.X, sender.UPos.Y + 20)
 		End If
 

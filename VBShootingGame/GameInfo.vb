@@ -42,6 +42,7 @@
 	End Sub
 
 	Private Sub btnTitle_Enter(sender As Object, e As EventArgs) Handles btnTitle.Enter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
 		btnTitle.BackgroundImage = My.Resources.GoTitle_Hover
 	End Sub
 
@@ -49,5 +50,7 @@
 		btnTitle.BackgroundImage = My.Resources.GoTitle_Default
 	End Sub
 
-
+	Private Sub btnTitle_MouseEnter(sender As Object, e As EventArgs) Handles btnTitle.MouseEnter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
+	End Sub
 End Class

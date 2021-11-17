@@ -10,7 +10,7 @@ Public Class Enemy
 	Private FireTick As Long = 0
 
 	Public Sub New(id As String)
-		SetSprite("E_Default")
+		SetSprite(Type.Enemy)
 		SetDestroySprite()
 
 		objType = Type.Enemy

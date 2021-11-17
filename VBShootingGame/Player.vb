@@ -22,7 +22,7 @@
 	Private IsInputFire As Boolean
 
 	Public Sub New()
-		SetSprite("P_Default")
+		SetSprite(Type.Player)
 		SetDestroySprite()
 
 		UPos = New Point(100, 100)

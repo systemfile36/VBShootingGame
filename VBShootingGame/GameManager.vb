@@ -5,7 +5,7 @@ Public Class GameManager
 	Private DelayTickEnemy As Long = 0
 
 	'난이도 변화 주기
-	Private DifTerm As Long = 100000000L
+	Private DifTerm As Long = 70000000L
 	Private DifTick As Long = 0
 
 	Private Difficulty As Integer = 1
@@ -74,5 +74,27 @@ Public Class GameManager
 	Public Function GetGameMil() As Integer
 		Return CInt((Now.Ticks - StartedTime) / 10000)
 	End Function
+
+	Public Sub SetSpawnTerm(spterm As Long)
+		ESpawnTerm = spterm
+
+		'최소값 1sec, 최대값 10sec
+		If ESpawnTerm < 10000000 Then
+			ESpawnTerm = 10000000
+		ElseIf ESpawnTerm > 100000000 Then
+			ESpawnTerm = 100000000
+		End If
+	End Sub
+
+	Public Sub SetDifTerm(dterm As Long)
+		DifTerm = dterm
+
+		'최소값 3sec, 최대값 30sec
+		If DifTerm < 30000000 Then
+			DifTerm = 30000000
+		ElseIf DifTerm > 300000000 Then
+			DifTerm = 300000000
+		End If
+	End Sub
 
 End Class

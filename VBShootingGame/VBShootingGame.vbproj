@@ -96,6 +96,12 @@
     <Compile Include="GameOver.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="GameSetting.Designer.vb">
+      <DependentUpon>GameSetting.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GameSetting.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="GameSound.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -137,6 +143,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GameOver.resx">
       <DependentUpon>GameOver.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GameSetting.resx">
+      <DependentUpon>GameSetting.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -202,6 +211,7 @@
     <Content Include="Image\ReadMe.txt" />
     <Content Include="Image\TextImage\GameOver.png" />
     <Content Include="Image\TextImage\Title.png" />
+    <Content Include="Sound\Button_hover.wav" />
     <Content Include="Sound\Laser_one.wav" />
     <Content Include="Sound\bgm.mp3" />
   </ItemGroup>

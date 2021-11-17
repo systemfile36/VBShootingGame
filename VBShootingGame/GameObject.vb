@@ -138,9 +138,23 @@ Public MustInherit Class GameObject
 
 
 	Public Sub SetSprite(f_name As String)
-		'sprite = Image.FromFile(f_name)
 		'리소스에서 이름에 맞는 파일을 불러옴
 		sprite = My.Resources.ResourceManager.GetObject(f_name)
+
+	End Sub
+
+	'오버헤드 줄이기 위해 가끔 사용할 type기반 스프라이트 설정 함수
+	Public Sub SetSprite(type As Type)
+		Select Case type
+			Case Type.PBullet
+				sprite = My.Resources.P_Bullet
+			Case Type.EBullet
+				sprite = My.Resources.E_Bullet
+			Case Type.Enemy
+				sprite = My.Resources.E_Default
+			Case Type.Player
+				sprite = My.Resources.P_Default
+		End Select
 	End Sub
 
 
@@ -240,7 +254,7 @@ Public MustInherit Class GameObject
 
 	'파괴 모션 세팅 함수
 	Public Sub SetDestroySprite()
-		DestroySprite = My.Resources.ResourceManager.GetObject("Destroy_0")
+		DestroySprite = My.Resources.Destroy_0
 	End Sub
 
 End Class

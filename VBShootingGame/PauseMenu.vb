@@ -14,6 +14,8 @@
 		btnResume.DialogResult = DialogResult.OK
 		btnExit.DialogResult = DialogResult.Cancel
 
+		Me.KeyPreview = True
+
 	End Sub
 
 	Private Sub PauseMenu_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
@@ -41,11 +43,16 @@
 	End Sub
 
 	Private Sub btnExit_Enter(sender As Object, e As EventArgs) Handles btnExit.Enter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
 		btnExit.BackgroundImage = My.Resources.GameQuit_Hover
 	End Sub
 
 	Private Sub btnExit_Leave(sender As Object, e As EventArgs) Handles btnExit.Leave
 		btnExit.BackgroundImage = My.Resources.GameQuit_Default
+	End Sub
+
+	Private Sub btnExit_MouseEnter(sender As Object, e As EventArgs) Handles btnExit.MouseEnter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
 	End Sub
 
 	'Resume 버튼 -----------------------------------------------
@@ -66,11 +73,16 @@
 	End Sub
 
 	Private Sub btnResume_Enter(sender As Object, e As EventArgs) Handles btnResume.Enter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
 		btnResume.BackgroundImage = My.Resources.Resume_Hover
 	End Sub
 
 	Private Sub btnResume_Leave(sender As Object, e As EventArgs) Handles btnResume.Leave
 		btnResume.BackgroundImage = My.Resources.Resume_Default
+	End Sub
+
+	Private Sub btnResume_MouseEnter(sender As Object, e As EventArgs) Handles btnResume.MouseEnter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
 	End Sub
 
 

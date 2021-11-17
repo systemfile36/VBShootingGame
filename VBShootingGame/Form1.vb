@@ -25,6 +25,9 @@
 '파괴 시 콜라이더의 크기 0으로 변경, 파괴되어도 딜레이에 도달하기 전까진
 '배열에 남아서 그려짐(파괴 모션을 위함), 즉 실제 반영에 딜레이를 줌
 
+'GameSounds 객체의 Play는 오버헤드가 심해 발사음 같이 반복되는 곳에 사용하면 느려짐
+'따라서 My.Computer.Audio.Play 사용
+
 Imports System.Threading
 Public Class Form1
 	Private player As Player
@@ -37,8 +40,6 @@ Public Class Form1
 
 	'게임 소리 관리
 	Private sound As New GameSounds
-
-	Private IsPlayed As Boolean = False
 
 	'게임의 메인 루프
 	Private MainLoop As System.Timers.Timer
@@ -67,8 +68,12 @@ Public Class Form1
 	Private bg0 As Image, bg1 As Image
 	Private bg0_x As Integer = 0, bg1_x As Integer = BoardWidth
 
+	'게임 종료 여부
 	Private IsGameEnd As Boolean = False
 
+	'호출 시간 (ms단위)
+	Private MainLoopInterval As Integer = 14
+	Private MainTimerInterval As Integer = 20
 
 
 	Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -77,7 +82,8 @@ Public Class Form1
 		'게임 관리에 시작시간 등록
 		game.SetSTime(player.SpawnedTime)
 
-		'BackgroundImage = My.Resources.ResourceManager.GetObject("BackGround_0")
+		'My.Settings 내용 반영
+		ApplySetting()
 
 		'배경 셋팅
 		bg0 = My.Resources.BackGround_0
@@ -101,7 +107,7 @@ Public Class Form1
 		'메인 루프를 담당하는 System.Timers.Timer
 		'모든 오브젝트 갱신 담당
 		'다른 스레드에서 돌아가는 일정한 타이머임
-		MainLoop = New System.Timers.Timer(14)
+		MainLoop = New System.Timers.Timer(MainLoopInterval)
 		AddHandler MainLoop.Elapsed, AddressOf TimerEvent
 		MainLoop.AutoReset = True
 		MainLoop.Enabled = True
@@ -136,7 +142,7 @@ Public Class Form1
 			EndGame()
 		End If
 
-		lbDebug.Text = game.GetGameSec() & " " & game.GetDifficulty() & " "
+		lbDebug.Text = game.GetGameSec() & " " & game.GetDifficulty() & " " & MainLoopInterval
 	End Sub
 
 	'키 입력이 들어오면 Player객체의 SetControl() 메소드에 키 코드를 넘김
@@ -354,6 +360,41 @@ Public Class Form1
 		sound.Stop("BGM")
 		Thread.Sleep(10)
 		Me.Close()
+	End Sub
+
+	Private Sub ApplySetting()
+
+		MainLoopInterval = My.Settings.ML_Interval
+		If MainLoopInterval < 10 Then
+			MainLoopInterval = 10
+		ElseIf MainLoopInterval > 30 Then
+			MainLoopInterval = 30
+		End If
+
+		MainTimerInterval = My.Settings.MLT_Interval
+		If MainTimerInterval < 10 Then
+			MainTimerInterval = 10
+		ElseIf MainTimerInterval > 30 Then
+			MainLoopInterval = 30
+		End If
+
+		'범위 제한은 메소드에서
+		game.SetSpawnTerm(My.Settings.ESpawnTerm)
+		game.SetDifTerm(My.Settings.DifTerm)
+
+		player.USpeed = My.Settings.PSpeed
+		'최소값 1, 최대값 25
+		If player.USpeed < 1 Then
+			player.USpeed = 1
+		ElseIf player.USpeed > 25 Then
+			player.USpeed = 25
+		End If
+
+		'범위 제한은 메소드에서
+		player.SetFireDelay(My.Settings.PFireDelay)
+
+		My.Settings.Save()
+
 	End Sub
 
 End Class
