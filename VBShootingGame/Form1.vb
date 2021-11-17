@@ -25,6 +25,9 @@
 '파괴 시 콜라이더의 크기 0으로 변경, 파괴되어도 딜레이에 도달하기 전까진
 '배열에 남아서 그려짐(파괴 모션을 위함), 즉 실제 반영에 딜레이를 줌
 
+'GameSounds 객체의 Play는 오버헤드가 심해 발사음 같이 반복되는 곳에 사용하면 느려짐
+'따라서 My.Computer.Audio.Play 사용
+
 Imports System.Threading
 Public Class Form1
 	Private player As Player

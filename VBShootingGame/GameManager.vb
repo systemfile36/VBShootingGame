@@ -5,7 +5,7 @@ Public Class GameManager
 	Private DelayTickEnemy As Long = 0
 
 	'난이도 변화 주기
-	Private DifTerm As Long = 100000000L
+	Private DifTerm As Long = 70000000L
 	Private DifTick As Long = 0
 
 	Private Difficulty As Integer = 1

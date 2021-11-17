@@ -33,6 +33,8 @@
 
 		lbScore.Text = "Your Score : " & score.GetScore()
 
+		Me.KeyPreview = True
+
 	End Sub
 
 	Private Sub GameOver_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
@@ -42,8 +44,15 @@
 		End If
 	End Sub
 
+	Private Sub GameOver_Paint(sender As Object, e As PaintEventArgs) Handles MyBase.Paint
+		e.Graphics.DrawImage(gameover_text, New Point(-20, -20))
+	End Sub
+
 	'Reset 버튼---------------------------------------------------
 
+	Private Sub btnReset_MouseEnter(sender As Object, e As EventArgs) Handles btnReset.MouseEnter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
+	End Sub
 	Private Sub btnReset_MouseMove(sender As Object, e As MouseEventArgs) Handles btnReset.MouseMove
 		btnReset.BackgroundImage = My.Resources.Restart_Hover
 	End Sub
@@ -61,6 +70,7 @@
 	End Sub
 
 	Private Sub btnReset_Enter(sender As Object, e As EventArgs) Handles btnReset.Enter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
 		btnReset.BackgroundImage = My.Resources.Restart_Hover
 	End Sub
 
@@ -69,6 +79,10 @@
 	End Sub
 
 	'GoTitle버튼 -------------------------------------------------
+
+	Private Sub btnTitle_MouseEnter(sender As Object, e As EventArgs) Handles btnTitle.MouseEnter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
+	End Sub
 
 	Private Sub btnTitle_MouseMove(sender As Object, e As MouseEventArgs) Handles btnTitle.MouseMove
 		btnTitle.BackgroundImage = My.Resources.GoTitle_Hover
@@ -87,12 +101,15 @@
 	End Sub
 
 	Private Sub btnTitle_Enter(sender As Object, e As EventArgs) Handles btnTitle.Enter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
 		btnTitle.BackgroundImage = My.Resources.GoTitle_Hover
 	End Sub
 
 	Private Sub btnTitle_Leave(sender As Object, e As EventArgs) Handles btnTitle.Leave
 		btnTitle.BackgroundImage = My.Resources.GoTitle_Default
 	End Sub
+
+	'Quit Game 버튼-----------------------------------
 
 	Private Sub btnExit_MouseMove(sender As Object, e As MouseEventArgs) Handles btnExit.MouseMove
 		btnExit.BackgroundImage = My.Resources.GameQuit_Hover
@@ -111,6 +128,7 @@
 	End Sub
 
 	Private Sub btnExit_Enter(sender As Object, e As EventArgs) Handles btnExit.Enter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
 		btnExit.BackgroundImage = My.Resources.GameQuit_Hover
 	End Sub
 
@@ -118,9 +136,13 @@
 		btnExit.BackgroundImage = My.Resources.GameQuit_Default
 	End Sub
 
-	Private Sub GameOver_Paint(sender As Object, e As PaintEventArgs) Handles MyBase.Paint
-		e.Graphics.DrawImage(gameover_text, New Point(-20, -20))
+	Private Sub btnExit_MouseEnter(sender As Object, e As EventArgs) Handles btnExit.MouseEnter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
 	End Sub
+
+
+
+
 
 
 End Class

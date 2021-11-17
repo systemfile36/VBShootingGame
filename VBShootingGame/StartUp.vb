@@ -29,6 +29,8 @@ Public Class StartUp
 		btnExit.BackgroundImage = My.Resources.GameQuit_Default
 		btnExit.Text = ""
 
+		Me.KeyPreview = True
+
 	End Sub
 
 	Private Sub StartUp_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
@@ -50,6 +52,9 @@ Public Class StartUp
 	'-------------------------------버튼 디자인용 이벤트들-----------------------------------
 
 	'GameStart 버튼 -----------------------------------
+	Private Sub btnStart_MouseEnter(sender As Object, e As EventArgs) Handles btnStart.MouseEnter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
+	End Sub
 	Private Sub btnStart_MouseMove(sender As Object, e As MouseEventArgs) Handles btnStart.MouseMove
 		btnStart.BackgroundImage = My.Resources.GameStart_Hover
 	End Sub
@@ -67,6 +72,7 @@ Public Class StartUp
 	End Sub
 
 	Private Sub btnStart_Enter(sender As Object, e As EventArgs) Handles btnStart.Enter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
 		btnStart.BackgroundImage = My.Resources.GameStart_Hover
 	End Sub
 
@@ -75,6 +81,10 @@ Public Class StartUp
 	End Sub
 
 	'GameSetting 버튼 -----------------------------------
+
+	Private Sub btnSetting_MouseEnter(sender As Object, e As EventArgs) Handles btnSetting.MouseEnter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
+	End Sub
 
 	Private Sub btnSetting_MouseMove(sender As Object, e As MouseEventArgs) Handles btnSetting.MouseMove
 		btnSetting.BackgroundImage = My.Resources.GameSetting_Hover
@@ -93,6 +103,7 @@ Public Class StartUp
 	End Sub
 
 	Private Sub btnSetting_Enter(sender As Object, e As EventArgs) Handles btnSetting.Enter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
 		btnSetting.BackgroundImage = My.Resources.GameSetting_Hover
 	End Sub
 
@@ -102,6 +113,9 @@ Public Class StartUp
 
 	'GameInfo 버튼-----------------------------------------
 
+	Private Sub btnInfo_MouseEnter(sender As Object, e As EventArgs) Handles btnInfo.MouseEnter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
+	End Sub
 	Private Sub btnInfo_MouseMove(sender As Object, e As MouseEventArgs) Handles btnInfo.MouseMove
 		btnInfo.BackgroundImage = My.Resources.GameInfo_Hover
 	End Sub
@@ -119,6 +133,7 @@ Public Class StartUp
 	End Sub
 
 	Private Sub btnInfo_Enter(sender As Object, e As EventArgs) Handles btnInfo.Enter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
 		btnInfo.BackgroundImage = My.Resources.GameInfo_Hover
 	End Sub
 
@@ -128,6 +143,9 @@ Public Class StartUp
 
 	'Quit Game 버튼 --------------------------------------
 
+	Private Sub btnExit_MouseEnter(sender As Object, e As EventArgs) Handles btnExit.MouseEnter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
+	End Sub
 	Private Sub btnExit_MouseMove(sender As Object, e As MouseEventArgs) Handles btnExit.MouseMove
 		btnExit.BackgroundImage = My.Resources.GameQuit_Hover
 	End Sub
@@ -145,6 +163,7 @@ Public Class StartUp
 	End Sub
 
 	Private Sub btnExit_Enter(sender As Object, e As EventArgs) Handles btnExit.Enter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
 		btnExit.BackgroundImage = My.Resources.GameQuit_Hover
 	End Sub
 
