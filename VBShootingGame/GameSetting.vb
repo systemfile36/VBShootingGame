@@ -14,4 +14,6 @@
 		tbPSpeed.Text = My.Settings.PSpeed
 		tbPFireDelay.Text = My.Settings.PFireDelay
 	End Sub
+
+	'갱신용 주석
 End Class
