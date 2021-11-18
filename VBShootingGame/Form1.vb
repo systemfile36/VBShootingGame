@@ -102,7 +102,7 @@ Public Class Form1
 		'배경 음악 세팅
 		sound.AddSound("BGM", "Sound/bgm.mp3")
 		sound.Play("BGM", True)
-		sound.SetVolume("BGM", 300)
+		sound.SetVolume("BGM", 500)
 
 		'메인 루프를 담당하는 System.Timers.Timer
 		'모든 오브젝트 갱신 담당
@@ -383,11 +383,11 @@ Public Class Form1
 		game.SetDifTerm(My.Settings.DifTerm)
 
 		player.USpeed = My.Settings.PSpeed
-		'최소값 1, 최대값 25
+		'최소값 1, 최대값 30
 		If player.USpeed < 1 Then
 			player.USpeed = 1
-		ElseIf player.USpeed > 25 Then
-			player.USpeed = 25
+		ElseIf player.USpeed > 30 Then
+			player.USpeed = 30
 		End If
 
 		'범위 제한은 메소드에서

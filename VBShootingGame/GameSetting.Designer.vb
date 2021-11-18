@@ -35,6 +35,9 @@ Partial Class GameSetting
 		Me.tbPSpeed = New System.Windows.Forms.TextBox()
 		Me.Label7 = New System.Windows.Forms.Label()
 		Me.tbPFireDelay = New System.Windows.Forms.TextBox()
+		Me.btnReset = New System.Windows.Forms.Button()
+		Me.btnSave = New System.Windows.Forms.Button()
+		Me.Label8 = New System.Windows.Forms.Label()
 		Me.SuspendLayout()
 		'
 		'Label1
@@ -43,9 +46,9 @@ Partial Class GameSetting
 		Me.Label1.Font = New System.Drawing.Font("맑은 고딕", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
 		Me.Label1.Location = New System.Drawing.Point(13, 13)
 		Me.Label1.Name = "Label1"
-		Me.Label1.Size = New System.Drawing.Size(497, 25)
+		Me.Label1.Size = New System.Drawing.Size(395, 25)
 		Me.Label1.TabIndex = 0
-		Me.Label1.Text = "일정 범위를 벗어난 값은 입력되거나 반영되지 않습니다!"
+		Me.Label1.Text = "일정 범위를 벗어난 값은 저장되지 않습니다!"
 		'
 		'Label2
 		'
@@ -143,12 +146,42 @@ Partial Class GameSetting
 		Me.tbPFireDelay.Size = New System.Drawing.Size(100, 21)
 		Me.tbPFireDelay.TabIndex = 12
 		'
+		'btnReset
+		'
+		Me.btnReset.Location = New System.Drawing.Point(14, 390)
+		Me.btnReset.Name = "btnReset"
+		Me.btnReset.Size = New System.Drawing.Size(119, 48)
+		Me.btnReset.TabIndex = 13
+		Me.btnReset.Text = "초기값으로 돌리기"
+		Me.btnReset.UseVisualStyleBackColor = True
+		'
+		'btnSave
+		'
+		Me.btnSave.Location = New System.Drawing.Point(354, 390)
+		Me.btnSave.Name = "btnSave"
+		Me.btnSave.Size = New System.Drawing.Size(119, 48)
+		Me.btnSave.TabIndex = 14
+		Me.btnSave.Text = "저장하고 타이틀로"
+		Me.btnSave.UseVisualStyleBackColor = True
+		'
+		'Label8
+		'
+		Me.Label8.AutoSize = True
+		Me.Label8.Location = New System.Drawing.Point(16, 66)
+		Me.Label8.Name = "Label8"
+		Me.Label8.Size = New System.Drawing.Size(109, 12)
+		Me.Label8.TabIndex = 15
+		Me.Label8.Text = "숫자만 입력됩니다."
+		'
 		'GameSetting
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
 		Me.ClientSize = New System.Drawing.Size(800, 450)
+		Me.Controls.Add(Me.Label8)
+		Me.Controls.Add(Me.btnSave)
+		Me.Controls.Add(Me.btnReset)
 		Me.Controls.Add(Me.tbPFireDelay)
 		Me.Controls.Add(Me.Label7)
 		Me.Controls.Add(Me.tbPSpeed)
@@ -185,4 +218,7 @@ Partial Class GameSetting
 	Friend WithEvents tbPSpeed As TextBox
 	Friend WithEvents Label7 As Label
 	Friend WithEvents tbPFireDelay As TextBox
+	Friend WithEvents btnReset As Button
+	Friend WithEvents btnSave As Button
+	Friend WithEvents Label8 As Label
 End Class
