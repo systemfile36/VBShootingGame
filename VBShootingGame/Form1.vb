@@ -339,10 +339,7 @@ Public Class Form1
 			game.IncDifficulty()
 
 		Catch ex As Exception
-			'이렇게 출력하면 게임은 멈추지 않음
-			Task.Run(Sub()
-						 MsgBox(ex.ToString())
-					 End Sub)
+			Debug.WriteLine("Error in RefreshOtherObjects")
 		End Try
 	End Sub
 
@@ -393,6 +390,7 @@ Public Class Form1
 		MainTimer.Stop()
 		MainLoop.Enabled = False
 		sound.Stop("BGM")
+		sound.Dispose()
 		Thread.Sleep(10)
 		Me.Close()
 	End Sub
