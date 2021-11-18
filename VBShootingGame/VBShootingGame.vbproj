@@ -208,6 +208,7 @@
     <Content Include="Image\Buttons\Resume_Default.png" />
     <Content Include="Image\Buttons\Resume_Hover.png" />
     <Content Include="Image\Effect\Destroy_0.png" />
+    <Content Include="Image\GameLogicMemo.txt" />
     <Content Include="Image\ReadMe.txt" />
     <Content Include="Image\TextImage\GameOver.png" />
     <Content Include="Image\TextImage\Title.png" />

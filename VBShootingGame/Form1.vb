@@ -3,7 +3,7 @@
 '그 객체에 관한 변경은 그 객체에서 담당하게 만듬
 '유니티랑 비슷한 방식으로 만듬, 게임 엔진이 해주던걸 직접 할 뿐...
 'Resource를 사용하여 모든 리소스 파일이 실행파일에 합쳐집니다!
-'총탄과 적 처리에서 삭제용 배열과 추가용 배열을 따로 만듬 (열거 오류 예방)
+'총탄과 적 처리에서 삭제용 배열과 추가용 배열을 따로 만듬 (열거 오류 예방)(컬렉션 사용)
 '	이때 삭제용과 추가용 배열은 반영하고 나면 다시 비워야 함(안그러면 중복)
 '	enum loop안에서 리스트를 수정하면 오류가 나기 때문
 '20211111 21:57 이동방식을 F로 수동으로 멈추는 것으로 변환
@@ -31,6 +31,8 @@
 Imports System.Threading
 Public Class Form1
 	Private player As Player
+
+	Private currentKey As New List(Of Keys)
 
 	'스코어 관리
 	Private scoreBoard As New ScoreManager()
@@ -117,6 +119,7 @@ Public Class Form1
 
 	Private Sub TimerEvent()
 		'플레이어 이동 갱신
+
 		player.Move()
 
 		'오브젝트 갱신
@@ -137,32 +140,64 @@ Public Class Form1
 		Invalidate()
 	End Sub
 
+	'MainLoop 보조, 크로스 스레딩 방지 위함
 	Private Sub MainTimer_Tick(sender As Object, e As EventArgs) Handles MainTimer.Tick
 		If IsGameEnd Then
 			EndGame()
 		End If
 
+		'입력된 키들의 배열을 player객체에 전달해서 방향 세팅 후 move 호출(동시 입력 대응 위해)
+		'currentKey 리스트가 크로스 스레드를 일으킬 수 있기에 여기 둠
+		player.SetControl(currentKey)
+
 		lbDebug.Text = game.GetGameSec() & " " & game.GetDifficulty() & " " & MainLoopInterval
 	End Sub
 
-	'키 입력이 들어오면 Player객체의 SetControl() 메소드에 키 코드를 넘김
-	'플래그 갱신은 객체 내부에서 이루어짐
-	'실제 좌표 변경은 MainTimer에서 Move()메소드를 통해이루어짐
+	'방향 설정은 객체 내부에서 이루어짐
+	'실제 좌표 변경은 MainLoop에서 Move()메소드를 통해이루어짐
 	'이렇게 하면 컨트롤 요소가 추가 되어도 플레이어 객체만 수정하면 됨
 	Private Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
-		player.SetControl(e.KeyCode)
 
 		'일시정지 키와 종료 연결
+		'스페이스 키면 발사 플래그 세우고 Sub 종료(이동 중 발사 기능)
 		If e.KeyCode = Keys.Back Then
 			PauseGameToggle()
+			Exit Sub
 		ElseIf e.KeyCode = Keys.C Then
 			EndGame()
-		End If
+			Exit Sub
+		ElseIf e.KeyCode = Keys.Space Then
+			player.SetControl(e.KeyCode)
+			Exit Sub
+			'동시 키 입력 알고리즘(대각선 이동)
+		ElseIf e.KeyCode = Keys.A OrElse e.KeyCode = Keys.W OrElse
+				e.KeyCode = Keys.S OrElse e.KeyCode = Keys.D Then
+			'키가 WASD중 하나일때만 적용
+			Dim existed As Boolean = False
 
+			For i As Integer = 0 To currentKey.Count - 1
+				If currentKey(i).Equals(e.KeyCode) Then
+					existed = True
+				End If
+			Next
+
+			'키가 리스트에 없을때만 리스트에 넣는다(중복방지)
+			If Not existed Then
+				currentKey.Add(e.KeyCode)
+			End If
+
+		End If
 	End Sub
-	'버튼에서 손을 뗏음을 알려주는 변수
+	'버튼에서 손을 뗏음을 알려줌
 	Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles MyBase.KeyUp
-		player.ReleaseControl(e.KeyCode)
+		'스페이스면 단일 키 메소드를 바로 부른다(이동 중 발사 기능)
+		If e.KeyCode = Keys.Space Then
+			player.ReleaseControl(e.KeyCode)
+		Else
+			'리스트에서 손을 뗀 키를 삭제 한 후 그 리스트를 player객체에 넘김
+			currentKey.Remove(e.KeyCode)
+			player.ReleaseControl(currentKey)
+		End If
 	End Sub
 
 	Private Sub Form1_Paint(sender As Object, e As PaintEventArgs) Handles MyBase.Paint

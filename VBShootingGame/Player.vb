@@ -7,6 +7,10 @@
 		Right
 		Up
 		Down
+		LeftUp
+		RightUp
+		LeftDown
+		RightDown
 		None
 	End Enum
 
@@ -59,6 +63,14 @@
 				UPos = New Point(UPos.X, UPos.Y - USpeed)
 			Case InputKeys.Down
 				UPos = New Point(UPos.X, UPos.Y + USpeed)
+			Case InputKeys.LeftDown
+				UPos = New Point(UPos.X - USpeed, UPos.Y + USpeed)
+			Case InputKeys.RightDown
+				UPos = New Point(UPos.X + USpeed, UPos.Y + USpeed)
+			Case InputKeys.LeftUp
+				UPos = New Point(UPos.X - USpeed, UPos.Y - USpeed)
+			Case InputKeys.RightUp
+				UPos = New Point(UPos.X + USpeed, UPos.Y - USpeed)
 		End Select
 
 		'화면 범위 벗어날 것 같으면 화면 안으로 좌표 변경
@@ -104,6 +116,28 @@
 		End Select
 	End Sub
 
+	'대각선 이동 구현
+	Public Sub SetControl(key1 As Keys, key2 As Keys)
+		If (key1 = Keys.A And key2 = Keys.W) Or (key1 = Keys.W And key2 = Keys.A) Then
+			p_control = InputKeys.LeftUp
+		ElseIf (key1 = Keys.D And key2 = Keys.W) Or (key1 = Keys.W And key2 = Keys.D) Then
+			p_control = InputKeys.RightUp
+		ElseIf (key1 = Keys.S And key2 = Keys.D) Or (key1 = Keys.D And key2 = Keys.S) Then
+			p_control = InputKeys.RightDown
+		ElseIf (key1 = Keys.A And key2 = Keys.S) Or (key1 = Keys.S And key2 = Keys.A) Then
+			p_control = InputKeys.LeftDown
+		End If
+	End Sub
+
+	'리스트를 받아서 개수에 맞게 SetControl()호출
+	Public Sub SetControl(ByRef keyList As List(Of Keys))
+		If keyList.Count = 1 Then
+			Me.SetControl(keyList(0))
+		ElseIf keyList.Count = 2 Then
+			Me.SetControl(keyList(0), keyList(1))
+		End If
+	End Sub
+
 	'발사 간격을 조정하기 위함
 	'입력이 들어온 상태이고 이전 발사와의 시간차가 딜레이보다 크면
 	'시간 갱신 후 True 반환 아니면 False반환
@@ -118,9 +152,30 @@
 	End Function
 
 	'스페이스에서 손을 때면 인풋 여부를 False로 바꿈
+	'KeyUp이 된 키가 이동 키면 이동 초기화
 	Public Sub ReleaseControl(key As Keys)
-		If key = Keys.Space Then
-			IsInputFire = False
+		Select Case key
+			Case Keys.Space
+				IsInputFire = False
+			Case Keys.W
+				p_control = InputKeys.None
+			Case Keys.A
+				p_control = InputKeys.None
+			Case Keys.S
+				p_control = InputKeys.None
+			Case Keys.D
+				p_control = InputKeys.None
+		End Select
+	End Sub
+
+	'키에서 손을 떼면 이동 방향 갱신 호출
+	Public Sub ReleaseControl(ByRef keyList As List(Of Keys))
+		If keyList.Count = 0 Then
+			p_control = InputKeys.None
+		ElseIf keyList.Count = 1 Then
+			Me.SetControl(keyList(0))
+		ElseIf keyList.Count = 2 Then
+			Me.SetControl(keyList(0), keyList(1))
 		End If
 	End Sub
 
