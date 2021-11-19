@@ -36,6 +36,10 @@ Imports System.Threading
 Public Class Form1
 	Private player As Player
 
+	'Player 기체 선택용 public static 변수
+	Public Shared SelectedPlane As String = "P_Default"
+
+	'입력 키 관련
 	Private currentKey As New List(Of Keys)
 
 	'스코어 관리
@@ -83,7 +87,8 @@ Public Class Form1
 
 
 	Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-		player = New Player()
+		'설정된 기체를 문자열로 넘긴다.
+		player = New Player(SelectedPlane)
 
 		'게임 관리에 시작시간 등록
 		game.SetSTime(player.SpawnedTime)
@@ -168,7 +173,7 @@ Public Class Form1
 		lbGameTime.Text = Format(game.GetGameSec(), "Time : 0000")
 		lbDif.Text = Format(game.GetDifficulty(), "Dif : 000")
 
-		lbDebug.Text = game.GetGameSec() & " " & game.GetDifficulty() & " " & MainLoopInterval
+		lbDebug.Text = game.GetGameSec() & " " & game.GetDifficulty() & " " & MainLoopInterval & SelectedPlane
 	End Sub
 
 	'방향 설정은 객체 내부에서 이루어짐

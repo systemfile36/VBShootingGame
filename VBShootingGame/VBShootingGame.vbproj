@@ -127,6 +127,12 @@
     </Compile>
     <Compile Include="Player.vb" />
     <Compile Include="ScoreManager.vb" />
+    <Compile Include="SelectPlayer.Designer.vb">
+      <DependentUpon>SelectPlayer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SelectPlayer.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="StartUp.Designer.vb">
       <DependentUpon>StartUp.vb</DependentUpon>
     </Compile>
@@ -155,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PauseMenu.resx">
       <DependentUpon>PauseMenu.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectPlayer.resx">
+      <DependentUpon>SelectPlayer.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StartUp.resx">
       <DependentUpon>StartUp.vb</DependentUpon>
@@ -209,6 +218,8 @@
     <Content Include="Image\Buttons\Resume_Hover.png" />
     <Content Include="Image\Effect\Destroy_0.png" />
     <Content Include="Image\GameLogicMemo.txt" />
+    <Content Include="Image\Player\P_Type_1.png" />
+    <Content Include="Image\Player\P_Type_2.png" />
     <Content Include="Image\ReadMe.txt" />
     <Content Include="Image\SpriteRefer\Planes1.png" />
     <Content Include="Image\TextImage\GameOver.png" />

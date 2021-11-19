@@ -308,6 +308,26 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property P_Type_1() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("P_Type_1", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property P_Type_2() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("P_Type_2", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  =====================================
         '''
         '''    VB.Net Shooting Game By DH.IM    
@@ -324,10 +344,6 @@ Namespace My.Resources
         '''
         '''조작키
         '''
-        '''    모든 이동키는 한번 누르면 입력을 중지해도 방향을 유지 합니다.
-        '''
-        '''    방향을 바꾸려면 다른 방향의 키를, 멈추려면 정지 키를 누르세요.
-        '''
         '''W : Up, Player 기체를 상단으로 이동
         '''
         '''A : Left, Player 기체를 좌측으로 이동
@@ -336,11 +352,17 @@ Namespace My.Resources
         '''
         '''D : Right, Player 기체를 우측으로 이동
         '''
-        '''F : Neutral, Player 기체 정지
-        '''
         '''Space : Shoot, 탄을 발사합니다. 
         '''
-        '''BackSp[나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 문자열을 찾습니다.
+        '''BackSpace : Pause/Resume, 게임 일시정지/재개 토글
+        '''
+        '''C : Game Over, 입력 시점에 게임 중단 후 게임 오버 화면으로
+        '''
+        '''
+        '''
+        '''게임 진행
+        '''
+        '''Game Start 버튼을 누르면 바로 [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 문자열을 찾습니다.
         '''</summary>
         Friend ReadOnly Property ReadMe() As String
             Get

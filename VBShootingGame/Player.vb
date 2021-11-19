@@ -25,8 +25,9 @@
 	'SetControl(), ReleaseControl()이 설정함
 	Private IsInputFire As Boolean
 
-	Public Sub New()
-		SetSprite(Type.Player)
+	'선택한 기체를 문자열로 받아서 스프라이트 설정
+	Public Sub New(splayer As String)
+		SetSprite(splayer)
 		SetDestroySprite()
 
 		UPos = New Point(100, 100)

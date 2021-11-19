@@ -3,7 +3,10 @@
 Public Class StartUp
 	Private title As Image
 	Private Sub btnStart_Click(sender As Object, e As EventArgs) Handles btnStart.Click
-		Form1.Show()
+		'Form1.Show()
+		'Me.Close()
+
+		SelectPlayer.Show()
 		Me.Close()
 	End Sub
 
