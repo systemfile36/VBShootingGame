@@ -25,8 +25,11 @@
 	'SetControl(), ReleaseControl()이 설정함
 	Private IsInputFire As Boolean
 
+	Private SelectedPlayer As String = "P_Default"
+
 	'선택한 기체를 문자열로 받아서 스프라이트 설정
 	Public Sub New(splayer As String)
+		SelectedPlayer = splayer
 		SetSprite(splayer)
 		SetDestroySprite()
 
@@ -62,8 +65,10 @@
 				UPos = New Point(UPos.X + USpeed, UPos.Y)
 			Case InputKeys.Up
 				UPos = New Point(UPos.X, UPos.Y - USpeed)
+				SetSprite(SelectedPlayer & "_Up")
 			Case InputKeys.Down
 				UPos = New Point(UPos.X, UPos.Y + USpeed)
+				SetSprite(SelectedPlayer & "_Down")
 			Case InputKeys.LeftDown
 				UPos = New Point(UPos.X - USpeed, UPos.Y + USpeed)
 			Case InputKeys.RightDown
@@ -72,6 +77,8 @@
 				UPos = New Point(UPos.X - USpeed, UPos.Y - USpeed)
 			Case InputKeys.RightUp
 				UPos = New Point(UPos.X + USpeed, UPos.Y - USpeed)
+			Case InputKeys.None
+				SetSprite(SelectedPlayer)
 		End Select
 
 		'화면 범위 벗어날 것 같으면 화면 안으로 좌표 변경

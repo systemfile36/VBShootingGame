@@ -218,8 +218,14 @@
     <Content Include="Image\Buttons\Resume_Hover.png" />
     <Content Include="Image\Effect\Destroy_0.png" />
     <Content Include="Image\GameLogicMemo.txt" />
+    <Content Include="Image\Player\P_Default_Down.png" />
+    <Content Include="Image\Player\P_Default_Up.png" />
     <Content Include="Image\Player\P_Type_1.png" />
+    <Content Include="Image\Player\P_Type_1_Down.png" />
+    <Content Include="Image\Player\P_Type_1_Up.png" />
     <Content Include="Image\Player\P_Type_2.png" />
+    <Content Include="Image\Player\P_Type_2_Down.png" />
+    <Content Include="Image\Player\P_Type_2_Up.png" />
     <Content Include="Image\ReadMe.txt" />
     <Content Include="Image\SpriteRefer\Planes1.png" />
     <Content Include="Image\TextImage\GameOver.png" />

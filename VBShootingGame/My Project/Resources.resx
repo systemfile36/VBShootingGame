@@ -193,11 +193,29 @@
   <data name="P_Default" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Image\Player\P_Default.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="P_Default_Down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Player\P_Default_Down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="P_Default_Up" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Player\P_Default_Up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="P_Type_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Image\Player\P_Type_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="P_Type_1_Down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Player\P_Type_1_Down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="P_Type_1_Up" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Player\P_Type_1_Up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="P_Type_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Image\Player\P_Type_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="P_Type_2_Down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Player\P_Type_2_Down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="P_Type_2_Up" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Player\P_Type_2_Up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ReadMe" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Image\ReadMe.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
