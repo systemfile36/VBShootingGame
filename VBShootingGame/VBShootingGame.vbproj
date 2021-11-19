@@ -210,10 +210,11 @@
     <Content Include="Image\Effect\Destroy_0.png" />
     <Content Include="Image\GameLogicMemo.txt" />
     <Content Include="Image\ReadMe.txt" />
+    <Content Include="Image\SpriteRefer\Planes1.png" />
     <Content Include="Image\TextImage\GameOver.png" />
     <Content Include="Image\TextImage\Title.png" />
     <Content Include="Sound\Button_hover.wav" />
-    <Content Include="Sound\Explode_07.wav" />
+    <Content Include="Sound\Explode_07.mp3" />
     <Content Include="Sound\GameOverSE.wav" />
     <Content Include="Sound\Laser_one.wav" />
     <Content Include="Sound\bgm.mp3" />

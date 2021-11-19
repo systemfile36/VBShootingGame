@@ -30,6 +30,8 @@
 
 '각 컨트롤 속성들 잘 살펴볼 것! (특히 Transparent, 버튼 이미지 구현 할때(Flat))
 
+'파괴음 재생은 GameSounds를 활용하여 MainTimer에서 변수 감시하며 재생(MainLoop의 지연을 막기 위해)
+
 Imports System.Threading
 Public Class Form1
 	Private player As Player
