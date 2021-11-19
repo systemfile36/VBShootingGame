@@ -26,6 +26,7 @@ Partial Class PauseMenu
 		Me.btnExit = New System.Windows.Forms.Button()
 		Me.lbScore = New System.Windows.Forms.Label()
 		Me.lbTime = New System.Windows.Forms.Label()
+		Me.btnTitle = New System.Windows.Forms.Button()
 		Me.SuspendLayout()
 		'
 		'btnResume
@@ -51,7 +52,7 @@ Partial Class PauseMenu
 		Me.btnExit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
 		Me.btnExit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
 		Me.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-		Me.btnExit.Location = New System.Drawing.Point(367, 226)
+		Me.btnExit.Location = New System.Drawing.Point(374, 226)
 		Me.btnExit.Name = "btnExit"
 		Me.btnExit.Size = New System.Drawing.Size(175, 80)
 		Me.btnExit.TabIndex = 1
@@ -78,12 +79,28 @@ Partial Class PauseMenu
 		Me.lbTime.TabIndex = 3
 		Me.lbTime.Text = "Time : "
 		'
+		'btnTitle
+		'
+		Me.btnTitle.BackColor = System.Drawing.Color.Transparent
+		Me.btnTitle.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+		Me.btnTitle.FlatAppearance.BorderSize = 0
+		Me.btnTitle.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
+		Me.btnTitle.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
+		Me.btnTitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+		Me.btnTitle.Location = New System.Drawing.Point(193, 226)
+		Me.btnTitle.Name = "btnTitle"
+		Me.btnTitle.Size = New System.Drawing.Size(175, 80)
+		Me.btnTitle.TabIndex = 4
+		Me.btnTitle.Text = "Title"
+		Me.btnTitle.UseVisualStyleBackColor = False
+		'
 		'PauseMenu
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
 		Me.ClientSize = New System.Drawing.Size(554, 318)
+		Me.Controls.Add(Me.btnTitle)
 		Me.Controls.Add(Me.lbTime)
 		Me.Controls.Add(Me.lbScore)
 		Me.Controls.Add(Me.btnExit)
@@ -91,6 +108,7 @@ Partial Class PauseMenu
 		Me.MaximizeBox = False
 		Me.MinimizeBox = False
 		Me.Name = "PauseMenu"
+		Me.ShowInTaskbar = False
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
 		Me.Text = "PauseMenu"
 		Me.ResumeLayout(False)
@@ -102,4 +120,5 @@ Partial Class PauseMenu
 	Friend WithEvents btnExit As Button
 	Friend WithEvents lbScore As Label
 	Friend WithEvents lbTime As Label
+	Friend WithEvents btnTitle As Button
 End Class

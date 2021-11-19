@@ -149,9 +149,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="PauseMenu.resx">
       <DependentUpon>PauseMenu.vb</DependentUpon>
@@ -213,6 +213,8 @@
     <Content Include="Image\TextImage\GameOver.png" />
     <Content Include="Image\TextImage\Title.png" />
     <Content Include="Sound\Button_hover.wav" />
+    <Content Include="Sound\Explode_07.wav" />
+    <Content Include="Sound\GameOverSE.wav" />
     <Content Include="Sound\Laser_one.wav" />
     <Content Include="Sound\bgm.mp3" />
   </ItemGroup>

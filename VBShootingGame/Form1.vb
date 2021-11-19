@@ -28,6 +28,8 @@
 'GameSounds 객체의 Play는 오버헤드가 심해 발사음 같이 반복되는 곳에 사용하면 느려짐
 '따라서 My.Computer.Audio.Play 사용
 
+'각 컨트롤 속성들 잘 살펴볼 것! (특히 Transparent, 버튼 이미지 구현 할때(Flat))
+
 Imports System.Threading
 Public Class Form1
 	Private player As Player
@@ -104,7 +106,9 @@ Public Class Form1
 		'배경 음악 세팅
 		sound.AddSound("BGM", "Sound/bgm.mp3")
 		sound.Play("BGM", True)
-		sound.SetVolume("BGM", 500)
+		sound.SetVolume("BGM", 400)
+
+		sound.AddSound("Destroy", "Sound/Explode_07.mp3")
 
 		'메인 루프를 담당하는 System.Timers.Timer
 		'모든 오브젝트 갱신 담당
@@ -149,6 +153,18 @@ Public Class Form1
 		'입력된 키들의 배열을 player객체에 전달해서 방향 세팅 후 move 호출(동시 입력 대응 위해)
 		'currentKey 리스트가 크로스 스레드를 일으킬 수 있기에 여기 둠
 		player.SetControl(currentKey)
+
+		'UI Thread에서 파괴음 재생 후 플래그를 다시 False로 (중복 재생 방지)
+		If scoreBoard.IsKilled = True Then
+			sound.Play("Destroy")
+			scoreBoard.IsKilled = False
+		End If
+
+		'UI 갱신
+		scoreBoard.SetScore(game.GetGameSec())
+		lbScore.Text = Format(scoreBoard.GetScore(), "Score : 0000000")
+		lbGameTime.Text = Format(game.GetGameSec(), "Time : 0000")
+		lbDif.Text = Format(game.GetDifficulty(), "Dif : 000")
 
 		lbDebug.Text = game.GetGameSec() & " " & game.GetDifficulty() & " " & MainLoopInterval
 	End Sub
@@ -302,8 +318,8 @@ Public Class Form1
 				'파괴 확인
 				If obj.Destroy() Then
 					'파괴할 물건을 저장 (열거 오류를 막기위해)
-
 					removeObj.Add(obj)
+
 				End If
 			Next
 
@@ -363,13 +379,24 @@ Public Class Form1
 		'ShowDialog()로 연다.
 		pauseForm.ShowDialog()
 
+		Dim pauseDialog = pauseForm.DialogResult
+
 		'만약 Resume버튼이 눌렸다면(=DialogResult.OK) 게임을 재개하고 아니면 종료한다.
-		If pauseForm.DialogResult = DialogResult.OK Then
+		'Go Title 버튼이 눌렸다면(=DialogResult.No) Form1을 종료하고 시작 화면을 연다.
+		'그 외에는 전부 게임을 종료한다.
+		If pauseDialog = DialogResult.OK Then
 			game.ResumeTime()
 			MainTimer.Start()
 			MainLoop.Start()
 			sound.Resume("BGM")
 			pauseForm.Dispose()
+		ElseIf pauseDialog = DialogResult.No Then
+			pauseForm.Dispose()
+			sound.Dispose()
+			MainTimer.Stop()
+			MainLoop.Stop()
+			StartUp.Show()
+			Me.Close()
 		Else
 			pauseForm.Dispose()
 			Me.Close()

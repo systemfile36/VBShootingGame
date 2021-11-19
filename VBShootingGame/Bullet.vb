@@ -58,4 +58,8 @@
 		Return False
 	End Function
 
+	Public Overrides Function Destroy() As Boolean
+		Return MyBase.Destroy()
+	End Function
+
 End Class

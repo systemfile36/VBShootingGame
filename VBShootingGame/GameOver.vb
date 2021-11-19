@@ -34,6 +34,11 @@
 		lbScore.Text = "Your Score : " & score.GetScore()
 
 		Me.KeyPreview = True
+		Task.Run(Sub()
+					 System.Threading.Thread.Sleep(100)
+					 My.Computer.Audio.Play(My.Resources.GameOverSE, AudioPlayMode.Background)
+				 End Sub)
+
 
 	End Sub
 

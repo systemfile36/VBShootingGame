@@ -4,6 +4,9 @@ Public Class ScoreManager
 	Private Score As Integer = 0
 	Private KillCount As Integer = 0
 
+	'격추 여부를 확인하는 변수, MainTimer에서 참조
+	Public IsKilled As Boolean = False
+
 	'점수 계산후 저장
 	'게임 진행시간을 초 단위로 받아서 점수 계산
 	Public Sub SetScore(gameSec As Long)
@@ -25,8 +28,6 @@ Public Class ScoreManager
 
 	Public Sub IncKillCount()
 		KillCount += 1
+		IsKilled = True
 	End Sub
-
-
-
 End Class

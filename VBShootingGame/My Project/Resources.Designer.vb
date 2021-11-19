@@ -110,6 +110,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  System.IO.MemoryStream과(와) 유사한 System.IO.UnmanagedMemoryStream 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property Explode_07() As System.IO.UnmanagedMemoryStream
+            Get
+                Return ResourceManager.GetStream("Explode_07", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         '''</summary>
         Friend ReadOnly Property GameInfo_Click() As System.Drawing.Bitmap
@@ -146,6 +155,15 @@ Namespace My.Resources
             Get
                 Dim obj As Object = ResourceManager.GetObject("GameOver", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  System.IO.MemoryStream과(와) 유사한 System.IO.UnmanagedMemoryStream 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property GameOverSE() As System.IO.UnmanagedMemoryStream
+            Get
+                Return ResourceManager.GetStream("GameOverSE", resourceCulture)
             End Get
         End Property
         

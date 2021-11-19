@@ -231,6 +231,7 @@ Public MustInherit Class GameObject
 	'파괴 여부를 확인한 뒤 True이면 충돌 범위를 0으로 만듬
 	'그리고 파괴하면 True, 아니면 False를 반환
 	Public Overridable Function Destroy() As Boolean
+
 		If IsDestroyed = True Then
 			DestroyedCount += 1
 			'콜라이더 제거 작업

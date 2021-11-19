@@ -1,4 +1,5 @@
-﻿Public Class PauseMenu
+﻿'이 폼은 Form1에서 ShowDialog()로 열어서 참조함
+Public Class PauseMenu
 	Public Score As Long = 0
 	Public GameTime As Integer = 0
 	Private Sub PauseMenu_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -11,8 +12,13 @@
 		btnExit.BackgroundImage = My.Resources.GameQuit_Default
 		btnExit.Text = ""
 
+		btnTitle.BackgroundImage = My.Resources.GoTitle_Default
+		btnTitle.Text = ""
+
+		'DialogResult로 Form1에서 참조
 		btnResume.DialogResult = DialogResult.OK
 		btnExit.DialogResult = DialogResult.Cancel
+		btnTitle.DialogResult = DialogResult.No
 
 		Me.KeyPreview = True
 
@@ -83,6 +89,37 @@
 
 	Private Sub btnResume_MouseEnter(sender As Object, e As EventArgs) Handles btnResume.MouseEnter
 		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
+	End Sub
+
+	'btnTitle 버튼 ------------------------------------------------------------------
+
+	Private Sub btnTitle_MouseEnter(sender As Object, e As EventArgs) Handles btnTitle.MouseEnter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
+	End Sub
+
+	Private Sub btnTitle_MouseMove(sender As Object, e As MouseEventArgs) Handles btnTitle.MouseMove
+		btnTitle.BackgroundImage = My.Resources.GoTitle_Hover
+	End Sub
+
+	Private Sub btnTitle_MouseLeave(sender As Object, e As EventArgs) Handles btnTitle.MouseLeave
+		btnTitle.BackgroundImage = My.Resources.GoTitle_Default
+	End Sub
+
+	Private Sub btnTitle_MouseDown(sender As Object, e As MouseEventArgs) Handles btnTitle.MouseDown
+		btnTitle.BackgroundImage = My.Resources.GoTitle_Click
+	End Sub
+
+	Private Sub btnTitle_MouseUp(sender As Object, e As MouseEventArgs) Handles btnTitle.MouseUp
+		btnTitle.BackgroundImage = My.Resources.GoTitle_Default
+	End Sub
+
+	Private Sub btnTitle_Enter(sender As Object, e As EventArgs) Handles btnTitle.Enter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
+		btnTitle.BackgroundImage = My.Resources.GoTitle_Hover
+	End Sub
+
+	Private Sub btnTitle_Leave(sender As Object, e As EventArgs) Handles btnTitle.Leave
+		btnTitle.BackgroundImage = My.Resources.GoTitle_Default
 	End Sub
 
 
