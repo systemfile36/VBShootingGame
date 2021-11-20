@@ -73,6 +73,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Boss.vb" />
+    <Compile Include="Boss_S1.vb" />
     <Compile Include="Bullet.vb" />
     <Compile Include="Enemy.vb" />
     <Compile Include="Form1.vb">
@@ -195,6 +197,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Image\BackGround\BackGround_0.png" />
+    <Content Include="Image\Boss\Boss_1_Default.png" />
+    <Content Include="Image\Boss\Boss_1_Destroy.png" />
+    <Content Include="Image\Boss\Boss_1_Harf.png" />
+    <Content Include="Image\Boss\Boss_1_Quarter.png" />
     <Content Include="Image\Buttons\GameInfo_Click.png" />
     <Content Include="Image\Buttons\GameInfo_Default.png" />
     <Content Include="Image\Buttons\GameInfo_Hover.png" />

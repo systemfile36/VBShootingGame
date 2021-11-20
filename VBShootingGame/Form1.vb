@@ -66,6 +66,9 @@ Public Class Form1
 	'생성된 오브젝트 임시 보관용 List<T>
 	Private addObj As New List(Of GameObject)
 
+	'보스용 공간
+	Private BossObj As Boss = Nothing
+
 	'난수 생성기
 	Private rand As New Random()
 
@@ -84,7 +87,6 @@ Public Class Form1
 	'호출 시간 (ms단위)
 	Private MainLoopInterval As Integer = 14
 	Private MainTimerInterval As Integer = 20
-
 
 	Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		'설정된 기체를 문자열로 넘긴다.
@@ -245,7 +247,7 @@ Public Class Form1
 					e.Graphics.DrawImage(obj.USprite, New Rectangle(obj.UPos.X, obj.UPos.Y, obj.UWidth, obj.UHeight))
 
 					'충돌 범위 가시화용
-					'e.Graphics.DrawRectangle(New Pen(Color.Red), obj.UCollider)
+					e.Graphics.DrawRectangle(New Pen(Color.Red), obj.UCollider)
 				End If
 			Next
 		Catch ex As Exception
@@ -262,6 +264,14 @@ Public Class Form1
 
 		'디버깅용 Try문
 		Try
+
+			If Not BossObj Is Nothing Then
+				If BossObj.AppearDif = game.GetDifficulty() Then
+
+				End If
+			End If
+
+
 			'적 생성
 			If game.CheckSpawnEnemy() Then
 
@@ -281,6 +291,7 @@ Public Class Form1
 				'발사음 재생
 				My.Computer.Audio.Play(My.Resources.Laser_one, AudioPlayMode.Background)
 			End If
+
 
 			'오브젝트들 갱신
 			For Each obj As GameObject In OtherObjects

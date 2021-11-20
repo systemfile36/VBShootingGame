@@ -71,6 +71,46 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property Boss_1_Default() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Boss_1_Default", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property Boss_1_Destroy() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Boss_1_Destroy", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property Boss_1_Harf() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Boss_1_Harf", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property Boss_1_Quarter() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Boss_1_Quarter", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  System.IO.MemoryStream과(와) 유사한 System.IO.UnmanagedMemoryStream 형식의 지역화된 리소스를 찾습니다.
         '''</summary>
         Friend ReadOnly Property Button_hover() As System.IO.UnmanagedMemoryStream

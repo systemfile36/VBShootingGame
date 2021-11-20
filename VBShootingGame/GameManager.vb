@@ -15,6 +15,16 @@ Public Class GameManager
 	Private PausedTime As Long = 0
 	Private PausedTick As Long = 0
 
+
+
+	Private IsBossExist As Boolean = False
+	Public ReadOnly Property UIsBossExist
+		Get
+			Return IsBossExist
+		End Get
+	End Property
+
+
 	Public Sub IncDifficulty()
 		'함수가 호출된 시점에서 마지막으로 DifTick이
 		'초기화된 시점을 뺀 것이 난이도 상승 간격보다
@@ -97,4 +107,7 @@ Public Class GameManager
 		End If
 	End Sub
 
+	Public Sub SetIsBossExistToggle()
+		IsBossExist = Not IsBossExist
+	End Sub
 End Class
