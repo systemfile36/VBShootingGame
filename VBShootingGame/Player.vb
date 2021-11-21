@@ -71,12 +71,16 @@
 				SetSprite(SelectedPlayer & "_Down")
 			Case InputKeys.LeftDown
 				UPos = New Point(UPos.X - USpeed, UPos.Y + USpeed)
+				SetSprite(SelectedPlayer & "_Down")
 			Case InputKeys.RightDown
 				UPos = New Point(UPos.X + USpeed, UPos.Y + USpeed)
+				SetSprite(SelectedPlayer & "_Down")
 			Case InputKeys.LeftUp
 				UPos = New Point(UPos.X - USpeed, UPos.Y - USpeed)
+				SetSprite(SelectedPlayer & "_Up")
 			Case InputKeys.RightUp
 				UPos = New Point(UPos.X + USpeed, UPos.Y - USpeed)
+				SetSprite(SelectedPlayer & "_Up")
 			Case InputKeys.None
 				SetSprite(SelectedPlayer)
 		End Select

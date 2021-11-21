@@ -157,7 +157,10 @@ Public MustInherit Class GameObject
 		End Select
 	End Sub
 
-
+	'이미지로 직접 sprite 세팅하는 함수
+	Public Sub SetSprite(img As Image)
+		sprite = img
+	End Sub
 
 	'일치 연산을 위한 Equals 오버로딩과정
 	'microsoft dotnet 문서 List<T> 문서 참조함
@@ -252,6 +255,10 @@ Public MustInherit Class GameObject
 	Public Function GetDestroyCounter() As Long
 		Return DestroyedCount
 	End Function
+
+	Public Sub IncDestroyedCounter()
+		DestroyedCount += 1
+	End Sub
 
 	'파괴 모션 세팅 함수
 	Public Sub SetDestroySprite()

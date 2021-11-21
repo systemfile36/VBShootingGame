@@ -46,10 +46,10 @@ Public Class Enemy
 		USpeed = 3 + (rNum Mod 4 + 1)
 
 		'난이도가 상승할때마다 0.3초씩 빠르게 발사한다.
-		'최소값 = 600ms = 0.6초
-		SetFireTerm(Math.Max((FireTerm / 10000) - ((dif - 1) * 300), 600))
+		'최소값 = 500ms = 0.6초
+		SetFireTerm(Math.Max((FireTerm / 10000) - ((dif - 1) * 300), 500))
 
-		Debug.WriteLine(FireTerm)
+		'Debug.WriteLine(FireTerm)
 
 	End Sub
 

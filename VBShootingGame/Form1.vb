@@ -69,6 +69,9 @@ Public Class Form1
 	'보스용 공간
 	Private BossObj As Boss = Nothing
 
+	'RefreshOtherObjects 에서 보스 점수 중복 상승을 막기 위한 플래그
+	Private IsBossDeath As Boolean = False
+
 	'난수 생성기
 	Private rand As New Random()
 
@@ -118,6 +121,7 @@ Public Class Form1
 		sound.SetVolume("BGM", 400)
 
 		sound.AddSound("Destroy", "Sound/Explode_07.mp3")
+		sound.AddSound("Destroy_Long", "Sound/Explode_Long.mp3")
 
 		'메인 루프를 담당하는 System.Timers.Timer
 		'모든 오브젝트 갱신 담당
@@ -164,9 +168,16 @@ Public Class Form1
 		player.SetControl(currentKey)
 
 		'UI Thread에서 파괴음 재생 후 플래그를 다시 False로 (중복 재생 방지)
+		'IsKilled 플래그들은 scoreboard에 있음
 		If scoreBoard.IsKilled = True Then
 			sound.Play("Destroy")
 			scoreBoard.IsKilled = False
+		End If
+
+		If scoreBoard.IsBossKilled = True Then
+			Debug.WriteLine("Boss Killed")
+			Debug.WriteLine(sound.Play("Destroy_Long"))
+			scoreBoard.IsBossKilled = False
 		End If
 
 		'UI 갱신
@@ -237,6 +248,12 @@ Public Class Form1
 		'충돌 범위 가시화용
 		'e.Graphics.DrawRectangle(New Pen(Color.Red), player.UCollider)
 
+		'보스 그림
+		If Not IsNothing(BossObj) Then
+			e.Graphics.DrawImage(BossObj.USprite, New Rectangle(BossObj.UPos.X, BossObj.UPos.Y, BossObj.UWidth, BossObj.UHeight))
+			e.Graphics.DrawRectangle(New Pen(Color.Red), BossObj.UCollider)
+		End If
+
 		'열거 오류 예방
 		Try
 			For Each obj As GameObject In OtherObjects
@@ -264,11 +281,13 @@ Public Class Form1
 
 		'디버깅용 Try문
 		Try
+			'보스 오브제가 비어있을때 난이도 체크해서 넣는다.
+			If IsNothing(BossObj) Then
+				BossObj = game.ControlBossAppear()
+			End If
 
-			If Not BossObj Is Nothing Then
-				If BossObj.AppearDif = game.GetDifficulty() Then
-
-				End If
+			If Not IsNothing(BossObj) Then
+				BossObj.Move()
 			End If
 
 
@@ -329,8 +348,14 @@ Public Class Form1
 							scoreBoard.IncKillCount()
 						End If
 					Next
+
 					'플레이어의 충돌 판정 함수 실행
 					player.CollisionCheck(obj)
+
+					'보스의 충돌 판정
+					If Not IsNothing(BossObj) Then
+						BossObj.CollisionCheck(obj)
+					End If
 				End If
 
 				'파괴 확인
@@ -345,6 +370,22 @@ Public Class Form1
 			'System.Timers.Timer 사용을 위해 플래그 사용(크로스 스레드)
 			If player.Destroy() Then
 				IsGameEnd = True
+			End If
+
+			'보스 삭제 체크
+			If Not IsNothing(BossObj) Then
+				'체력이 0이고 보스의 상태 플래그가 죽음이라면
+				If BossObj.UHealth = 0 AndAlso BossObj.IsDeath = False Then
+					'보스 킬수를 올리고 플래그를 다시 바꾼다.
+					scoreBoard.IncBossKillCount()
+					BossObj.IsDeath = True
+				End If
+
+				'보스가 파괴되었고 일정 딜레이에 도달했다면 Nothing으로 바꾸고 보스 존재 플래그를 False로 바꿈
+				If BossObj.Destroy() AndAlso BossObj.GetDestroyCounter() > Boss.BossDeathDelay Then
+					game.SetIsBossExistFalse()
+					BossObj = Nothing
+				End If
 			End If
 
 			'실제 삭제 반영
