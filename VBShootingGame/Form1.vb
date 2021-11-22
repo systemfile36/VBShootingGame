@@ -32,6 +32,8 @@
 
 '파괴음 재생은 GameSounds를 활용하여 MainTimer에서 변수 감시하며 재생(MainLoop의 지연을 막기 위해)
 
+'보스 추가, 보스에 종속된 드론 추가, 확장성 고려, 하지만 캡슐화에 실패
+
 Imports System.Threading
 Public Class Form1
 	Private player As Player
@@ -66,7 +68,7 @@ Public Class Form1
 	'생성된 오브젝트 임시 보관용 List<T>
 	Private addObj As New List(Of GameObject)
 
-	'보스용 공간
+	'보스용 공간, Nothing이면 보스가 출현하지 않은 상태, 그외에는 있음
 	Private BossObj As Boss = Nothing
 
 	'RefreshOtherObjects 에서 보스 점수 중복 상승을 막기 위한 플래그
@@ -175,7 +177,6 @@ Public Class Form1
 		End If
 
 		If scoreBoard.IsBossKilled = True Then
-			Debug.WriteLine("Boss Killed")
 			Debug.WriteLine(sound.Play("Destroy_Long"))
 			scoreBoard.IsBossKilled = False
 		End If
@@ -252,6 +253,13 @@ Public Class Form1
 		If Not IsNothing(BossObj) Then
 			e.Graphics.DrawImage(BossObj.USprite, New Rectangle(BossObj.UPos.X, BossObj.UPos.Y, BossObj.UWidth, BossObj.UHeight))
 			e.Graphics.DrawRectangle(New Pen(Color.Red), BossObj.UCollider)
+			Try
+				For Each drone As Boss.Drone In BossObj.Drones
+					e.Graphics.DrawImage(drone.USprite, New Rectangle(drone.UPos.X, drone.UPos.Y, drone.UWidth, drone.UHeight))
+				Next
+			Catch ex As Exception
+				Debug.WriteLine("Error In Drones Painting Loop")
+			End Try
 		End If
 
 		'열거 오류 예방
@@ -286,8 +294,15 @@ Public Class Form1
 				BossObj = game.ControlBossAppear()
 			End If
 
+			'보스 오브제 + 종속된 드론들 갱신
 			If Not IsNothing(BossObj) Then
 				BossObj.Move()
+				For Each drone As Boss.Drone In BossObj.Drones
+					drone.Move()
+					If drone.CheckFireTerm() Then
+						OtherObjects.Add(New Boss.B_Bullet(drone, game.GetGameMil()))
+					End If
+				Next
 			End If
 
 
@@ -374,16 +389,19 @@ Public Class Form1
 
 			'보스 삭제 체크
 			If Not IsNothing(BossObj) Then
-				'체력이 0이고 보스의 상태 플래그가 죽음이라면
+				'체력이 0이고 보스의 상태 플래그가 False라면
 				If BossObj.UHealth = 0 AndAlso BossObj.IsDeath = False Then
-					'보스 킬수를 올리고 플래그를 다시 바꾼다.
+					'보스 킬수를 올리고 플래그를 다시 바꾼다. 드론도 파괴 한다.
+					BossObj.DestroyAllDrone()
 					scoreBoard.IncBossKillCount()
 					BossObj.IsDeath = True
 				End If
 
 				'보스가 파괴되었고 일정 딜레이에 도달했다면 Nothing으로 바꾸고 보스 존재 플래그를 False로 바꿈
+				'드론들 리스트도 비운다
 				If BossObj.Destroy() AndAlso BossObj.GetDestroyCounter() > Boss.BossDeathDelay Then
 					game.SetIsBossExistFalse()
+					BossObj.ClearDrones()
 					BossObj = Nothing
 				End If
 			End If

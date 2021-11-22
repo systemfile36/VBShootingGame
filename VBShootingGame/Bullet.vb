@@ -1,4 +1,5 @@
-﻿Public Class Bullet
+﻿'탄환 타입 객체
+Public Class Bullet
 	Inherits GameObject
 
 	Private IsPlayer As Boolean = True
@@ -19,6 +20,7 @@
 			USpeed = 25
 
 			SetSprite(Type.PBullet)
+			'생성자에 들어온 객체(=발사 주체)의 위치가 초기 위치
 			UPos = New Point(sender.UPos.X + sender.UWidth - 10, sender.UPos.Y + 20)
 		Else
 			IsPlayer = False
@@ -28,11 +30,17 @@
 			USpeed = 12
 
 			SetSprite(Type.EBullet)
+			'생성자에 들어온 객체(=발사 주체)의 위치가 초기 위치
 			UPos = New Point(sender.UPos.X, sender.UPos.Y + 20)
 		End If
 
 		'pos설정 후 충돌 범위 설정
 		SetCollider(UPos, UWidth, UHeight)
+
+	End Sub
+
+	'상속을 대비한 기본 생성자
+	Public Sub New()
 
 	End Sub
 
@@ -61,5 +69,9 @@
 	Public Overrides Function Destroy() As Boolean
 		Return MyBase.Destroy()
 	End Function
+
+	Public Sub SetIsPlayer(isP As Boolean)
+		IsPlayer = isP
+	End Sub
 
 End Class

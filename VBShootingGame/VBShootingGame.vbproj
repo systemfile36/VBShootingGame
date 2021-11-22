@@ -201,6 +201,8 @@
     <Content Include="Image\Boss\Boss_1_Destroy.png" />
     <Content Include="Image\Boss\Boss_1_Harf.png" />
     <Content Include="Image\Boss\Boss_1_Quarter.png" />
+    <Content Include="Image\Boss\B_Bullet_S1_1.png" />
+    <Content Include="Image\Boss\B_Drone_S1.png" />
     <Content Include="Image\Buttons\GameInfo_Click.png" />
     <Content Include="Image\Buttons\GameInfo_Default.png" />
     <Content Include="Image\Buttons\GameInfo_Hover.png" />

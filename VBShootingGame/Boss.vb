@@ -1,4 +1,5 @@
 ﻿'Boss 타입 적 정의 객체
+'모든 Boss타입 객체는 이 객체 상속
 Public MustInherit Class Boss
 	Inherits GameObject
 
@@ -23,10 +24,71 @@ Public MustInherit Class Boss
 	'보스의 죽음 딜레이 (단위 : 프레임)
 	Public Const BossDeathDelay As Integer = 70
 
+	'보스 객체 내의 배열에서 따로 관리되는 종속형 적의 기본 타입
+	'콜라이더가 없고 보스와 출현과 파괴를 같이함
+	'따라서 따로 디스트로이 체크를 하지 않음
+	'또한 보스가 있을 때만 그려짐, 각행동은 각 보스 객체에서 상속받아 재정의해서 사용
+	Public MustInherit Class Drone
+		Inherits GameObject
+
+		Public Sub New()
+			SetCollider(New Point(0, 0), 0, 0)
+		End Sub
+
+		'Move()는 반드시 오버라이딩
+
+		'보스가 직접 호출
+		Public Overrides Function Destroy() As Boolean
+			SetSprite(My.Resources.Destroy_0)
+			SetIsDest(True)
+			IncDestroyedCounter()
+			Return True
+		End Function
+
+		Public Overridable Function CheckFireTerm() As Boolean
+			Return False
+		End Function
+	End Class
+
+	'이 보스 고유의 탄 객체, 후에 구분을 위해 이너 클래스로 정의
+	Public Class B_Bullet
+		Inherits Bullet
+
+		Public Sub New(sender As GameObject, id As String)
+			UWidth = 15
+			UHeight = 15
+			SetDestroySprite()
+
+			SetObjID("B_B" & id)
+
+			objType = Type.EBullet
+			USpeed = 15
+
+			SetSprite("B_Bullet_S1_1")
+
+			UPos = New Point(sender.UPos.X, sender.UPos.Y + 20)
+
+			SetCollider(UPos, UWidth, UHeight)
+		End Sub
+
+		Public Overrides Sub Move()
+			SetIsPlayer(False)
+			MyBase.Move()
+		End Sub
+
+	End Class
+
+	'종속된 객체 보관
+	'메인 루프와 Paint이벤트에서 직접 순회하며 참조할 것
+	Public Drones As New List(Of Drone)
+
+	'부모 생성자가 먼저 호출
 	Public Sub New(stage_n As Integer, appeardif As Integer)
 		'UHeight = 71
 		'UWidth = 256
 		'SetSprite("Boss_1_Default")
+
+		'보스는 맵 밖에서 안으로 들어오는 형태
 		UPos = New Point(Form1.BoardWidth, 100)
 
 		'SetCollider(New Point(UPos.X, UPos.Y + 39), 256, UHeight - 39)
@@ -87,6 +149,18 @@ Public MustInherit Class Boss
 	Public Sub SetMaxHealthByCount(mHealth As Integer)
 		MaxHealthByCount = mHealth
 		HealthByCount = mHealth
+	End Sub
+
+	'drone들 전부 파괴함
+	Public Sub DestroyAllDrone()
+		For Each drone As Drone In Drones
+			drone.Destroy()
+		Next
+	End Sub
+
+	'드론 배열을 비움
+	Public Sub ClearDrones()
+		Drones.Clear()
 	End Sub
 
 End Class
