@@ -8,22 +8,13 @@ Public Class Boss_S1
 	Public Class Drone_S1
 		Inherits Drone
 
-		Private IsMoving As Boolean = False
-
 		Private IsUp As Boolean = False
-
-		Private IsCheckedTick As Boolean = False
-
-		Private CheckUpDownTick As Long = 0
-
-		'위아래 변환 주기 3s
-		Private UpDownDelay As Long = 30000000L
 
 		'생성될 때의 Y 좌표
 		Private StartedPosY As Integer
 
-		'발사 간격 600ms
-		Private FireTerm As Long = 6000000L
+		'발사 간격 1000ms
+		Private FireTerm As Long = 10000000L
 		Private FireTick As Long = 0
 
 		'초기 Y좌표 설정
@@ -33,6 +24,8 @@ Public Class Boss_S1
 			SetSprite("B_Drone_S1")
 			UPos = New Point(Form1.BoardWidth, posY)
 			StartedPosY = posY
+
+			FireTick = Now.Ticks
 		End Sub
 
 		Public Overrides Sub Move()
@@ -42,31 +35,20 @@ Public Class Boss_S1
 				Exit Sub
 			End If
 
-			'초기 위치에 도달한 시점에 시간 체크 시작(계속 갱신되는 것을 막기 위해 플래그 사용)
-			'즉 한번만 실행됨
-			If IsCheckedTick = False Then
-				CheckUpDownTick = Now.Ticks
-				FireTick = Now.Ticks
-				IsCheckedTick = True
+			'처음 위치에서 위아래로 일정 이상 움직이면 위아래 방향을 바꿈
+			If UPos.Y <= StartedPosY - 50 Then
+				IsUp = False
+			ElseIf UPos.Y >= StartedPosY + 50 Then
+				IsUp = True
 			End If
 
-			'딜레이 측정해서 시간에 도달했다면 위아래에 맞게 움직임
-			If Now.Ticks - CheckUpDownTick > UpDownDelay Then
-				If IsUp Then
-					UPos = New Point(UPos.X, UPos.Y - 1)
-				Else
-					UPos = New Point(UPos.X, UPos.Y + 1)
-				End If
-				IsMoving = True
+			If IsUp Then
+				UPos = New Point(UPos.X, UPos.Y - 1)
+			Else
+				UPos = New Point(UPos.X, UPos.Y + 1)
 			End If
 
-			'위아래로 일정 이상 움직이면 위아래 방향을 바꾸고 다시 시간을 잼
-			'이때 딜레이만큼 멈추게 됨
-			If UPos.Y <= StartedPosY - 20 OrElse UPos.Y >= StartedPosY + 20 Then
-				IsUp = Not IsUp
-				CheckUpDownTick = Now.Ticks
-				IsMoving = False
-			End If
+
 		End Sub
 
 		Public Overrides Function CheckFireTerm() As Boolean
@@ -75,7 +57,7 @@ Public Class Boss_S1
 			End If
 
 			'이동중이지 않고 일정 딜레이에 도달하였다면 발사 True로
-			If IsMoving = False AndAlso Now.Ticks - FireTick > FireTerm Then
+			If Now.Ticks - FireTick > FireTerm Then
 				FireTick = Now.Ticks
 				Return True
 			Else
