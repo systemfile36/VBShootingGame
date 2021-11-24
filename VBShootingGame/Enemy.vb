@@ -19,7 +19,7 @@ Public Class Enemy
 		UWidth = 122
 		UHeight = 32
 		SetObjID("E" & id)
-		UPos = New Point(Form1.BoardWidth - UWidth - 100, 100)
+		UPos = New PointF(Form1.BoardWidth - UWidth - 100, 100)
 
 		'충돌 범위 설정
 		SetCollider(UPos, UWidth, UHeight + 10)
@@ -39,7 +39,7 @@ Public Class Enemy
 		Me.New(id)
 
 		'여기서 바뀐부분만 실행
-		UPos = New Point(Form1.BoardWidth - UWidth - 100, rNum)
+		UPos = New PointF(Form1.BoardWidth - UWidth - 100, rNum)
 		SetCollider(UPos, UWidth, UHeight + 10)
 
 		'랜덤한 숫자에 따라 속도 변경
@@ -61,9 +61,9 @@ Public Class Enemy
 		End If
 
 		If IsUp Then
-			UPos = New Point(UPos.X, UPos.Y - USpeed)
+			UPos = New PointF(UPos.X, UPos.Y - USpeed)
 		Else
-			UPos = New Point(UPos.X, UPos.Y + USpeed)
+			UPos = New PointF(UPos.X, UPos.Y + USpeed)
 		End If
 
 		'콜라이더 갱신

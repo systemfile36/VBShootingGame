@@ -32,7 +32,7 @@ Public MustInherit Class Boss
 		Inherits GameObject
 
 		Public Sub New()
-			SetCollider(New Point(0, 0), 0, 0)
+			SetCollider(New PointF(0, 0), 0, 0)
 		End Sub
 
 		'Move()는 반드시 오버라이딩
@@ -66,7 +66,7 @@ Public MustInherit Class Boss
 
 			SetSprite("B_Bullet_S1_1")
 
-			UPos = New Point(sender.UPos.X, sender.UPos.Y + 20)
+			UPos = New PointF(sender.UPos.X, sender.UPos.Y + 20)
 
 			SetCollider(UPos, UWidth, UHeight)
 		End Sub
@@ -89,7 +89,7 @@ Public MustInherit Class Boss
 		'SetSprite("Boss_1_Default")
 
 		'보스는 맵 밖에서 안으로 들어오는 형태
-		UPos = New Point(Form1.BoardWidth, 100)
+		UPos = New PointF(Form1.BoardWidth, 100)
 
 		'SetCollider(New Point(UPos.X, UPos.Y + 39), 256, UHeight - 39)
 
@@ -125,7 +125,7 @@ Public MustInherit Class Boss
 			'0이 아니라면 체력의 양을 측정해서 그에 맞게 스프라이트 교체
 			If HealthByCount <= 0 Then
 				SetIsDest(True)
-				SetCollider(New Point(0, 0), 0, 0)
+				SetCollider(New PointF(0, 0), 0, 0)
 				SetSprite(SpriteByHealth(2))
 				'딜레이 적용을 위한 DestroyCounter 증가(나중에 체크)
 				IncDestroyedCounter()

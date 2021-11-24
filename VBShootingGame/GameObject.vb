@@ -56,21 +56,21 @@ Public MustInherit Class GameObject
 	Public ReadOnly DWidth As Integer = 100, DHeight As Integer = 80
 
 	'위치 정보
-	Private pos As Point
+	Private pos As PointF
 
-	Public Property UPos As Point
+	Public Property UPos As PointF
 		Get
 			Return pos
 		End Get
-		Set(value As Point)
+		Set(value As PointF)
 			pos = value
 		End Set
 	End Property
 
 	'충돌판정을 위한 범위
-	Private Collider As Rectangle
+	Private Collider As RectangleF
 
-	Public ReadOnly Property UCollider As Rectangle
+	Public ReadOnly Property UCollider As RectangleF
 		Get
 			Return Collider
 		End Get
@@ -199,12 +199,12 @@ Public MustInherit Class GameObject
 
 	'충돌 범위 설정 함수
 	'왠만하면 생성자에서만 호출
-	Public Overloads Sub SetCollider(point As Point, width As Integer, height As Integer)
-		Collider = New Rectangle(point.X, point.Y, width, height)
+	Public Overloads Sub SetCollider(point As PointF, width As Integer, height As Integer)
+		Collider = New RectangleF(point.X, point.Y, width, height)
 	End Sub
 
 	'높이와 넓이는 그대로 둔 채 위치만 옮김
-	Public Overloads Sub SetCollider(point As Point)
+	Public Overloads Sub SetCollider(point As PointF)
 		Collider.Location = point
 	End Sub
 
@@ -238,7 +238,7 @@ Public MustInherit Class GameObject
 		If IsDestroyed = True Then
 			DestroyedCount += 1
 			'콜라이더 제거 작업
-			SetCollider(New Point(0, 0), 0, 0)
+			SetCollider(New PointF(0, 0), 0, 0)
 			Return True
 		Else
 			Return False

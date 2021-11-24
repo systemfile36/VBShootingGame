@@ -251,11 +251,11 @@ Public Class Form1
 
 		'보스 그림
 		If Not IsNothing(BossObj) Then
-			e.Graphics.DrawImage(BossObj.USprite, New Rectangle(BossObj.UPos.X, BossObj.UPos.Y, BossObj.UWidth, BossObj.UHeight))
-			e.Graphics.DrawRectangle(New Pen(Color.Red), BossObj.UCollider)
+			e.Graphics.DrawImage(BossObj.USprite, New RectangleF(BossObj.UPos.X, BossObj.UPos.Y, BossObj.UWidth, BossObj.UHeight))
+			'e.Graphics.DrawRectangle(New Pen(Color.Red), BossObj.UCollider)
 			Try
 				For Each drone As Boss.Drone In BossObj.Drones
-					e.Graphics.DrawImage(drone.USprite, New Rectangle(drone.UPos.X, drone.UPos.Y, drone.UWidth, drone.UHeight))
+					e.Graphics.DrawImage(drone.USprite, New RectangleF(drone.UPos.X, drone.UPos.Y, drone.UWidth, drone.UHeight))
 				Next
 			Catch ex As Exception
 				Debug.WriteLine("Error In Drones Painting Loop")
@@ -267,12 +267,12 @@ Public Class Form1
 			For Each obj As GameObject In OtherObjects
 				'파괴 되었으면 파괴 이펙트 표시
 				If obj.GetIsDest() Then
-					e.Graphics.DrawImage(obj.UDSprite, New Rectangle(obj.UPos.X, obj.UPos.Y, obj.DWidth, obj.DHeight))
+					e.Graphics.DrawImage(obj.UDSprite, New RectangleF(obj.UPos.X, obj.UPos.Y, obj.DWidth, obj.DHeight))
 				Else
-					e.Graphics.DrawImage(obj.USprite, New Rectangle(obj.UPos.X, obj.UPos.Y, obj.UWidth, obj.UHeight))
+					e.Graphics.DrawImage(obj.USprite, New RectangleF(obj.UPos.X, obj.UPos.Y, obj.UWidth, obj.UHeight))
 
 					'충돌 범위 가시화용
-					e.Graphics.DrawRectangle(New Pen(Color.Red), obj.UCollider)
+					'e.Graphics.DrawRectangle(New Pen(Color.Red), obj.UCollider)
 				End If
 			Next
 		Catch ex As Exception

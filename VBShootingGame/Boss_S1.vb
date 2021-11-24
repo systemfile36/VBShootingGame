@@ -22,7 +22,7 @@ Public Class Boss_S1
 			UHeight = 35
 			UWidth = 53
 			SetSprite("B_Drone_S1")
-			UPos = New Point(Form1.BoardWidth, posY)
+			UPos = New PointF(Form1.BoardWidth, posY)
 			StartedPosY = posY
 
 			FireTick = Now.Ticks
@@ -31,7 +31,7 @@ Public Class Boss_S1
 		Public Overrides Sub Move()
 			'맵 중앙 조금 덜간 위치에서 멈춤
 			If UPos.X > Form1.BoardWidth - 512 + 50 Then
-				UPos = New Point(UPos.X - 2, UPos.Y)
+				UPos = New PointF(UPos.X - 2, UPos.Y)
 				Exit Sub
 			End If
 
@@ -43,9 +43,9 @@ Public Class Boss_S1
 			End If
 
 			If IsUp Then
-				UPos = New Point(UPos.X, UPos.Y - 1)
+				UPos = New PointF(UPos.X, UPos.Y - 1)
 			Else
-				UPos = New Point(UPos.X, UPos.Y + 1)
+				UPos = New PointF(UPos.X, UPos.Y + 1)
 			End If
 
 
@@ -82,13 +82,13 @@ Public Class Boss_S1
 		'체력 설정
 		SetMaxHealthByCount(30)
 
-		SetCollider(New Point(UPos.X, UPos.Y + 58), 256, UHeight - 58)
+		SetCollider(New PointF(UPos.X, UPos.Y + 58), 256, UHeight - 58)
 	End Sub
 
 	'일단은 위 아래 왕복 운동
 	Public Overrides Sub Move()
 		If UPos.X > Form1.BoardWidth - UWidth - 50 Then
-			UPos = New Point(UPos.X - 2, UPos.Y)
+			UPos = New PointF(UPos.X - 2, UPos.Y)
 		End If
 
 		If UPos.Y < 0 Then
@@ -98,12 +98,12 @@ Public Class Boss_S1
 		End If
 
 		If IsUp Then
-			UPos = New Point(UPos.X, UPos.Y - 1)
+			UPos = New PointF(UPos.X, UPos.Y - 1)
 		Else
-			UPos = New Point(UPos.X, UPos.Y + 1)
+			UPos = New PointF(UPos.X, UPos.Y + 1)
 		End If
 
-		SetCollider(New Point(UPos.X, UPos.Y + 58))
+		SetCollider(New PointF(UPos.X, UPos.Y + 58))
 	End Sub
 
 

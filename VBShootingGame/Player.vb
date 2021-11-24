@@ -1,4 +1,6 @@
-﻿Public Class Player
+﻿Imports System.Numerics
+
+Public Class Player
 	Inherits GameObject
 
 	'이동 키를 정의한 Enum
@@ -27,16 +29,30 @@
 
 	Private SelectedPlayer As String = "P_Default"
 
+	Private LeftUpVector As SizeF
+	Private LeftDownVector As SizeF
+	Private RightUpVector As SizeF
+	Private RightDownVector As SizeF
+
 	'선택한 기체를 문자열로 받아서 스프라이트 설정
 	Public Sub New(splayer As String)
 		SelectedPlayer = splayer
 		SetSprite(splayer)
 		SetDestroySprite()
 
-		UPos = New Point(100, 100)
+		UPos = New PointF(100, 100)
 		USpeed = 10
 		UWidth = 122
 		UHeight = 72
+
+		'좌상단 우상단 벡터값 스칼라배 해서 변수 초기화
+		Dim tempVector As Vector2
+		tempVector = New Vector2(0.7071068F, 0.7071068F) * USpeed
+		LeftUpVector = New SizeF(-tempVector.X, -tempVector.Y)
+		LeftDownVector = New SizeF(-tempVector.X, tempVector.Y)
+		RightUpVector = New SizeF(tempVector.X, -tempVector.Y)
+		RightDownVector = New SizeF(tempVector.X, tempVector.Y)
+
 
 		objType = Type.Player
 
@@ -60,26 +76,30 @@
 	Public Overrides Sub Move()
 		Select Case p_control
 			Case InputKeys.Left
-				UPos = New Point(UPos.X - USpeed, UPos.Y)
+				UPos = New PointF(UPos.X - USpeed, UPos.Y)
 			Case InputKeys.Right
-				UPos = New Point(UPos.X + USpeed, UPos.Y)
+				UPos = New PointF(UPos.X + USpeed, UPos.Y)
 			Case InputKeys.Up
-				UPos = New Point(UPos.X, UPos.Y - USpeed)
+				UPos = New PointF(UPos.X, UPos.Y - USpeed)
 				SetSprite(SelectedPlayer & "_Up")
 			Case InputKeys.Down
-				UPos = New Point(UPos.X, UPos.Y + USpeed)
+				UPos = New PointF(UPos.X, UPos.Y + USpeed)
 				SetSprite(SelectedPlayer & "_Down")
 			Case InputKeys.LeftDown
-				UPos = New Point(UPos.X - USpeed, UPos.Y + USpeed)
+				'UPos = New PointF(UPos.X - USpeed, UPos.Y + USpeed)
+				UPos = UPos + (LeftDownVector)
 				SetSprite(SelectedPlayer & "_Down")
 			Case InputKeys.RightDown
-				UPos = New Point(UPos.X + USpeed, UPos.Y + USpeed)
+				'UPos = New PointF(UPos.X + USpeed, UPos.Y + USpeed)
+				UPos = UPos + RightDownVector
 				SetSprite(SelectedPlayer & "_Down")
 			Case InputKeys.LeftUp
-				UPos = New Point(UPos.X - USpeed, UPos.Y - USpeed)
+				'UPos = New PointF(UPos.X - USpeed, UPos.Y - USpeed)
+				UPos = UPos + LeftUpVector
 				SetSprite(SelectedPlayer & "_Up")
 			Case InputKeys.RightUp
-				UPos = New Point(UPos.X + USpeed, UPos.Y - USpeed)
+				'UPos = New PointF(UPos.X + USpeed, UPos.Y - USpeed)
+				UPos = UPos + RightUpVector
 				SetSprite(SelectedPlayer & "_Up")
 			Case InputKeys.None
 				SetSprite(SelectedPlayer)
@@ -87,18 +107,18 @@
 
 		'화면 범위 벗어날 것 같으면 화면 안으로 좌표 변경
 		If UPos.X < 0 Then
-			UPos = New Point(0, UPos.Y)
+			UPos = New PointF(0, UPos.Y)
 		End If
 		If UPos.Y < 0 Then
-			UPos = New Point(UPos.X, 0)
+			UPos = New PointF(UPos.X, 0)
 		End If
 		If UPos.X + UWidth > Form1.BoardWidth Then
 			'UPos.X = Form1.BoardWidth - WIDTH
-			UPos = New Point(Form1.BoardWidth - UWidth, UPos.Y)
+			UPos = New PointF(Form1.BoardWidth - UWidth, UPos.Y)
 		End If
 		If UPos.Y + UHeight > Form1.BoardHeight Then
 			'UPos.Y = Form1.BoardHeight - HEIGHT
-			UPos = New Point(UPos.X, Form1.BoardHeight - UHeight)
+			UPos = New PointF(UPos.X, Form1.BoardHeight - UHeight)
 		End If
 
 		'충돌 판정 갱신

@@ -21,7 +21,7 @@ Public Class Bullet
 
 			SetSprite(Type.PBullet)
 			'생성자에 들어온 객체(=발사 주체)의 위치가 초기 위치
-			UPos = New Point(sender.UPos.X + sender.UWidth - 10, sender.UPos.Y + 20)
+			UPos = New PointF(sender.UPos.X + sender.UWidth - 10, sender.UPos.Y + 20)
 		Else
 			IsPlayer = False
 			SetObjID("E_B" & id)
@@ -31,7 +31,7 @@ Public Class Bullet
 
 			SetSprite(Type.EBullet)
 			'생성자에 들어온 객체(=발사 주체)의 위치가 초기 위치
-			UPos = New Point(sender.UPos.X, sender.UPos.Y + 20)
+			UPos = New PointF(sender.UPos.X, sender.UPos.Y + 20)
 		End If
 
 		'pos설정 후 충돌 범위 설정
@@ -46,9 +46,9 @@ Public Class Bullet
 
 	Public Overrides Sub Move()
 		If IsPlayer Then
-			UPos = New Point(UPos.X + USpeed, UPos.Y)
+			UPos = New PointF(UPos.X + USpeed, UPos.Y)
 		Else
-			UPos = New Point(UPos.X - USpeed, UPos.Y)
+			UPos = New PointF(UPos.X - USpeed, UPos.Y)
 		End If
 
 		'범위 밖이면 삭제
