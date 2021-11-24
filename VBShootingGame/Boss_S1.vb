@@ -4,6 +4,11 @@ Public Class Boss_S1
 
 	Private IsUp As Boolean = False
 
+	Private FireTick As Long = 0
+
+	'보스 유도 탄막 발사 간격 3.2s
+	Private FireTerm As Long = 32000000L
+
 	'이 보스 고유의 드론 클래스
 	Public Class Drone_S1
 		Inherits Drone
@@ -13,8 +18,8 @@ Public Class Boss_S1
 		'생성될 때의 Y 좌표
 		Private StartedPosY As Integer
 
-		'발사 간격 1000ms
-		Private FireTerm As Long = 10000000L
+		'발사 간격 1500ms
+		Private FireTerm As Long = 15000000L
 		Private FireTick As Long = 0
 
 		'초기 Y좌표 설정
@@ -43,9 +48,9 @@ Public Class Boss_S1
 			End If
 
 			If IsUp Then
-				UPos = New PointF(UPos.X, UPos.Y - 1)
+				UPos = New PointF(UPos.X, UPos.Y - 0.6F)
 			Else
-				UPos = New PointF(UPos.X, UPos.Y + 1)
+				UPos = New PointF(UPos.X, UPos.Y + 0.6F)
 			End If
 
 
@@ -74,9 +79,9 @@ Public Class Boss_S1
 		SetSprite("Boss_1_Default")
 		SetSpriteByHealth("Boss_1_Harf", "Boss_1_Quarter", "Boss_1_Destroy")
 
-		'드론 4개 소환
-		For i As Integer = 0 To 4
-			Drones.Add(New Drone_S1(50 + (100 * i)))
+		'드론 3개 소환
+		For i As Integer = 0 To 3
+			Drones.Add(New Drone_S1(50 + (150 * i)))
 		Next
 
 		'체력 설정
@@ -98,13 +103,25 @@ Public Class Boss_S1
 		End If
 
 		If IsUp Then
-			UPos = New PointF(UPos.X, UPos.Y - 1)
+			UPos = New PointF(UPos.X, UPos.Y - 0.6F)
 		Else
-			UPos = New PointF(UPos.X, UPos.Y + 1)
+			UPos = New PointF(UPos.X, UPos.Y + 0.6F)
 		End If
 
 		SetCollider(New PointF(UPos.X, UPos.Y + 58))
 	End Sub
 
+	Public Overrides Function CheckFireTerm()
+		If GetIsDest() Then
+			Return False
+		End If
+
+		If Now.Ticks - FireTick > FireTerm Then
+			FireTick = Now.Ticks
+			Return True
+		Else
+			Return False
+		End If
+	End Function
 
 End Class

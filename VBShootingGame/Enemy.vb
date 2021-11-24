@@ -25,7 +25,7 @@ Public Class Enemy
 		SetCollider(UPos, UWidth, UHeight + 10)
 
 		'발사 간격을 위한 시간 설정
-		FireTick = Now.Ticks
+		FireTick = Now.Ticks - FireTerm
 
 		'등장할 때부터 사격 하기 위해
 		IsFire = True
@@ -46,8 +46,8 @@ Public Class Enemy
 		USpeed = 3 + (rNum Mod 4 + 1)
 
 		'난이도가 상승할때마다 0.3초씩 빠르게 발사한다.
-		'최소값 = 500ms = 0.6초
-		SetFireTerm(Math.Max((FireTerm / 10000) - ((dif - 1) * 300), 500))
+		'최소값 = 600ms = 0.6초
+		SetFireTerm(Math.Max((FireTerm / 10000) - ((dif - 1) * 300), 600))
 
 		'Debug.WriteLine(FireTerm)
 
@@ -78,8 +78,7 @@ Public Class Enemy
 			Return False
 		End If
 
-		If Now.Ticks - FireTick > FireTerm Or IsFire = True Then
-			IsFire = True
+		If Now.Ticks - FireTick > FireTerm Then
 			FireTick = Now.Ticks
 			Return True
 		Else

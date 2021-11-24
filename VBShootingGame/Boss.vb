@@ -1,4 +1,6 @@
-﻿'Boss 타입 적 정의 객체
+﻿Imports System.Numerics
+
+'Boss 타입 적 정의 객체
 '모든 Boss타입 객체는 이 객체 상속
 Public MustInherit Class Boss
 	Inherits GameObject
@@ -51,6 +53,7 @@ Public MustInherit Class Boss
 	End Class
 
 	'이 보스 고유의 탄 객체, 후에 구분을 위해 이너 클래스로 정의
+	'일반적인 탄과 같은 움직임을 보임
 	Public Class B_Bullet
 		Inherits Bullet
 
@@ -62,7 +65,7 @@ Public MustInherit Class Boss
 			SetObjID("B_B" & id)
 
 			objType = Type.EBullet
-			USpeed = 15
+			USpeed = 10
 
 			SetSprite("B_Bullet_S1_1")
 
@@ -77,6 +80,56 @@ Public MustInherit Class Boss
 		End Sub
 
 	End Class
+
+	'보스가 발사하는 유도 탄환
+	Public Class B_Bullet_S1
+		Inherits Bullet
+
+		'타겟을 향한 단위 벡터 저장
+		Private targetVector As SizeF
+
+		Public Sub New(sender As GameObject, target As Player, id As String)
+			UWidth = 30
+			UHeight = 30
+			SetDestroySprite()
+
+			SetObjID("B_B_S1" & id)
+
+			objType = Type.EBullet
+			USpeed = 8
+
+			'초기 위치 = 생성자로 넘어온 오브젝트의 앞
+			UPos = New PointF(sender.UPos.X, sender.UPos.Y + 50)
+
+			'타겟을 향한 벡터를 구한 뒤 Normalize하고 속도만큼 스칼라배
+			Dim tempVector As Vector2
+			tempVector = Vector2.Normalize(New Vector2(target.UPos.X - UPos.X, target.UPos.Y - UPos.Y))
+			tempVector *= USpeed
+			targetVector = New SizeF(tempVector.X, tempVector.Y)
+
+			SetSprite("B_Bullet_S1_1")
+
+			SetCollider(UPos, UWidth, UHeight)
+		End Sub
+
+		Public Overrides Sub Move()
+			'발사 시점의 타겟으로 이동
+			UPos = UPos + targetVector
+
+			'범위 밖이면 삭제
+			If UPos.X + UWidth + 100 < 0 OrElse UPos.X - UWidth > Form1.BoardWidth _
+				OrElse UPos.Y - 100 > Form1.BoardHeight OrElse UPos.Y + 100 < 0 Then
+
+				SetIsDest(True)
+				Destroy()
+
+			End If
+
+			SetCollider(UPos)
+		End Sub
+
+	End Class
+
 
 	'종속된 객체 보관
 	'메인 루프와 Paint이벤트에서 직접 순회하며 참조할 것
@@ -162,5 +215,8 @@ Public MustInherit Class Boss
 	Public Sub ClearDrones()
 		Drones.Clear()
 	End Sub
+
+	'발사 간격 함수
+	Public MustOverride Function CheckFireTerm()
 
 End Class

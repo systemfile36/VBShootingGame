@@ -6,7 +6,6 @@
 '총탄과 적 처리에서 삭제용 배열과 추가용 배열을 따로 만듬 (열거 오류 예방)(컬렉션 사용)
 '	이때 삭제용과 추가용 배열은 반영하고 나면 다시 비워야 함(안그러면 중복)
 '	enum loop안에서 리스트를 수정하면 오류가 나기 때문
-'20211111 21:57 이동방식을 F로 수동으로 멈추는 것으로 변환
 '충돌 구현
 '	충돌 범위(콜라이더)를 오브젝트 크기와 위치를 이용해 Rentangle형태로 설정한다.
 '	그리고 Move함수 호출 시 마다 갱신한다.
@@ -34,6 +33,9 @@
 
 '보스 추가, 보스에 종속된 드론 추가, 확장성 고려, 하지만 캡슐화에 실패
 
+'유도 기능을 위한 좌표 실수화, 더 부드러워짐
+
+Imports System.ComponentModel
 Imports System.Threading
 Public Class Form1
 	Private player As Player
@@ -88,6 +90,7 @@ Public Class Form1
 
 	'게임 종료 여부
 	Private IsGameEnd As Boolean = False
+	Private IsGamePaused As Boolean = False
 
 	'호출 시간 (ms단위)
 	Private MainLoopInterval As Integer = 14
@@ -303,6 +306,12 @@ Public Class Form1
 						OtherObjects.Add(New Boss.B_Bullet(drone, game.GetGameMil()))
 					End If
 				Next
+
+				'유도탄 생성
+				If BossObj.CheckFireTerm() Then
+					OtherObjects.Add(New Boss.B_Bullet_S1(BossObj, player, game.GetGameMil()))
+				End If
+
 			End If
 
 
@@ -344,7 +353,6 @@ Public Class Form1
 							'다형성으로 부모자리에 자식을 넣을 수 있다.
 							'추가할 물건 저장
 							addObj.Add(New Bullet(temp, False, game.GetGameMil()))
-							temp.IsFire = False
 						End If
 					End If
 				End If
@@ -445,6 +453,12 @@ Public Class Form1
 		MainTimer.Stop()
 		MainLoop.Stop()
 		sound.Pause("BGM")
+		'입력키 초기화(이상 동작 예방)
+		player.SetControl(Keys.F)
+		player.ReleaseControl(Keys.Space)
+		currentKey.Clear()
+		'Form_Closing에서 참조 위해
+		IsGamePaused = True
 
 		'넘겨줄 스코어를 설정하고 일시 정지 메뉴 폼의 인스턴스를 만든다.
 		scoreBoard.SetScore(game.GetGameSec)
@@ -466,16 +480,23 @@ Public Class Form1
 			MainTimer.Start()
 			MainLoop.Start()
 			sound.Resume("BGM")
+			IsGamePaused = False
 			pauseForm.Dispose()
 		ElseIf pauseDialog = DialogResult.No Then
 			pauseForm.Dispose()
 			sound.Dispose()
 			MainTimer.Stop()
 			MainLoop.Stop()
+
+			'반드시 타이머를 멈춘 뒤 플래그 바꿔야 함(중복참조)
+			'Form_Closing에서 참조 위해
+			IsGameEnd = True
 			StartUp.Show()
 			Me.Close()
 		Else
 			pauseForm.Dispose()
+			'Form_Closing에서 참조 위해
+			IsGameEnd = True
 			Me.Close()
 		End If
 
@@ -486,15 +507,20 @@ Public Class Form1
 	'모든 스레드와 타이머를 끄고 게임 오버창을 연 뒤 현재 폼을 닫는다.
 	'음악도 꺼주어야 함
 	Private Sub EndGame()
+
+		MainTimer.Stop()
+		MainLoop.Enabled = False
+		sound.Stop("BGM")
+		sound.Dispose()
+		'Form_Closing에서 참조 위해
+		IsGameEnd = True
+
 		'점수 설정
 		scoreBoard.SetScore(game.GetGameSec())
 		Dim gameover As New GameOver()
 		gameover.score = scoreBoard
 		gameover.Show()
-		MainTimer.Stop()
-		MainLoop.Enabled = False
-		sound.Stop("BGM")
-		sound.Dispose()
+
 		Thread.Sleep(10)
 		Me.Close()
 	End Sub
@@ -534,4 +560,13 @@ Public Class Form1
 
 	End Sub
 
+	'X버튼을 누르는 등 창을 닫으려 하면 포즈 메뉴부터 띄움
+	Private Sub Form1_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+		'게임이 끝나지도 않았고 일시 정지되지도 않았다면, 즉 게임오버등의 정상적인 종료과정이 아니면
+		'일시정지 메뉴 호출
+		If Not (IsGamePaused OrElse IsGameEnd) Then
+			e.Cancel = True
+			PauseGameToggle()
+		End If
+	End Sub
 End Class

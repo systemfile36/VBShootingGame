@@ -27,7 +27,7 @@ Public Class Bullet
 			SetObjID("E_B" & id)
 
 			objType = Type.EBullet
-			USpeed = 12
+			USpeed = 10
 
 			SetSprite(Type.EBullet)
 			'생성자에 들어온 객체(=발사 주체)의 위치가 초기 위치

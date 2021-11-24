@@ -43,9 +43,9 @@ Public Class GameManager
 			'0.5초씩 짧아짐
 			ESpawnTerm -= 5000000L
 
-			'스폰 주기의 최소값(500ms)
-			If ESpawnTerm < 5000000L Then
-				ESpawnTerm = 5000000L
+			'스폰 주기의 최소값(700ms)
+			If ESpawnTerm < 7000000L Then
+				ESpawnTerm = 7000000L
 			End If
 			DifTick = Now.Ticks
 		End If
