@@ -456,7 +456,7 @@ Namespace My.Resources
         '''
         '''본 소프트웨어는 VB.Net을 활용하여 만든
         '''
-        '''간단한 슈팅 게임입니다.  
+        '''슈팅 게임입니다.  
         '''
         '''
         '''테스트 환경 : Microsoft Windows 8.1 64bit, x64 기반 프로세서
@@ -474,7 +474,7 @@ Namespace My.Resources
         '''
         '''Space : Shoot, 탄을 발사합니다. 
         '''
-        '''BackSpace : Pause/Resume, 게임 일시정지/재개 토글
+        '''BackSpace : 일시정지 메뉴
         '''
         '''C : Game Over, 입력 시점에 게임 중단 후 게임 오버 화면으로
         '''
@@ -482,7 +482,9 @@ Namespace My.Resources
         '''
         '''게임 진행
         '''
-        '''Game Start 버튼을 누르면 바로 [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 문자열을 찾습니다.
+        '''Game Start 버튼을 누르면 기체를 선택할 수 있습니다.
+        '''
+        '''선택한 기체를 [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 문자열을 찾습니다.
         '''</summary>
         Friend ReadOnly Property ReadMe() As String
             Get
@@ -576,6 +578,16 @@ Namespace My.Resources
         Friend ReadOnly Property UI_Indicator_RightUp_70() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("UI_Indicator_RightUp_70", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property UI_InfoBkgnd() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("UI_InfoBkgnd", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

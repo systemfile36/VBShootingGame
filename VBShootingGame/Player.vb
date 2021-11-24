@@ -20,12 +20,12 @@ Public Class Player
 	Public p_control As InputKeys = InputKeys.None
 
 	'기본 발사 간격 0.4초
-	Private FireDelay As Long = 4000000L
-	Private FireTick As Long = 0L
+	Protected FireDelay As Long = 4000000L
+	Protected FireTick As Long = 0L
 
 	'발사 입력이 들어왔는지 여부를 판단
 	'SetControl(), ReleaseControl()이 설정함
-	Private IsInputFire As Boolean
+	Protected IsInputFire As Boolean
 
 	Private SelectedPlayer As String = "P_Default"
 
@@ -174,7 +174,7 @@ Public Class Player
 	'입력이 들어온 상태이고 이전 발사와의 시간차가 딜레이보다 크면
 	'시간 갱신 후 True 반환 아니면 False반환
 	'스페이스에서 손을 때면 False로 바뀌므로 외부에서 변경할 필요 없음
-	Public Function CheckFireDelay() As Boolean
+	Public Overridable Function CheckFireDelay() As Boolean
 		If IsInputFire = True And Now.Ticks - FireTick > FireDelay Then
 			FireTick = Now.Ticks
 			Return True
@@ -226,6 +226,12 @@ Public Class Player
 	'발사 간격을 밀리세컨드 단위로 반환
 	Public Function GetFireDelay() As Integer
 		Return FireDelay / 10000
+	End Function
+
+	'장탄수가 있으면 그 값을, 없으면 무한이라는 뜻으로 -1을 반환
+	'다형성을 위하여
+	Public Overridable Function GetAmmo() As Integer
+		Return -1
 	End Function
 
 End Class

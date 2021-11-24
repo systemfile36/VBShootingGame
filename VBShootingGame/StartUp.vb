@@ -19,8 +19,8 @@ Public Class StartUp
 		btnExit.Select()
 
 		'배경과 타이틀 이미지 설정
-		BackgroundImage = My.Resources.ResourceManager.GetObject("BackGround_0")
-		title = My.Resources.ResourceManager.GetObject("Title")
+		BackgroundImage = My.Resources.BackGround_0
+		title = My.Resources.Title
 
 		'버튼 초기 이미지 설정
 		btnStart.BackgroundImage = My.Resources.GameStart_Default
@@ -178,6 +178,4 @@ Public Class StartUp
 	Private Sub btnExit_Leave(sender As Object, e As EventArgs) Handles btnExit.Leave
 		btnExit.BackgroundImage = My.Resources.GameQuit_Default
 	End Sub
-
-
 End Class

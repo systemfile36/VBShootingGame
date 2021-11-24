@@ -100,7 +100,14 @@ Public Class Form1
 
 	Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		'설정된 기체를 문자열로 넘긴다.
-		player = New Player(SelectedPlane)
+		'반드시 플레이어를 제일 먼저 만들어야 한다.(설정 적용)
+		If SelectedPlane.Equals("P_Default") Then
+			player = New Player(SelectedPlane)
+		ElseIf SelectedPlane.Equals("P_Type_1") Then
+			player = New Player_Type1()
+		Else
+			player = New Player(SelectedPlane)
+		End If
 
 		'게임 관리에 시작시간 등록
 		game.SetSTime(player.SpawnedTime)
@@ -166,8 +173,10 @@ Public Class Form1
 		Invalidate()
 	End Sub
 
-	'MainLoop 보조, 크로스 스레딩 방지 위함
+	'MainTimer용 변수
 	Dim IsBossBgmPlayed = False
+	Dim P_Ammo As Integer = -1
+	'MainLoop 보조, 크로스 스레딩 방지 위함
 	Private Sub MainTimer_Tick(sender As Object, e As EventArgs) Handles MainTimer.Tick
 		If IsGameEnd Then
 			EndGame()
@@ -205,7 +214,20 @@ Public Class Form1
 		lbScore.Text = Format(scoreBoard.GetScore(), "Score : 0000000")
 		lbGameTime.Text = Format(game.GetGameSec(), "Time : 0000")
 		lbDif.Text = Format(game.GetDifficulty(), "Dif : 000")
-		lbAmmo.Text = "Ammo : Infinity"
+
+		'장탄수 갱신, 장탄수가 없는 타입은 장탄수 -1을 반환함
+		P_Ammo = player.GetAmmo()
+		If Not P_Ammo = -1 Then
+			If P_Ammo = 0 Then
+				lbAmmo.Text = "Ammo : Reloading..."
+			Else
+				lbAmmo.Text = "Ammo : " & P_Ammo & " / 5"
+			End If
+		Else
+			lbAmmo.Text = "Ammo : Infinity"
+		End If
+
+
 
 		'lbDebug.Text = game.GetGameSec() & " " & game.GetDifficulty() & " " & MainLoopInterval & SelectedPlane
 	End Sub

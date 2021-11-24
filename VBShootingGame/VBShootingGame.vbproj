@@ -130,6 +130,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Player.vb" />
+    <Compile Include="Player_Type1.vb" />
     <Compile Include="ScoreManager.vb" />
     <Compile Include="SelectPlayer.Designer.vb">
       <DependentUpon>SelectPlayer.vb</DependentUpon>
@@ -201,6 +202,7 @@
     <Content Include="Image\BackGround\BackGround_0.png" />
     <Content Include="Image\BackGround\UI_Indicator_LeftUp_70.png" />
     <Content Include="Image\BackGround\UI_Indicator_RightUp_70.png" />
+    <Content Include="Image\BackGround\UI_InfoBkgnd.png" />
     <Content Include="Image\Boss\Boss_1_Default.png" />
     <Content Include="Image\Boss\Boss_1_Destroy.png" />
     <Content Include="Image\Boss\Boss_1_Harf.png" />
