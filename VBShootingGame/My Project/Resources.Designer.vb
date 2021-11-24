@@ -559,5 +559,25 @@ Namespace My.Resources
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
+        
+        '''<summary>
+        '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property UI_Indicator_LeftUp_70() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("UI_Indicator_LeftUp_70", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property UI_Indicator_RightUp_70() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("UI_Indicator_RightUp_70", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
     End Module
 End Namespace

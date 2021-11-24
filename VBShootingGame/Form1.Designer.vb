@@ -28,6 +28,11 @@ Partial Class Form1
 		Me.lbGameTime = New System.Windows.Forms.Label()
 		Me.lbDif = New System.Windows.Forms.Label()
 		Me.lbScore = New System.Windows.Forms.Label()
+		Me.Panel1 = New System.Windows.Forms.Panel()
+		Me.Panel2 = New System.Windows.Forms.Panel()
+		Me.lbAmmo = New System.Windows.Forms.Label()
+		Me.Panel1.SuspendLayout()
+		Me.Panel2.SuspendLayout()
 		Me.SuspendLayout()
 		'
 		'MainTimer
@@ -40,16 +45,16 @@ Partial Class Form1
 		Me.lbDebug.AutoSize = True
 		Me.lbDebug.Location = New System.Drawing.Point(13, 537)
 		Me.lbDebug.Name = "lbDebug"
-		Me.lbDebug.Size = New System.Drawing.Size(42, 12)
+		Me.lbDebug.Size = New System.Drawing.Size(0, 12)
 		Me.lbDebug.TabIndex = 0
-		Me.lbDebug.Text = "Label1"
 		'
 		'lbGameTime
 		'
 		Me.lbGameTime.AutoSize = True
 		Me.lbGameTime.BackColor = System.Drawing.Color.Transparent
 		Me.lbGameTime.Font = New System.Drawing.Font("나눔고딕", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-		Me.lbGameTime.Location = New System.Drawing.Point(18, 13)
+		Me.lbGameTime.ForeColor = System.Drawing.Color.LightPink
+		Me.lbGameTime.Location = New System.Drawing.Point(15, 8)
 		Me.lbGameTime.Name = "lbGameTime"
 		Me.lbGameTime.Size = New System.Drawing.Size(59, 19)
 		Me.lbGameTime.TabIndex = 1
@@ -60,7 +65,8 @@ Partial Class Form1
 		Me.lbDif.AutoSize = True
 		Me.lbDif.BackColor = System.Drawing.Color.Transparent
 		Me.lbDif.Font = New System.Drawing.Font("나눔고딕", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-		Me.lbDif.Location = New System.Drawing.Point(1070, 13)
+		Me.lbDif.ForeColor = System.Drawing.Color.LightPink
+		Me.lbDif.Location = New System.Drawing.Point(45, 8)
 		Me.lbDif.Name = "lbDif"
 		Me.lbDif.Size = New System.Drawing.Size(44, 19)
 		Me.lbDif.TabIndex = 2
@@ -71,11 +77,47 @@ Partial Class Form1
 		Me.lbScore.AutoSize = True
 		Me.lbScore.BackColor = System.Drawing.Color.Transparent
 		Me.lbScore.Font = New System.Drawing.Font("나눔고딕", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-		Me.lbScore.Location = New System.Drawing.Point(13, 44)
+		Me.lbScore.ForeColor = System.Drawing.Color.LightPink
+		Me.lbScore.Location = New System.Drawing.Point(10, 39)
 		Me.lbScore.Name = "lbScore"
 		Me.lbScore.Size = New System.Drawing.Size(64, 19)
 		Me.lbScore.TabIndex = 3
 		Me.lbScore.Text = "Score : "
+		'
+		'Panel1
+		'
+		Me.Panel1.BackColor = System.Drawing.Color.Transparent
+		Me.Panel1.BackgroundImage = Global.VBShootingGame.My.Resources.Resources.UI_Indicator_LeftUp_70
+		Me.Panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+		Me.Panel1.Controls.Add(Me.lbGameTime)
+		Me.Panel1.Controls.Add(Me.lbScore)
+		Me.Panel1.Location = New System.Drawing.Point(1, 1)
+		Me.Panel1.Name = "Panel1"
+		Me.Panel1.Size = New System.Drawing.Size(170, 68)
+		Me.Panel1.TabIndex = 4
+		'
+		'Panel2
+		'
+		Me.Panel2.BackColor = System.Drawing.Color.Transparent
+		Me.Panel2.BackgroundImage = Global.VBShootingGame.My.Resources.Resources.UI_Indicator_RightUp_70
+		Me.Panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+		Me.Panel2.Controls.Add(Me.lbAmmo)
+		Me.Panel2.Controls.Add(Me.lbDif)
+		Me.Panel2.Location = New System.Drawing.Point(1014, 1)
+		Me.Panel2.Name = "Panel2"
+		Me.Panel2.Size = New System.Drawing.Size(170, 68)
+		Me.Panel2.TabIndex = 5
+		'
+		'lbAmmo
+		'
+		Me.lbAmmo.AutoSize = True
+		Me.lbAmmo.Font = New System.Drawing.Font("나눔고딕", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+		Me.lbAmmo.ForeColor = System.Drawing.Color.LightPink
+		Me.lbAmmo.Location = New System.Drawing.Point(15, 39)
+		Me.lbAmmo.Name = "lbAmmo"
+		Me.lbAmmo.Size = New System.Drawing.Size(74, 19)
+		Me.lbAmmo.TabIndex = 3
+		Me.lbAmmo.Text = "Ammo : "
 		'
 		'Form1
 		'
@@ -83,9 +125,8 @@ Partial Class Form1
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
 		Me.ClientSize = New System.Drawing.Size(1184, 561)
-		Me.Controls.Add(Me.lbScore)
-		Me.Controls.Add(Me.lbDif)
-		Me.Controls.Add(Me.lbGameTime)
+		Me.Controls.Add(Me.Panel2)
+		Me.Controls.Add(Me.Panel1)
 		Me.Controls.Add(Me.lbDebug)
 		Me.DoubleBuffered = True
 		Me.MaximizeBox = False
@@ -93,6 +134,10 @@ Partial Class Form1
 		Me.Name = "Form1"
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
 		Me.Text = "ShootingGame"
+		Me.Panel1.ResumeLayout(False)
+		Me.Panel1.PerformLayout()
+		Me.Panel2.ResumeLayout(False)
+		Me.Panel2.PerformLayout()
 		Me.ResumeLayout(False)
 		Me.PerformLayout()
 
@@ -103,4 +148,7 @@ Partial Class Form1
 	Friend WithEvents lbGameTime As Label
 	Friend WithEvents lbDif As Label
 	Friend WithEvents lbScore As Label
+	Friend WithEvents Panel1 As Panel
+	Friend WithEvents Panel2 As Panel
+	Friend WithEvents lbAmmo As Label
 End Class

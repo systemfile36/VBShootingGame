@@ -199,6 +199,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Image\BackGround\BackGround_0.png" />
+    <Content Include="Image\BackGround\UI_Indicator_LeftUp_70.png" />
+    <Content Include="Image\BackGround\UI_Indicator_RightUp_70.png" />
     <Content Include="Image\Boss\Boss_1_Default.png" />
     <Content Include="Image\Boss\Boss_1_Destroy.png" />
     <Content Include="Image\Boss\Boss_1_Harf.png" />
@@ -240,12 +242,15 @@
     <Content Include="Image\SpriteRefer\Planes1.png" />
     <Content Include="Image\TextImage\GameOver.png" />
     <Content Include="Image\TextImage\Title.png" />
+    <None Include="Resources\UI_Indicator_LeftUp_70.png" />
+    <None Include="Resources\UI_Indicator_RightUp_70.png" />
+    <Content Include="Sound\bgm.mp3" />
+    <Content Include="Sound\bgm_boss.mp3" />
     <Content Include="Sound\Button_hover.wav" />
     <Content Include="Sound\Explode_07.mp3" />
     <Content Include="Sound\Explode_Long.mp3" />
     <Content Include="Sound\GameOverSE.wav" />
     <Content Include="Sound\Laser_one.wav" />
-    <Content Include="Sound\bgm.mp3" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

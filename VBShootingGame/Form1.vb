@@ -53,7 +53,7 @@ Public Class Form1
 	Private game As New GameManager()
 
 	'게임 소리 관리
-	Private sound As New GameSounds
+	Public sound As New GameSounds
 
 	'게임의 메인 루프
 	Private MainLoop As System.Timers.Timer
@@ -96,6 +96,8 @@ Public Class Form1
 	Private MainLoopInterval As Integer = 14
 	Private MainTimerInterval As Integer = 20
 
+	Delegate Sub SoundEventDelegate()
+
 	Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		'설정된 기체를 문자열로 넘긴다.
 		player = New Player(SelectedPlane)
@@ -122,8 +124,10 @@ Public Class Form1
 
 		'배경 음악 세팅
 		sound.AddSound("BGM", "Sound/bgm.mp3")
+		Debug.WriteLine(sound.AddSound("BGM_Boss", "Sound/bgm_boss.mp3"))
 		sound.Play("BGM", True)
-		sound.SetVolume("BGM", 400)
+		sound.SetVolume("BGM", 500)
+		sound.SetVolume("BGM_Boss", 500)
 
 		sound.AddSound("Destroy", "Sound/Explode_07.mp3")
 		sound.AddSound("Destroy_Long", "Sound/Explode_Long.mp3")
@@ -163,6 +167,7 @@ Public Class Form1
 	End Sub
 
 	'MainLoop 보조, 크로스 스레딩 방지 위함
+	Dim IsBossBgmPlayed = False
 	Private Sub MainTimer_Tick(sender As Object, e As EventArgs) Handles MainTimer.Tick
 		If IsGameEnd Then
 			EndGame()
@@ -184,13 +189,25 @@ Public Class Form1
 			scoreBoard.IsBossKilled = False
 		End If
 
+		'보스용 배경음악, 오버헤드 방지를 위해 플래그 생성
+		If Not IsNothing(BossObj) AndAlso IsBossBgmPlayed = False Then
+			sound.Pause("BGM")
+			Debug.WriteLine(sound.Play("BGM_Boss", True))
+			IsBossBgmPlayed = True
+		ElseIf IsNothing(BossObj) AndAlso IsBossBgmPlayed = True Then
+			sound.Pause("BGM_Boss")
+			sound.Resume("BGM")
+			IsBossBgmPlayed = False
+		End If
+
 		'UI 갱신
 		scoreBoard.SetScore(game.GetGameSec())
 		lbScore.Text = Format(scoreBoard.GetScore(), "Score : 0000000")
 		lbGameTime.Text = Format(game.GetGameSec(), "Time : 0000")
 		lbDif.Text = Format(game.GetDifficulty(), "Dif : 000")
+		lbAmmo.Text = "Ammo : Infinity"
 
-		lbDebug.Text = game.GetGameSec() & " " & game.GetDifficulty() & " " & MainLoopInterval & SelectedPlane
+		'lbDebug.Text = game.GetGameSec() & " " & game.GetDifficulty() & " " & MainLoopInterval & SelectedPlane
 	End Sub
 
 	'방향 설정은 객체 내부에서 이루어짐
@@ -266,6 +283,7 @@ Public Class Form1
 		End If
 
 		'열거 오류 예방
+		'OtherObjects 그림
 		Try
 			For Each obj As GameObject In OtherObjects
 				'파괴 되었으면 파괴 이펙트 표시
@@ -281,10 +299,11 @@ Public Class Form1
 		Catch ex As Exception
 
 		End Try
+
 		'lbDebug.Text = game.GetGameSec() & " " & game.GetDifficulty() & " "
 	End Sub
 
-	Delegate Sub SoundEventDelegate()
+
 
 	'플레이어 외 오브젝트 갱신
 	'사실상 메인 루프
@@ -453,6 +472,9 @@ Public Class Form1
 		MainTimer.Stop()
 		MainLoop.Stop()
 		sound.Pause("BGM")
+		If IsBossBgmPlayed Then
+			sound.Pause("BGM_Boss")
+		End If
 		'입력키 초기화(이상 동작 예방)
 		player.SetControl(Keys.F)
 		player.ReleaseControl(Keys.Space)
@@ -479,7 +501,12 @@ Public Class Form1
 			game.ResumeTime()
 			MainTimer.Start()
 			MainLoop.Start()
-			sound.Resume("BGM")
+			'플래그에 따라 브금 선택
+			If IsBossBgmPlayed Then
+				sound.Resume("BGM_Boss")
+			Else
+				sound.Resume("BGM")
+			End If
 			IsGamePaused = False
 			pauseForm.Dispose()
 		ElseIf pauseDialog = DialogResult.No Then
