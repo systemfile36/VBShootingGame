@@ -16,18 +16,97 @@
 		Me.Close()
 	End Sub
 
-	Private Sub btnDefault_Click(sender As Object, e As EventArgs) Handles btnDefault.Click
+	'라벨을 클릭해도 선택되도록
+	Private Sub Default_Click(sender As Object, e As EventArgs) Handles btnDefault.Click, lbDefaultInfo.Click
 		SelectType = "P_Default"
 		SelectComplete()
 	End Sub
 
-	Private Sub btnType1_Click(sender As Object, e As EventArgs) Handles btnType1.Click
+	Private Sub Type1_Click(sender As Object, e As EventArgs) Handles btnType1.Click, lbType1Info.Click
 		SelectType = "P_Type_1"
 		SelectComplete()
 	End Sub
 
-	Private Sub btnType2_Click(sender As Object, e As EventArgs) Handles btnType2.Click
+	Private Sub Type2_Click(sender As Object, e As EventArgs) Handles btnType2.Click, lbType2Info.Click
 		SelectType = "P_Type_2"
 		SelectComplete()
+	End Sub
+
+
+	'버튼 이벤트 일괄 적용
+	'모든 버튼에 이벤트 연결, sender를 하향형변환해서 사용
+	Private Sub Button_MouseMove(sender As Object, e As MouseEventArgs) Handles btnDefault.MouseMove, btnType1.MouseMove, btnType2.MouseMove
+		TryCast(sender, Button).BackgroundImage = My.Resources.ButtonBase_Hover
+	End Sub
+
+	'라벨들 위에 마우스 진입했을때도 소리 재생되도록
+	Private Sub Button_MouseEnter(sender As Object, e As EventArgs) Handles btnDefault.MouseEnter, btnType1.MouseEnter, btnType2.MouseEnter _
+		, lbDefaultInfo.MouseEnter, lbType1Info.MouseEnter, lbType2Info.MouseEnter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
+	End Sub
+
+	Private Sub Button_MouseLeave(sender As Object, e As EventArgs) Handles btnDefault.MouseLeave, btnType1.MouseLeave, btnType2.MouseLeave
+		TryCast(sender, Button).BackgroundImage = My.Resources.ButtonBase_Default
+	End Sub
+
+	Private Sub Button_MouseUp(sender As Object, e As MouseEventArgs) Handles btnDefault.MouseUp, btnType1.MouseUp, btnType2.MouseUp
+		TryCast(sender, Button).BackgroundImage = My.Resources.ButtonBase_Default
+	End Sub
+
+	Private Sub Button_Enter(sender As Object, e As EventArgs) Handles btnDefault.Enter, btnType1.Enter, btnType2.Enter
+		TryCast(sender, Button).BackgroundImage = My.Resources.ButtonBase_Hover
+	End Sub
+
+	Private Sub Button_Leave(sender As Object, e As EventArgs) Handles btnDefault.Leave, btnType1.Leave, btnType2.Leave
+		TryCast(sender, Button).BackgroundImage = My.Resources.ButtonBase_Default
+	End Sub
+
+	Private Sub Button_MouseDown(sender As Object, e As EventArgs) Handles btnDefault.MouseDown, btnType1.MouseDown, btnType2.MouseDown
+		TryCast(sender, Button).BackgroundImage = My.Resources.ButtonBase_Click
+	End Sub
+
+	Private Sub Button_MouseUp(sender As Object, e As EventArgs) Handles btnDefault.MouseUp, btnType1.MouseUp, btnType2.MouseUp
+		TryCast(sender, Button).BackgroundImage = My.Resources.ButtonBase_Default
+	End Sub
+
+	'버튼이 포커스 되어있지 않으면 Focus()를 실행해서 각 버튼의 .Enter이벤트 발생시킴
+	Private Sub InfoDefault_MouseEnter(sender As Object, e As EventArgs) Handles lbDefaultInfo.MouseEnter
+		If Not btnDefault.Focused Then
+			btnDefault.Focus()
+		End If
+	End Sub
+
+	Private Sub InfoType1_MouseEnter(sender As Object, e As EventArgs) Handles lbType1Info.MouseEnter
+		If Not btnType1.Focused Then
+			btnType1.Focus()
+		End If
+	End Sub
+
+	Private Sub InfoType2_MouseEnter(sender As Object, e As EventArgs) Handles lbType2Info.MouseEnter
+		If Not btnType2.Focused Then
+			btnType2.Focus()
+		End If
+	End Sub
+
+	'라벨에서 마우스가 떠나면 Button_Leave도 발생시킴
+	Private Sub InfoDefault_MouseLeave(sender As Object, e As EventArgs) Handles lbDefaultInfo.MouseLeave
+		If btnDefault.Focused Then
+			lbSTitle.Focus()
+			Button_Leave(btnDefault, e)
+		End If
+	End Sub
+
+	Private Sub InfoType1_MouseLeave(sender As Object, e As EventArgs) Handles lbType1Info.MouseLeave
+		If btnType1.Focused Then
+			lbSTitle.Focus()
+			Button_Leave(btnType1, e)
+		End If
+	End Sub
+
+	Private Sub InfoType2_MouseLeave(sender As Object, e As EventArgs) Handles lbType2Info.MouseLeave
+		If btnType2.Focused Then
+			lbSTitle.Focus()
+			Button_Leave(btnType2, e)
+		End If
 	End Sub
 End Class

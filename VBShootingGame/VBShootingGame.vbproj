@@ -209,6 +209,9 @@
     <Content Include="Image\Boss\Boss_1_Quarter.png" />
     <Content Include="Image\Boss\B_Bullet_S1_1.png" />
     <Content Include="Image\Boss\B_Drone_S1.png" />
+    <Content Include="Image\Buttons\ButtonBase_Click.png" />
+    <Content Include="Image\Buttons\ButtonBase_Default.png" />
+    <Content Include="Image\Buttons\ButtonBase_Hover.png" />
     <Content Include="Image\Buttons\GameInfo_Click.png" />
     <Content Include="Image\Buttons\GameInfo_Default.png" />
     <Content Include="Image\Buttons\GameInfo_Hover.png" />
@@ -234,12 +237,15 @@
     <Content Include="Image\GameLogicMemo.txt" />
     <Content Include="Image\Player\P_Default_Down.png" />
     <Content Include="Image\Player\P_Default_Up.png" />
+    <Content Include="Image\Player\P_Default_x3.png" />
     <Content Include="Image\Player\P_Type_1.png" />
     <Content Include="Image\Player\P_Type_1_Down.png" />
     <Content Include="Image\Player\P_Type_1_Up.png" />
+    <Content Include="Image\Player\P_Type_1_x3.png" />
     <Content Include="Image\Player\P_Type_2.png" />
     <Content Include="Image\Player\P_Type_2_Down.png" />
     <Content Include="Image\Player\P_Type_2_Up.png" />
+    <Content Include="Image\Player\P_Type_2_x3.png" />
     <Content Include="Image\ReadMe.txt" />
     <Content Include="Image\SpriteRefer\Planes1.png" />
     <Content Include="Image\TextImage\GameOver.png" />
