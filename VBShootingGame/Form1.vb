@@ -106,7 +106,7 @@ Public Class Form1
 		ElseIf SelectedPlane.Equals("P_Type_1") Then
 			player = New Player_Type1()
 		Else
-			player = New Player(SelectedPlane)
+			player = New Player_Type2()
 		End If
 
 		'게임 관리에 시작시간 등록
@@ -370,7 +370,15 @@ Public Class Form1
 			'총탄 생성
 			'CheckFireDelay()가 True를 반환하면 총탄 생성
 			If player.CheckFireDelay() Then
-				OtherObjects.Add(New Bullet(player, True, game.GetGameMil()))
+				'한번에 발사할 총탄의 개수 판단
+				If player.GetNoB = 1 Then
+					OtherObjects.Add(New Bullet(player, True, game.GetGameMil()))
+				Else
+					For i As Integer = 0 To player.GetNoB() - 1
+						OtherObjects.Add(New Bullet_Circle(player, True, player.VectorList(i), game.GetGameMil()))
+					Next
+				End If
+
 
 				'발사음 재생
 				My.Computer.Audio.Play(My.Resources.Laser_one, AudioPlayMode.Background)

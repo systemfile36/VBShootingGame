@@ -78,6 +78,7 @@
     <Compile Include="Boss.vb" />
     <Compile Include="Boss_S1.vb" />
     <Compile Include="Bullet.vb" />
+    <Compile Include="Bullet_Circle.vb" />
     <Compile Include="Enemy.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
@@ -131,6 +132,7 @@
     </Compile>
     <Compile Include="Player.vb" />
     <Compile Include="Player_Type1.vb" />
+    <Compile Include="Player_Type2.vb" />
     <Compile Include="ScoreManager.vb" />
     <Compile Include="SelectPlayer.Designer.vb">
       <DependentUpon>SelectPlayer.vb</DependentUpon>
@@ -209,6 +211,7 @@
     <Content Include="Image\Boss\Boss_1_Quarter.png" />
     <Content Include="Image\Boss\B_Bullet_S1_1.png" />
     <Content Include="Image\Boss\B_Drone_S1.png" />
+    <Content Include="Image\Boss\E_Bullet_TypeCircle.png" />
     <Content Include="Image\Buttons\ButtonBase_Click.png" />
     <Content Include="Image\Buttons\ButtonBase_Default.png" />
     <Content Include="Image\Buttons\ButtonBase_Hover.png" />
@@ -234,7 +237,9 @@
     <Content Include="Image\Buttons\Resume_Default.png" />
     <Content Include="Image\Buttons\Resume_Hover.png" />
     <Content Include="Image\Effect\Destroy_0.png" />
+    <Content Include="Image\Enemy\E_Bullet_TypeCircle.png" />
     <Content Include="Image\GameLogicMemo.txt" />
+    <Content Include="Image\Player\P_Bullet_TypeCircle.png" />
     <Content Include="Image\Player\P_Default_Down.png" />
     <Content Include="Image\Player\P_Default_Up.png" />
     <Content Include="Image\Player\P_Default_x3.png" />

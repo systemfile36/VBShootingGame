@@ -27,8 +27,15 @@ Public Class Player
 	'SetControl(), ReleaseControl()이 설정함
 	Protected IsInputFire As Boolean
 
+	'한번에 발사하는 총알의 수 (다형성을 위해)
+	Private NumOfBullets As Integer = 1
+
+	'벡터의 리스트, 위에서부터 순서대로 탄의 방향 저장(샷건 모드용)
+	Public VectorList As New List(Of Vector2)
+
 	Private SelectedPlayer As String = "P_Default"
 
+	'대각선 이동 벡터 정의
 	Private LeftUpVector As SizeF
 	Private LeftDownVector As SizeF
 	Private RightUpVector As SizeF
@@ -56,7 +63,8 @@ Public Class Player
 
 		objType = Type.Player
 
-		FireTick = Now.Ticks
+		'시작부터 쏘기 위하여
+		FireTick = Now.Ticks - FireDelay
 
 		'충돌 범위 설정
 		SetCollider(UPos, UWidth, UHeight - 40)
@@ -233,5 +241,14 @@ Public Class Player
 	Public Overridable Function GetAmmo() As Integer
 		Return -1
 	End Function
+
+	'다형성을 위한 한번에 발사할 총알 설정 함수
+	Public Function GetNoB() As Integer
+		Return NumOfBullets
+	End Function
+
+	Public Sub SetNoB(n As Integer)
+		NumOfBullets = n
+	End Sub
 
 End Class

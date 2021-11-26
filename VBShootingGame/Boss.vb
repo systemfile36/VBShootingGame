@@ -67,7 +67,7 @@ Public MustInherit Class Boss
 			objType = Type.EBullet
 			USpeed = 10
 
-			SetSprite("B_Bullet_S1_1")
+			SetSprite(My.Resources.E_Bullet_TypeCircle)
 
 			UPos = New PointF(sender.UPos.X, sender.UPos.Y + 20)
 
@@ -107,7 +107,7 @@ Public MustInherit Class Boss
 			tempVector *= USpeed
 			targetVector = New SizeF(tempVector.X, tempVector.Y)
 
-			SetSprite("B_Bullet_S1_1")
+			SetSprite(My.Resources.E_Bullet_TypeCircle)
 
 			SetCollider(UPos, UWidth, UHeight)
 		End Sub

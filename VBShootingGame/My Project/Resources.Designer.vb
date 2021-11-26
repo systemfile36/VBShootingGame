@@ -192,6 +192,16 @@ Namespace My.Resources
         '''<summary>
         '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         '''</summary>
+        Friend ReadOnly Property E_Bullet_TypeCircle() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("E_Bullet_TypeCircle", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
         Friend ReadOnly Property E_Default() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("E_Default", resourceCulture)
@@ -383,6 +393,16 @@ Namespace My.Resources
         Friend ReadOnly Property P_Bullet() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("P_Bullet", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property P_Bullet_TypeCircle() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("P_Bullet_TypeCircle", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
