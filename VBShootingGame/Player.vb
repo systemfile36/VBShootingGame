@@ -41,6 +41,9 @@ Public Class Player
 	Private RightUpVector As SizeF
 	Private RightDownVector As SizeF
 
+	'디버그 모드(= 무적) 여부 확인
+	Private IsDebugMode As Boolean = False
+
 	'선택한 기체를 문자열로 받아서 스프라이트 설정
 	Public Sub New(splayer As String)
 		SelectedPlayer = splayer
@@ -66,8 +69,8 @@ Public Class Player
 		'시작부터 쏘기 위하여
 		FireTick = Now.Ticks - FireDelay
 
-		'충돌 범위 설정
-		SetCollider(UPos, UWidth, UHeight - 40)
+		'충돌 범위 설정 (충돌 범위 미세조정)
+		SetCollider(New PointF(UPos.X + 10, UPos.Y + 10), UWidth - 10, UHeight - 50)
 
 	End Sub
 
@@ -130,10 +133,14 @@ Public Class Player
 		End If
 
 		'충돌 판정 갱신
-		SetCollider(UPos)
+		SetCollider(New PointF(UPos.X + 10, UPos.Y + 10))
 	End Sub
 
 	Public Overrides Function Destroy() As Boolean
+		'디버그 모드 일때는 파괴 X
+		If IsDebugMode Then
+			Return False
+		End If
 		Return MyBase.Destroy()
 	End Function
 
@@ -249,6 +256,10 @@ Public Class Player
 
 	Public Sub SetNoB(n As Integer)
 		NumOfBullets = n
+	End Sub
+
+	Public Sub SetIsDebug(b As Boolean)
+		IsDebugMode = b
 	End Sub
 
 End Class

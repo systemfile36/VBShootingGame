@@ -38,6 +38,8 @@ Partial Class GameSetting
 		Me.btnReset = New System.Windows.Forms.Button()
 		Me.btnSave = New System.Windows.Forms.Button()
 		Me.Label8 = New System.Windows.Forms.Label()
+		Me.lbIsDebug = New System.Windows.Forms.Label()
+		Me.ckbIsDebug = New System.Windows.Forms.CheckBox()
 		Me.SuspendLayout()
 		'
 		'Label1
@@ -173,12 +175,33 @@ Partial Class GameSetting
 		Me.Label8.TabIndex = 15
 		Me.Label8.Text = "숫자만 입력됩니다."
 		'
+		'lbIsDebug
+		'
+		Me.lbIsDebug.AutoSize = True
+		Me.lbIsDebug.Location = New System.Drawing.Point(354, 260)
+		Me.lbIsDebug.Name = "lbIsDebug"
+		Me.lbIsDebug.Size = New System.Drawing.Size(110, 12)
+		Me.lbIsDebug.TabIndex = 16
+		Me.lbIsDebug.Text = "디버깅 모드 On/Off"
+		'
+		'ckbIsDebug
+		'
+		Me.ckbIsDebug.AutoSize = True
+		Me.ckbIsDebug.Location = New System.Drawing.Point(595, 260)
+		Me.ckbIsDebug.Name = "ckbIsDebug"
+		Me.ckbIsDebug.Size = New System.Drawing.Size(39, 16)
+		Me.ckbIsDebug.TabIndex = 18
+		Me.ckbIsDebug.Text = "Off"
+		Me.ckbIsDebug.UseVisualStyleBackColor = True
+		'
 		'GameSetting
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
 		Me.ClientSize = New System.Drawing.Size(800, 450)
+		Me.Controls.Add(Me.ckbIsDebug)
+		Me.Controls.Add(Me.lbIsDebug)
 		Me.Controls.Add(Me.Label8)
 		Me.Controls.Add(Me.btnSave)
 		Me.Controls.Add(Me.btnReset)
@@ -221,4 +244,6 @@ Partial Class GameSetting
 	Friend WithEvents btnReset As Button
 	Friend WithEvents btnSave As Button
 	Friend WithEvents Label8 As Label
+	Friend WithEvents lbIsDebug As Label
+	Friend WithEvents ckbIsDebug As CheckBox
 End Class

@@ -125,6 +125,18 @@ Namespace My
                 Me("PFireDelay") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property IsDebug() As Boolean
+            Get
+                Return CType(Me("IsDebug"),Boolean)
+            End Get
+            Set
+                Me("IsDebug") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

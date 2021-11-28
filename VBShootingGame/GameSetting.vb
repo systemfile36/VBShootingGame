@@ -31,18 +31,32 @@
 			MsgBox("플레이어 기체 연사 속도는 100 이상 1000 이하로 설정해주세요!", vbOKOnly)
 			tbPFireDelay.Focus()
 			tbPFireDelay.SelectAll()
+		ElseIf ckbIsDebug.Checked AndAlso
+			MsgBox("정말 디버깅 모드를 켜시겠습니까?" & vbCrLf & "개발자 전용으로서 정상적인 진행을 방해할 수 있습니다.", vbYesNo) <> MsgBoxResult.Yes Then
+
+			ckbIsDebug.Checked = False
+			ckbIsDebug.Focus()
 		Else
-			With My.Settings
+				With My.Settings
 				.ML_Interval = Val(tbMLInterval.Text)
 				.MLT_Interval = Val(tbMLTInterval.Text)
 				.ESpawnTerm = Val(tbESpawn.Text)
 				.DifTerm = Val(tbDifTerm.Text)
 				.PSpeed = Val(tbPSpeed.Text)
 				.PFireDelay = Val(tbPFireDelay.Text)
+				.IsDebug = ckbIsDebug.Checked
 				.Save()
 			End With
 			StartUp.Show()
 			Me.Close()
+		End If
+	End Sub
+
+	Private Sub ckbIsDebug_CheckedChanged(sender As Object, e As EventArgs) Handles ckbIsDebug.CheckedChanged
+		If ckbIsDebug.Checked Then
+			ckbIsDebug.Text = "On"
+		Else
+			ckbIsDebug.Text = "Off"
 		End If
 	End Sub
 
@@ -62,6 +76,7 @@
 		tbDifTerm.Text = D_DifT
 		tbPSpeed.Text = D_PSpeed
 		tbPFireDelay.Text = D_PFireD
+		ckbIsDebug.Checked = False
 	End Sub
 
 	Private Sub GameSetting_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -72,6 +87,7 @@
 		tbDifTerm.Text = My.Settings.DifTerm
 		tbPSpeed.Text = My.Settings.PSpeed
 		tbPFireDelay.Text = My.Settings.PFireDelay
+		ckbIsDebug.Checked = My.Settings.IsDebug
 	End Sub
 
 	'갱신용 주석

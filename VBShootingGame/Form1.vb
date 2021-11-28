@@ -288,13 +288,13 @@ Public Class Form1
 		'플레이어를 그림
 		e.Graphics.DrawImage(player.USprite, New Rectangle(player.UPos.X, player.UPos.Y, player.UWidth, player.UHeight - 40))
 
-		'충돌 범위 가시화용
-		'e.Graphics.DrawRectangle(New Pen(Color.Red), player.UCollider)
+		'플레이어 충돌 범위 가시화용
+		'e.Graphics.DrawRectangle(New Pen(Color.Red), Rectangle.Round(player.UCollider))
 
 		'보스 그림
 		If Not IsNothing(BossObj) Then
 			e.Graphics.DrawImage(BossObj.USprite, New RectangleF(BossObj.UPos.X, BossObj.UPos.Y, BossObj.UWidth, BossObj.UHeight))
-			'e.Graphics.DrawRectangle(New Pen(Color.Red), BossObj.UCollider)
+			'e.Graphics.DrawRectangle(New Pen(Color.Red), Rectangle.Round(BossObj.UCollider))
 			Try
 				For Each drone As Boss.Drone In BossObj.Drones
 					e.Graphics.DrawImage(drone.USprite, New RectangleF(drone.UPos.X, drone.UPos.Y, drone.UWidth, drone.UHeight))
@@ -612,6 +612,13 @@ Public Class Form1
 
 		'범위 제한은 메소드에서
 		player.SetFireDelay(My.Settings.PFireDelay)
+
+		'디버깅 모드 여부 플레이어에 전달
+		If My.Settings.IsDebug Then
+			player.SetIsDebug(True)
+		Else
+			player.SetIsDebug(False)
+		End If
 
 		My.Settings.Save()
 

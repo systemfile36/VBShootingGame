@@ -2,7 +2,7 @@
 
 
 '한번에 여러발을 발사하는 삿견 계열 기체
-'연사 딜레이 3배, 한번에 5발 퍼뜨림
+'연사 딜레이 3.5배, 한번에 5발 퍼뜨림
 
 Public Class Player_Type2
 	Inherits Player
@@ -29,7 +29,7 @@ Public Class Player_Type2
 	End Sub
 
 	Public Overrides Function CheckFireDelay() As Boolean
-		If IsInputFire = True And Now.Ticks - FireTick > FireDelay * 3 Then
+		If IsInputFire = True And Now.Ticks - FireTick > FireDelay * 3.5 Then
 			FireTick = Now.Ticks
 			Return True
 		Else
