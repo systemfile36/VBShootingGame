@@ -16,27 +16,27 @@ Public Class ScoreBoard
 	'저장되었는지 여부
 	Private IsSaved As Boolean = False
 
-	Private IsExit As Boolean = False
+	Private Enum MoveForm
+		Form1
+		StartUp
+		None
+	End Enum
+
+	'이동할 폼을 FormClosing에서 참조
+	Private Toform As MoveForm = MoveForm.None
 
 	Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
-		If CheckSaveExit() Then
-			Form1.Show()
-			IsExit = True
-			Me.Close()
-		End If
+		Toform = MoveForm.Form1
+		Me.Close()
 	End Sub
 
 	Private Sub btnTitle_Click(sender As Object, e As EventArgs) Handles btnTitle.Click
-		If CheckSaveExit() Then
-			StartUp.Show()
-			IsExit = True
-			Me.Close()
-		End If
-
+		Toform = MoveForm.StartUp
+		Me.Close()
 	End Sub
 
 	Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
-		IsExit = True
+		Toform = MoveForm.None
 		Me.Close()
 	End Sub
 
@@ -113,6 +113,7 @@ Public Class ScoreBoard
 			Else
 				Dim fs As FileStream = File.Create("Score.bin")
 				tbScoreBoard.Text = "저장된 스코어가 없습니다."
+				S_Text = ""
 				fs.Close()
 			End If
 		Catch ex As Exception
@@ -154,10 +155,23 @@ Public Class ScoreBoard
 
 	Private Sub ScoreBoard_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
 		'저장 모드일때만 나갈 때 저장 확인
-
-		If IsExit = False AndAlso Not CheckSaveExit() Then
-			e.Cancel = True
+		If IsSaveMode Then
+			'만약 저장되지 않았다면 메시지 박스 호출하고 종료 캔슬 후 Sub 탈출
+			If Not IsSaved Then
+				If Not MsgBox("아직 저장되지 않았습니다, 정말 나가시겠습니까?", vbYesNo) = MsgBoxResult.Yes Then
+					e.Cancel = True
+					Exit Sub
+				End If
+			End If
 		End If
+
+		'Toform을 참조해서 이동할 폼을 열고 종료
+		Select Case Toform
+			Case MoveForm.Form1
+				Form1.Show()
+			Case MoveForm.StartUp
+				StartUp.Show()
+		End Select
 	End Sub
 
 	Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
@@ -173,23 +187,23 @@ Public Class ScoreBoard
 		End If
 	End Sub
 
-	Private Function CheckSaveExit() As Boolean
-		'True면 나감, False면 안 나감
-		'저장 모드일때만 나갈 때 저장 확인
-		If Not IsSaved AndAlso IsSaveMode Then
-			If Not MsgBox("아직 저장되지 않았습니다, 정말 나가시겠습니까?", vbYesNo) = MsgBoxResult.Yes Then
-				Return False
-			Else
-				Return True
-			End If
-			'저장 모드가 아니면 그냥 나감
-		ElseIf Not IsSaveMode Then
-			Return True
-		Else
-			Return False
-		End If
+	'Private Function CheckSaveExit() As Boolean
+	'	'True면 나감, False면 안 나감
+	'	'저장 모드일때만 나갈 때 저장 확인
+	'	If Not IsSaved AndAlso IsSaveMode Then
+	'		If Not MsgBox("아직 저장되지 않았습니다, 정말 나가시겠습니까?", vbYesNo) = MsgBoxResult.Yes Then
+	'			Return False
+	'		Else
+	'			Return True
+	'		End If
+	'		'저장 모드가 아니면 그냥 나감
+	'	ElseIf Not IsSaveMode Then
+	'		Return True
+	'	Else
+	'		Return False
+	'	End If
 
-	End Function
+	'End Function
 
 	Private Sub btnReset_MouseEnter(sender As Object, e As EventArgs) Handles btnReset.MouseEnter
 		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
