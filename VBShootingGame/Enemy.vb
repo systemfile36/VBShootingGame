@@ -25,7 +25,7 @@ Public Class Enemy
 		SetCollider(UPos, UWidth, UHeight + 10)
 
 		'발사 간격을 위한 시간 설정
-		FireTick = Now.Ticks - FireTerm
+		FireTick = Form1.GNowTick - FireTerm
 
 		'등장할 때부터 사격 하기 위해
 		IsFire = True
@@ -78,8 +78,8 @@ Public Class Enemy
 			Return False
 		End If
 
-		If Now.Ticks - FireTick > FireTerm Then
-			FireTick = Now.Ticks
+		If Form1.GNowTick - FireTick > FireTerm Then
+			FireTick = Form1.GNowTick
 			Return True
 		Else
 			Return False

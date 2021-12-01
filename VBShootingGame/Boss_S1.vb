@@ -30,7 +30,7 @@ Public Class Boss_S1
 			UPos = New PointF(Form1.BoardWidth, posY)
 			StartedPosY = posY
 
-			FireTick = Now.Ticks
+			FireTick = Form1.GNowTick
 		End Sub
 
 		Public Overrides Sub Move()
@@ -62,8 +62,8 @@ Public Class Boss_S1
 			End If
 
 			'이동중이지 않고 일정 딜레이에 도달하였다면 발사 True로
-			If Now.Ticks - FireTick > FireTerm Then
-				FireTick = Now.Ticks
+			If Form1.GNowTick - FireTick > FireTerm Then
+				FireTick = Form1.GNowTick
 				Return True
 			Else
 				Return False
@@ -116,8 +116,8 @@ Public Class Boss_S1
 			Return False
 		End If
 
-		If Now.Ticks - FireTick > FireTerm Then
-			FireTick = Now.Ticks
+		If Form1.GNowTick - FireTick > FireTerm Then
+			FireTick = Form1.GNowTick
 			Return True
 		Else
 			Return False

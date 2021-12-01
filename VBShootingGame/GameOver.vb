@@ -72,10 +72,13 @@
 	End Sub
 
 	Private Sub GameOver_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-		If MsgBox("스코어를 저장하시겠습니까?", vbYesNo) = MsgBoxResult.Yes Then
+		Dim result As MsgBoxResult = MsgBox("스코어를 저장하시겠습니까?", vbYesNo)
+		If result = MsgBoxResult.Yes Then
 			Dim sb As New ScoreBoard()
 			sb.score = score
 			sb.Show()
+		ElseIf result = MsgBoxResult.No Then
+			StartUp.Show()
 		End If
 	End Sub
 End Class

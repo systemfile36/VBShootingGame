@@ -16,7 +16,7 @@ Public Class Player_Type2
 		SetNoB(5)
 
 		'시작부터 쏠 수 있게 하기 위하여
-		FireTick = Now.Ticks - FireDelay * 3
+		FireTick = Form1.GNowTick - FireDelay * 3
 
 		'벡터 1, 0 을 각각 20도 간격으로 5개 배치
 		'방향을 맞추기 위해 위로 올라가는 탄환은 - 기호를 붙여야 함!
@@ -29,8 +29,8 @@ Public Class Player_Type2
 	End Sub
 
 	Public Overrides Function CheckFireDelay() As Boolean
-		If IsInputFire = True And Now.Ticks - FireTick > FireDelay * 3.5 Then
-			FireTick = Now.Ticks
+		If IsInputFire = True And Form1.GNowTick - FireTick > FireDelay * 3.5 Then
+			FireTick = Form1.GNowTick
 			Return True
 		Else
 			Return False

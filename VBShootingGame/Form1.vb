@@ -43,6 +43,15 @@ Public Class Form1
 	'Player 기체 선택용 public static 변수
 	Public Shared SelectedPlane As String = "P_Default"
 
+	'일시정지 시간 반영을 위한 Now.Ticks를 대체할 변수
+	'Private Shared GameTick As Long = 0
+	Private Shared GameTick As Long = 0
+	Public Shared ReadOnly Property GNowTick
+		Get
+			Return GameTick
+		End Get
+	End Property
+
 	'입력 키 관련
 	Private currentKey As New List(Of Keys)
 
@@ -112,6 +121,9 @@ Public Class Form1
 		'게임 관리에 시작시간 등록
 		game.SetSTime(player.SpawnedTime)
 
+		'게임 틱 설정
+		GameTick = game.GetGameTick()
+
 		'My.Settings 내용 반영
 		ApplySetting()
 
@@ -168,6 +180,8 @@ Public Class Form1
 		If bg1_x <= -BoardWidth Then
 			bg1_x = BoardWidth - 2
 		End If
+
+
 
 		'화면 갱신
 		Invalidate()
@@ -227,7 +241,8 @@ Public Class Form1
 			lbAmmo.Text = "Ammo : Infinity"
 		End If
 
-
+		GameTick = game.GetGameTick()
+		'lbDebug.Text = GameTick
 
 		'lbDebug.Text = game.GetGameSec() & " " & game.GetDifficulty() & " " & MainLoopInterval & SelectedPlane
 	End Sub
@@ -626,6 +641,8 @@ Public Class Form1
 
 	'X버튼을 누르는 등 창을 닫으려 하면 포즈 메뉴부터 띄움
 	Private Sub Form1_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+		'시간 기록 오류 예방
+		GameTick = 0
 		'게임이 끝나지도 않았고 일시 정지되지도 않았다면, 즉 게임오버등의 정상적인 종료과정이 아니면
 		'일시정지 메뉴 호출
 		If Not (IsGamePaused OrElse IsGameEnd) Then

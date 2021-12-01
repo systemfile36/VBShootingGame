@@ -67,7 +67,8 @@ Public Class Player
 		objType = Type.Player
 
 		'시작부터 쏘기 위하여
-		FireTick = Now.Ticks - FireDelay
+		FireTick = Form1.GNowTick + FireDelay
+		Debug.WriteLine("PFireTick : " & FireTick)
 
 		'충돌 범위 설정 (충돌 범위 미세조정)
 		SetCollider(New PointF(UPos.X + 10, UPos.Y + 10), UWidth - 10, UHeight - 50)
@@ -190,8 +191,8 @@ Public Class Player
 	'시간 갱신 후 True 반환 아니면 False반환
 	'스페이스에서 손을 때면 False로 바뀌므로 외부에서 변경할 필요 없음
 	Public Overridable Function CheckFireDelay() As Boolean
-		If IsInputFire = True And Now.Ticks - FireTick > FireDelay Then
-			FireTick = Now.Ticks
+		If IsInputFire = True And Form1.GNowTick - FireTick > FireDelay Then
+			FireTick = Form1.GNowTick
 			Return True
 		Else
 			Return False

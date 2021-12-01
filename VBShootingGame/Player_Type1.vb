@@ -26,12 +26,12 @@ Public Class Player_Type1
 			'재장전 중이 아니라면
 			If IsReroading = False Then
 				'재장전을 시작한 시간을 기록하고 플래그를 True로
-				ReloadingTick = Now.Ticks
+				ReloadingTick = Form1.GNowTick
 				IsReroading = True
 			Else
 				'재장전 중이라면 시간 체크
 				'만약 재장전이 끝난 시간이면 총알을 채우고 플래그를 내림
-				If Now.Ticks - ReloadingTick > ReloadingDelay Then
+				If Form1.GNowTick - ReloadingTick > ReloadingDelay Then
 					Ammo = 5
 					IsReroading = False
 				End If
@@ -39,9 +39,9 @@ Public Class Player_Type1
 		End If
 
 		'연사 시간에 도달했고 재장전 중이 아닐때만 발사 후 총알 감소
-		If IsInputFire = True AndAlso Now.Ticks - FireTick > (FireDelay / 2) _
+		If IsInputFire = True AndAlso Form1.GNowTick - FireTick > (FireDelay / 2) _
 			AndAlso IsReroading = False Then
-			FireTick = Now.Ticks
+			FireTick = Form1.GNowTick
 			Ammo -= 1
 			Return True
 		Else

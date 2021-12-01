@@ -84,6 +84,7 @@ Public Class GameManager
 		PausedTick = Now.Ticks
 	End Sub
 
+	'시작한 시간에 일시정지한 시간을 더해서 최종적인 시간을 맞춘다
 	Public Sub ResumeTime()
 		PausedTime = Now.Ticks - PausedTick
 
@@ -93,6 +94,10 @@ Public Class GameManager
 
 	Public Function GetGameMil() As Integer
 		Return CInt((Now.Ticks - StartedTime) / 10000)
+	End Function
+
+	Public Function GetGameTick() As Long
+		Return Now.Ticks - StartedTime
 	End Function
 
 	Public Sub SetSpawnTerm(spterm As Long)
