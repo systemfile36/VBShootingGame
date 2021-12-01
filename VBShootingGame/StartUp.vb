@@ -14,6 +14,14 @@ Public Class StartUp
 		Me.Close()
 	End Sub
 
+	Private Sub btnScoreBoard_Click(sender As Object, e As EventArgs) Handles btnScoreBoard.Click
+		Dim sb As New ScoreBoard()
+		'저장 모드가 아닌 그냥 보는 모드
+		sb.IsSaveMode = False
+		sb.Show()
+		Me.Close()
+	End Sub
+
 	Private Sub StartUp_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
 		btnExit.Select()
@@ -31,6 +39,8 @@ Public Class StartUp
 		btnInfo.Text = ""
 		btnExit.BackgroundImage = My.Resources.GameQuit_Default
 		btnExit.Text = ""
+		btnScoreBoard.Text = ""
+		btnScoreBoard.BackgroundImage = My.Resources.ScoreBoard_Default
 
 		Me.KeyPreview = True
 
@@ -178,4 +188,35 @@ Public Class StartUp
 	Private Sub btnExit_Leave(sender As Object, e As EventArgs) Handles btnExit.Leave
 		btnExit.BackgroundImage = My.Resources.GameQuit_Default
 	End Sub
+
+	Private Sub btnSB_MouseEnter(sender As Object, e As EventArgs) Handles btnScoreBoard.MouseEnter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
+	End Sub
+
+	Private Sub btnSB_MouseMove(sender As Object, e As MouseEventArgs) Handles btnScoreBoard.MouseMove
+		btnScoreBoard.BackgroundImage = My.Resources.ScoreBoard_Hover
+	End Sub
+
+	Private Sub btnSB_MouseLeave(sender As Object, e As EventArgs) Handles btnScoreBoard.MouseLeave
+		btnScoreBoard.BackgroundImage = My.Resources.ScoreBoard_Default
+	End Sub
+
+	Private Sub btnSB_MouseDown(sender As Object, e As MouseEventArgs) Handles btnScoreBoard.MouseDown
+		btnScoreBoard.BackgroundImage = My.Resources.ScoreBoard_Click
+	End Sub
+
+	Private Sub btnSB_MouseUp(sender As Object, e As MouseEventArgs) Handles btnScoreBoard.MouseUp
+		btnScoreBoard.BackgroundImage = My.Resources.ScoreBoard_Default
+	End Sub
+
+	Private Sub btnSB_Enter(sender As Object, e As EventArgs) Handles btnScoreBoard.Enter
+		My.Computer.Audio.Play(My.Resources.Button_hover, AudioPlayMode.Background)
+		btnScoreBoard.BackgroundImage = My.Resources.ScoreBoard_Hover
+	End Sub
+
+	Private Sub btnSB_Leave(sender As Object, e As EventArgs) Handles btnScoreBoard.Leave
+		btnScoreBoard.BackgroundImage = My.Resources.ScoreBoard_Default
+	End Sub
+
+
 End Class

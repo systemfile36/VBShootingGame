@@ -26,6 +26,7 @@ Partial Class StartUp
 		Me.btnExit = New System.Windows.Forms.Button()
 		Me.btnSetting = New System.Windows.Forms.Button()
 		Me.btnInfo = New System.Windows.Forms.Button()
+		Me.btnScoreBoard = New System.Windows.Forms.Button()
 		Me.SuspendLayout()
 		'
 		'btnStart
@@ -36,7 +37,7 @@ Partial Class StartUp
 		Me.btnStart.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
 		Me.btnStart.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
 		Me.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-		Me.btnStart.Location = New System.Drawing.Point(355, 248)
+		Me.btnStart.Location = New System.Drawing.Point(357, 264)
 		Me.btnStart.Name = "btnStart"
 		Me.btnStart.Size = New System.Drawing.Size(175, 80)
 		Me.btnStart.TabIndex = 1
@@ -51,7 +52,7 @@ Partial Class StartUp
 		Me.btnExit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
 		Me.btnExit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
 		Me.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-		Me.btnExit.Location = New System.Drawing.Point(355, 449)
+		Me.btnExit.Location = New System.Drawing.Point(357, 436)
 		Me.btnExit.Name = "btnExit"
 		Me.btnExit.Size = New System.Drawing.Size(175, 80)
 		Me.btnExit.TabIndex = 2
@@ -81,12 +82,27 @@ Partial Class StartUp
 		Me.btnInfo.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
 		Me.btnInfo.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
 		Me.btnInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-		Me.btnInfo.Location = New System.Drawing.Point(494, 350)
+		Me.btnInfo.Location = New System.Drawing.Point(481, 350)
 		Me.btnInfo.Name = "btnInfo"
 		Me.btnInfo.Size = New System.Drawing.Size(175, 80)
 		Me.btnInfo.TabIndex = 4
 		Me.btnInfo.Text = "Game Info"
 		Me.btnInfo.UseVisualStyleBackColor = False
+		'
+		'btnScoreBoard
+		'
+		Me.btnScoreBoard.BackColor = System.Drawing.Color.Transparent
+		Me.btnScoreBoard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+		Me.btnScoreBoard.FlatAppearance.BorderSize = 0
+		Me.btnScoreBoard.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
+		Me.btnScoreBoard.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
+		Me.btnScoreBoard.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+		Me.btnScoreBoard.Location = New System.Drawing.Point(709, 436)
+		Me.btnScoreBoard.Name = "btnScoreBoard"
+		Me.btnScoreBoard.Size = New System.Drawing.Size(173, 79)
+		Me.btnScoreBoard.TabIndex = 5
+		Me.btnScoreBoard.Text = "ScoreBoard"
+		Me.btnScoreBoard.UseVisualStyleBackColor = False
 		'
 		'StartUp
 		'
@@ -94,6 +110,7 @@ Partial Class StartUp
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
 		Me.ClientSize = New System.Drawing.Size(894, 551)
+		Me.Controls.Add(Me.btnScoreBoard)
 		Me.Controls.Add(Me.btnInfo)
 		Me.Controls.Add(Me.btnSetting)
 		Me.Controls.Add(Me.btnExit)
@@ -109,4 +126,5 @@ Partial Class StartUp
 	Friend WithEvents btnExit As Button
 	Friend WithEvents btnSetting As Button
 	Friend WithEvents btnInfo As Button
+	Friend WithEvents btnScoreBoard As Button
 End Class

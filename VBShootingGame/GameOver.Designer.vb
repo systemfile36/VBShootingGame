@@ -22,53 +22,24 @@ Partial Class GameOver
 	'코드 편집기에서는 수정하지 마세요.
 	<System.Diagnostics.DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
-		Me.btnReset = New System.Windows.Forms.Button()
-		Me.btnExit = New System.Windows.Forms.Button()
-		Me.btnTitle = New System.Windows.Forms.Button()
+		Me.btnScoreBoard = New System.Windows.Forms.Button()
 		Me.lbScore = New System.Windows.Forms.Label()
 		Me.SuspendLayout()
 		'
-		'btnReset
+		'btnScoreBoard
 		'
-		Me.btnReset.BackColor = System.Drawing.Color.Transparent
-		Me.btnReset.FlatAppearance.BorderSize = 0
-		Me.btnReset.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
-		Me.btnReset.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
-		Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-		Me.btnReset.Location = New System.Drawing.Point(12, 373)
-		Me.btnReset.Name = "btnReset"
-		Me.btnReset.Size = New System.Drawing.Size(173, 79)
-		Me.btnReset.TabIndex = 0
-		Me.btnReset.Text = "Restart Game"
-		Me.btnReset.UseVisualStyleBackColor = False
-		'
-		'btnExit
-		'
-		Me.btnExit.BackColor = System.Drawing.Color.Transparent
-		Me.btnExit.FlatAppearance.BorderSize = 0
-		Me.btnExit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
-		Me.btnExit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
-		Me.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-		Me.btnExit.Location = New System.Drawing.Point(634, 373)
-		Me.btnExit.Name = "btnExit"
-		Me.btnExit.Size = New System.Drawing.Size(173, 79)
-		Me.btnExit.TabIndex = 2
-		Me.btnExit.Text = "Quit Game"
-		Me.btnExit.UseVisualStyleBackColor = False
-		'
-		'btnTitle
-		'
-		Me.btnTitle.BackColor = System.Drawing.Color.Transparent
-		Me.btnTitle.FlatAppearance.BorderSize = 0
-		Me.btnTitle.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
-		Me.btnTitle.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
-		Me.btnTitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-		Me.btnTitle.Location = New System.Drawing.Point(313, 373)
-		Me.btnTitle.Name = "btnTitle"
-		Me.btnTitle.Size = New System.Drawing.Size(173, 79)
-		Me.btnTitle.TabIndex = 3
-		Me.btnTitle.Text = "Go Title"
-		Me.btnTitle.UseVisualStyleBackColor = False
+		Me.btnScoreBoard.BackColor = System.Drawing.Color.Transparent
+		Me.btnScoreBoard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+		Me.btnScoreBoard.FlatAppearance.BorderSize = 0
+		Me.btnScoreBoard.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
+		Me.btnScoreBoard.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
+		Me.btnScoreBoard.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+		Me.btnScoreBoard.Location = New System.Drawing.Point(337, 373)
+		Me.btnScoreBoard.Name = "btnScoreBoard"
+		Me.btnScoreBoard.Size = New System.Drawing.Size(173, 79)
+		Me.btnScoreBoard.TabIndex = 2
+		Me.btnScoreBoard.Text = "ScoreBoard"
+		Me.btnScoreBoard.UseVisualStyleBackColor = False
 		'
 		'lbScore
 		'
@@ -88,9 +59,7 @@ Partial Class GameOver
 		Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
 		Me.ClientSize = New System.Drawing.Size(819, 464)
 		Me.Controls.Add(Me.lbScore)
-		Me.Controls.Add(Me.btnTitle)
-		Me.Controls.Add(Me.btnExit)
-		Me.Controls.Add(Me.btnReset)
+		Me.Controls.Add(Me.btnScoreBoard)
 		Me.MaximizeBox = False
 		Me.MinimizeBox = False
 		Me.Name = "GameOver"
@@ -100,9 +69,6 @@ Partial Class GameOver
 		Me.PerformLayout()
 
 	End Sub
-
-	Friend WithEvents btnReset As Button
-	Friend WithEvents btnExit As Button
-	Friend WithEvents btnTitle As Button
+	Friend WithEvents btnScoreBoard As Button
 	Friend WithEvents lbScore As Label
 End Class

@@ -74,6 +74,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AesEncrypt.vb" />
     <Compile Include="Boss.vb" />
     <Compile Include="Boss_S1.vb" />
     <Compile Include="Bullet.vb" />
@@ -132,6 +133,12 @@
     <Compile Include="Player.vb" />
     <Compile Include="Player_Type1.vb" />
     <Compile Include="Player_Type2.vb" />
+    <Compile Include="ScoreBoard.Designer.vb">
+      <DependentUpon>ScoreBoard.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ScoreBoard.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ScoreManager.vb" />
     <Compile Include="SelectPlayer.Designer.vb">
       <DependentUpon>SelectPlayer.vb</DependentUpon>
@@ -168,6 +175,9 @@
     <EmbeddedResource Include="PauseMenu.resx">
       <DependentUpon>PauseMenu.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ScoreBoard.resx">
+      <DependentUpon>ScoreBoard.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SelectPlayer.resx">
       <DependentUpon>SelectPlayer.vb</DependentUpon>
     </EmbeddedResource>
@@ -176,6 +186,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Encrypt\MyIV.bin" />
+    <None Include="Encrypt\MyKey.bin" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -235,6 +247,9 @@
     <Content Include="Image\Buttons\Resume_Click.png" />
     <Content Include="Image\Buttons\Resume_Default.png" />
     <Content Include="Image\Buttons\Resume_Hover.png" />
+    <Content Include="Image\Buttons\ScoreBoard_Click.png" />
+    <Content Include="Image\Buttons\ScoreBoard_Default.png" />
+    <Content Include="Image\Buttons\ScoreBoard_Hover.png" />
     <Content Include="Image\Effect\Destroy_0.png" />
     <Content Include="Image\Enemy\E_Bullet_TypeCircle.png" />
     <Content Include="Image\GameLogicMemo.txt" />

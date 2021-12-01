@@ -388,6 +388,26 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property MyIV() As Byte()
+            Get
+                Dim obj As Object = ResourceManager.GetObject("MyIV", resourceCulture)
+                Return CType(obj,Byte())
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property MyKey() As Byte()
+            Get
+                Dim obj As Object = ResourceManager.GetObject("MyKey", resourceCulture)
+                Return CType(obj,Byte())
+            End Get
+        End Property
+        
+        '''<summary>
         '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         '''</summary>
         Friend ReadOnly Property P_Bullet() As System.Drawing.Bitmap
@@ -628,6 +648,36 @@ Namespace My.Resources
         Friend ReadOnly Property Resume_Hover() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Resume_Hover", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property ScoreBoard_Click() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("ScoreBoard_Click", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property ScoreBoard_Default() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("ScoreBoard_Default", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property ScoreBoard_Hover() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("ScoreBoard_Hover", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

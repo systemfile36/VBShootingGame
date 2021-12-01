@@ -47,7 +47,7 @@ Public Class Form1
 	Private currentKey As New List(Of Keys)
 
 	'스코어 관리
-	Private scoreBoard As New ScoreManager()
+	Private scoremanager As New ScoreManager()
 
 	'게임 진행 관리
 	Private game As New GameManager()
@@ -188,14 +188,14 @@ Public Class Form1
 
 		'UI Thread에서 파괴음 재생 후 플래그를 다시 False로 (중복 재생 방지)
 		'IsKilled 플래그들은 scoreboard에 있음
-		If scoreBoard.IsKilled = True Then
+		If scoremanager.IsKilled = True Then
 			sound.Play("Destroy")
-			scoreBoard.IsKilled = False
+			scoremanager.IsKilled = False
 		End If
 
-		If scoreBoard.IsBossKilled = True Then
+		If scoremanager.IsBossKilled = True Then
 			Debug.WriteLine(sound.Play("Destroy_Long"))
-			scoreBoard.IsBossKilled = False
+			scoremanager.IsBossKilled = False
 		End If
 
 		'보스용 배경음악, 오버헤드 방지를 위해 플래그 생성
@@ -210,8 +210,8 @@ Public Class Form1
 		End If
 
 		'UI 갱신
-		scoreBoard.SetScore(game.GetGameSec())
-		lbScore.Text = Format(scoreBoard.GetScore(), "Score : 0000000")
+		scoremanager.SetScore(game.GetGameSec())
+		lbScore.Text = Format(scoremanager.GetScore(), "Score : 0000000")
 		lbGameTime.Text = Format(game.GetGameSec(), "Time : 0000")
 		lbDif.Text = Format(game.GetDifficulty(), "Dif : 000")
 
@@ -417,7 +417,7 @@ Public Class Form1
 						'만약 적의 충돌함수가 True를 반환했다면( = 격추되었다면)
 						If obj_c.CollisionCheck(obj) Then
 							'격추 수를 올린다.
-							scoreBoard.IncKillCount()
+							scoremanager.IncKillCount()
 						End If
 					Next
 
@@ -450,7 +450,7 @@ Public Class Form1
 				If BossObj.UHealth = 0 AndAlso BossObj.IsDeath = False Then
 					'보스 킬수를 올리고 플래그를 다시 바꾼다. 드론도 파괴 한다.
 					BossObj.DestroyAllDrone()
-					scoreBoard.IncBossKillCount()
+					scoremanager.IncBossKillCount()
 					BossObj.IsDeath = True
 				End If
 
@@ -513,10 +513,10 @@ Public Class Form1
 		IsGamePaused = True
 
 		'넘겨줄 스코어를 설정하고 일시 정지 메뉴 폼의 인스턴스를 만든다.
-		scoreBoard.SetScore(game.GetGameSec)
+		scoremanager.SetScore(game.GetGameSec)
 
 		Dim pauseForm As New PauseMenu()
-		pauseForm.Score = scoreBoard.GetScore()
+		pauseForm.Score = scoremanager.GetScore()
 		pauseForm.GameTime = game.GetGameSec()
 
 		'ShowDialog()로 연다.
@@ -573,9 +573,9 @@ Public Class Form1
 		IsGameEnd = True
 
 		'점수 설정
-		scoreBoard.SetScore(game.GetGameSec())
+		scoremanager.SetScore(game.GetGameSec())
 		Dim gameover As New GameOver()
-		gameover.score = scoreBoard
+		gameover.score = scoremanager
 		gameover.Show()
 
 		Thread.Sleep(10)
