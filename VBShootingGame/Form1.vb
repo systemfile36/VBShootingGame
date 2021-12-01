@@ -330,7 +330,7 @@ Public Class Form1
 					e.Graphics.DrawImage(obj.USprite, New RectangleF(obj.UPos.X, obj.UPos.Y, obj.UWidth, obj.UHeight))
 
 					'충돌 범위 가시화용
-					'e.Graphics.DrawRectangle(New Pen(Color.Red), obj.UCollider)
+					'e.Graphics.DrawRectangle(New Pen(Color.Red), Rectangle.Round(obj.UCollider))
 				End If
 			Next
 		Catch ex As Exception
@@ -376,6 +376,10 @@ Public Class Form1
 
 				'적 스폰 위치 랜덤
 				'난이도를 전달해서 발사 간격 조정
+				If game.GetDifficulty() > 8 Then
+					OtherObjects.Add(New Enemy_Type2(game.GetGameMil(), rand.Next(40, 500), game.GetDifficulty()))
+				End If
+
 				OtherObjects.Add(New Enemy(game.GetGameMil(), rand.Next(40, 500), game.GetDifficulty()))
 
 				game.ResetDelayTickEnemy()
@@ -416,7 +420,15 @@ Public Class Form1
 						If temp.CheckFireTerm() Then
 							'다형성으로 부모자리에 자식을 넣을 수 있다.
 							'추가할 물건 저장
-							addObj.Add(New Bullet(temp, False, game.GetGameMil()))
+							If temp.NumOfBullets = 1 Then
+								addObj.Add(New Bullet(temp, False, game.GetGameMil()))
+							Else
+								For i As Integer = 0 To temp.NumOfBullets - 1
+									addObj.Add(New Bullet_Circle(temp, False, temp.VectorList(i), game.GetGameMil()))
+								Next
+
+							End If
+
 						End If
 					End If
 				End If

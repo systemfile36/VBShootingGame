@@ -18,7 +18,7 @@ Public Class Player_Type2
 		'시작부터 쏠 수 있게 하기 위하여
 		FireTick = Form1.GNowTick - FireDelay * 3
 
-		'벡터 1, 0 을 각각 20도 간격으로 5개 배치
+		'벡터 1, 0 을 각각 15도 간격으로 5개 배치
 		'방향을 맞추기 위해 위로 올라가는 탄환은 - 기호를 붙여야 함!
 		VectorList.Add(New Vector2(Math.Cos(30 * Math.PI / 180.0), -Math.Sin(30 * Math.PI / 180.0)))
 		VectorList.Add(New Vector2(Math.Cos(15 * Math.PI / 180.0), -Math.Sin(15 * Math.PI / 180.0)))

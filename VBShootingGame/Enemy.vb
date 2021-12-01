@@ -1,4 +1,6 @@
-﻿'적 타입 객체
+﻿Imports System.Numerics
+
+'적 타입 객체
 '만약 새로운 적을 추가한다면 이 객체를 상속받을 것이다.
 
 Public Class Enemy
@@ -6,8 +8,13 @@ Public Class Enemy
 
 	Private IsUp As Boolean = False
 
-	Private FireTerm As Long = 20000000L
-	Private FireTick As Long = 0
+	Protected FireTerm As Long = 20000000L
+	Protected FireTick As Long = 0
+
+	'탄 저장
+	Public VectorList As New List(Of Vector2)
+
+	Public NumOfBullets As Integer = 1
 
 	Public Sub New(id As String)
 		SetSprite(Type.Enemy)

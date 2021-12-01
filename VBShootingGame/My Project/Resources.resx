@@ -154,6 +154,9 @@
   <data name="Destroy_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Image\Effect\Destroy_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Enemy_Type1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Image\Enemy\Enemy_Type1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="E_Bullet" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Image\Enemy\E_Bullet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

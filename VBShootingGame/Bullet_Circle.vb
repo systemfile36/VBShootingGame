@@ -15,10 +15,6 @@ Public Class Bullet_Circle
 
 		USpeed = 20
 
-		'단위 벡터에 스칼라배 해서 저장
-		Dim tempVector As Vector2 = NormalVector * USpeed
-		Direction = New SizeF(tempVector.X, tempVector.Y)
-		Debug.WriteLine(Direction)
 		If IsP Then
 			SetObjID("P_B_C" & NormalVector.X & id)
 			objType = Type.PBullet
@@ -31,8 +27,15 @@ Public Class Bullet_Circle
 			objType = Type.EBullet
 			SetSprite(My.Resources.E_Bullet_TypeCircle)
 
+			USpeed = 11
+
 			UPos = New PointF(sender.UPos.X, sender.UPos.Y + 20)
 		End If
+
+		'단위 벡터에 스칼라배 해서 저장
+		Dim tempVector As Vector2 = NormalVector * USpeed
+		Direction = New SizeF(tempVector.X, tempVector.Y)
+		Debug.WriteLine(Direction)
 
 		SetCollider(UPos, UWidth, UHeight)
 

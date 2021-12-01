@@ -80,6 +80,7 @@
     <Compile Include="Bullet.vb" />
     <Compile Include="Bullet_Circle.vb" />
     <Compile Include="Enemy.vb" />
+    <Compile Include="Enemy_Type2.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -251,6 +252,7 @@
     <Content Include="Image\Buttons\ScoreBoard_Default.png" />
     <Content Include="Image\Buttons\ScoreBoard_Hover.png" />
     <Content Include="Image\Effect\Destroy_0.png" />
+    <Content Include="Image\Enemy\Enemy_Type1.png" />
     <Content Include="Image\Enemy\E_Bullet_TypeCircle.png" />
     <Content Include="Image\GameLogicMemo.txt" />
     <Content Include="Image\Player\P_Bullet_TypeCircle.png" />

@@ -40,12 +40,16 @@ Public Class GameManager
 		'크다면(=갱신주기에 도달했다면) 난이도를 갱신하고 DifTick도 갱신한다.
 		If Now.Ticks - DifTick > DifTerm And IsBossExist = False Then
 			Difficulty += 1
-			'0.5초씩 짧아짐
-			ESpawnTerm -= 5000000L
+			'난이도가 8을 넘으면 스폰 주기 다시 처음으로 하고 새로운 적 등장
+			If Difficulty > 8 Then
+				ESpawnTerm = My.Settings.ESpawnTerm
+			End If
+			'0.4초씩 짧아짐
+			ESpawnTerm -= 4000000L
 
-			'스폰 주기의 최소값(700ms)
-			If ESpawnTerm < 7000000L Then
-				ESpawnTerm = 7000000L
+			'스폰 주기의 최소값(850ms)
+			If ESpawnTerm < 8500000L Then
+				ESpawnTerm = 8500000L
 			End If
 			DifTick = Now.Ticks
 		End If
