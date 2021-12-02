@@ -273,6 +273,7 @@
     <Content Include="Image\TextImage\Title.png" />
     <None Include="Resources\UI_Indicator_LeftUp_70.png" />
     <None Include="Resources\UI_Indicator_RightUp_70.png" />
+    <Content Include="Info\Class_Map.png" />
     <Content Include="Sound\bgm.mp3" />
     <Content Include="Sound\bgm_boss.mp3" />
     <Content Include="Sound\Button_hover.wav" />
