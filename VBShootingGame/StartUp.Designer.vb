@@ -115,6 +115,7 @@ Partial Class StartUp
 		Me.Controls.Add(Me.btnSetting)
 		Me.Controls.Add(Me.btnExit)
 		Me.Controls.Add(Me.btnStart)
+		Me.DoubleBuffered = True
 		Me.MaximizeBox = False
 		Me.Name = "StartUp"
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

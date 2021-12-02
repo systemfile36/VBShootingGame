@@ -268,6 +268,7 @@ Partial Class ScoreBoard
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+		Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
 		Me.ClientSize = New System.Drawing.Size(800, 666)
 		Me.Controls.Add(Me.btnClear)
 		Me.Controls.Add(Me.grpScoreAppend)

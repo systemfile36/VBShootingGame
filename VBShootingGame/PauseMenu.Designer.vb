@@ -105,6 +105,7 @@ Partial Class PauseMenu
 		Me.Controls.Add(Me.lbScore)
 		Me.Controls.Add(Me.btnExit)
 		Me.Controls.Add(Me.btnResume)
+		Me.DoubleBuffered = True
 		Me.MaximizeBox = False
 		Me.MinimizeBox = False
 		Me.Name = "PauseMenu"
