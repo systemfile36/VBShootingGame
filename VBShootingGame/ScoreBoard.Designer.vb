@@ -42,20 +42,25 @@ Partial Class ScoreBoard
 		Me.lbPType = New System.Windows.Forms.Label()
 		Me.lbPname = New System.Windows.Forms.Label()
 		Me.btnClear = New System.Windows.Forms.Button()
+		Me.Label8 = New System.Windows.Forms.Label()
+		Me.Label9 = New System.Windows.Forms.Label()
+		Me.Label10 = New System.Windows.Forms.Label()
+		Me.Label11 = New System.Windows.Forms.Label()
+		Me.Label12 = New System.Windows.Forms.Label()
 		Me.grpScoreAppend.SuspendLayout()
 		Me.SuspendLayout()
 		'
 		'tbScoreBoard
 		'
 		Me.tbScoreBoard.Font = New System.Drawing.Font("HY견고딕", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-		Me.tbScoreBoard.Location = New System.Drawing.Point(13, 13)
+		Me.tbScoreBoard.Location = New System.Drawing.Point(13, 25)
 		Me.tbScoreBoard.Multiline = True
 		Me.tbScoreBoard.Name = "tbScoreBoard"
 		Me.tbScoreBoard.ReadOnly = True
 		Me.tbScoreBoard.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-		Me.tbScoreBoard.Size = New System.Drawing.Size(775, 376)
+		Me.tbScoreBoard.Size = New System.Drawing.Size(775, 364)
 		Me.tbScoreBoard.TabIndex = 0
-		Me.tbScoreBoard.Text = "Test"
+		Me.tbScoreBoard.Text = "21-12-01    Test2    P_Type_1     0001600    Debug"
 		'
 		'btnReset
 		'
@@ -264,12 +269,67 @@ Partial Class ScoreBoard
 		Me.btnClear.Text = "스코어보드 초기화"
 		Me.btnClear.UseVisualStyleBackColor = True
 		'
+		'Label8
+		'
+		Me.Label8.AutoSize = True
+		Me.Label8.Font = New System.Drawing.Font("HY견고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+		Me.Label8.Location = New System.Drawing.Point(38, 9)
+		Me.Label8.Name = "Label8"
+		Me.Label8.Size = New System.Drawing.Size(33, 13)
+		Me.Label8.TabIndex = 15
+		Me.Label8.Text = "날짜"
+		'
+		'Label9
+		'
+		Me.Label9.AutoSize = True
+		Me.Label9.Font = New System.Drawing.Font("HY견고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+		Me.Label9.Location = New System.Drawing.Point(126, 9)
+		Me.Label9.Name = "Label9"
+		Me.Label9.Size = New System.Drawing.Size(33, 13)
+		Me.Label9.TabIndex = 19
+		Me.Label9.Text = "이름"
+		'
+		'Label10
+		'
+		Me.Label10.AutoSize = True
+		Me.Label10.Font = New System.Drawing.Font("HY견고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+		Me.Label10.Location = New System.Drawing.Point(208, 9)
+		Me.Label10.Name = "Label10"
+		Me.Label10.Size = New System.Drawing.Size(33, 13)
+		Me.Label10.TabIndex = 19
+		Me.Label10.Text = "기체"
+		'
+		'Label11
+		'
+		Me.Label11.AutoSize = True
+		Me.Label11.Font = New System.Drawing.Font("HY견고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+		Me.Label11.Location = New System.Drawing.Point(310, 9)
+		Me.Label11.Name = "Label11"
+		Me.Label11.Size = New System.Drawing.Size(33, 13)
+		Me.Label11.TabIndex = 19
+		Me.Label11.Text = "점수"
+		'
+		'Label12
+		'
+		Me.Label12.AutoSize = True
+		Me.Label12.Font = New System.Drawing.Font("HY견고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+		Me.Label12.Location = New System.Drawing.Point(393, 9)
+		Me.Label12.Name = "Label12"
+		Me.Label12.Size = New System.Drawing.Size(33, 13)
+		Me.Label12.TabIndex = 19
+		Me.Label12.Text = "모드"
+		'
 		'ScoreBoard
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
 		Me.ClientSize = New System.Drawing.Size(800, 666)
+		Me.Controls.Add(Me.Label12)
+		Me.Controls.Add(Me.Label11)
+		Me.Controls.Add(Me.Label10)
+		Me.Controls.Add(Me.Label9)
+		Me.Controls.Add(Me.Label8)
 		Me.Controls.Add(Me.btnClear)
 		Me.Controls.Add(Me.grpScoreAppend)
 		Me.Controls.Add(Me.btnExit)
@@ -308,4 +368,9 @@ Partial Class ScoreBoard
 	Friend WithEvents Label4 As Label
 	Friend WithEvents Label3 As Label
 	Friend WithEvents btnClear As Button
+	Friend WithEvents Label8 As Label
+	Friend WithEvents Label9 As Label
+	Friend WithEvents Label10 As Label
+	Friend WithEvents Label11 As Label
+	Friend WithEvents Label12 As Label
 End Class

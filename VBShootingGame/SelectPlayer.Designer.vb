@@ -83,7 +83,7 @@ Partial Class SelectPlayer
 		'
 		Me.lbSTitle.AutoSize = True
 		Me.lbSTitle.Font = New System.Drawing.Font("HY견고딕", 24.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-		Me.lbSTitle.Location = New System.Drawing.Point(271, 41)
+		Me.lbSTitle.Location = New System.Drawing.Point(298, 41)
 		Me.lbSTitle.Name = "lbSTitle"
 		Me.lbSTitle.Size = New System.Drawing.Size(336, 32)
 		Me.lbSTitle.TabIndex = 3

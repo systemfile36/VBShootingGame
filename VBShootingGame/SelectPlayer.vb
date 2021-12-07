@@ -9,8 +9,8 @@
 			& "ms 당 1발" & vbCrLf & vbCrLf & "장탄수 : 5발" & vbCrLf & vbCrLf & vbCrLf & "순간 연사 계열의 기체입니다." _
 			& vbCrLf & "보통 기체보다 두 배 빠른 속도로 발사하는 대신 장탄수를 전부 소비하면 " & (My.Settings.PFireDelay / 2) * 5 & "ms의 재장전 시간이 필요합니다."
 
-		lbType2Info.Text = "기체 타입 : Type_1" & vbCrLf & vbCrLf & "연사력 : " & My.Settings.PFireDelay * 3.5 _
-			& "ms 당 1회" & vbCrLf & vbTab & "1회 5발, 분산도 : 20도" & vbCrLf & vbCrLf & "장탄수 : Infinity" & vbCrLf & vbCrLf & vbCrLf & "한번에 다섯발을 넓게 퍼뜨리며 발사하는 타입입니다." _
+		lbType2Info.Text = "기체 타입 : Type_2" & vbCrLf & vbCrLf & "연사력 : " & My.Settings.PFireDelay * 3.5 _
+			& "ms 당 1회" & vbCrLf & vbTab & "1회 5발, 분산도 : 15도" & vbCrLf & vbCrLf & "장탄수 : Infinity" & vbCrLf & vbCrLf & vbCrLf & "한번에 다섯발을 넓게 퍼뜨리며 발사하는 타입입니다." _
 			& vbCrLf & "연사력이 상대적으로 느린 대신 멀리 떨어진 적도 공격할 수 있습니다."
 
 	End Sub
