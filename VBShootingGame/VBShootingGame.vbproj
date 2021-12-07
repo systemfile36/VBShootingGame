@@ -272,6 +272,7 @@
     <Content Include="Image\SpriteRefer\Planes1.png" />
     <Content Include="Image\TextImage\GameOver.png" />
     <Content Include="Image\TextImage\Title.png" />
+    <Content Include="Sound\Laser_one_Enemy.mp3" />
     <None Include="Resources\UI_Indicator_LeftUp_70.png" />
     <None Include="Resources\UI_Indicator_RightUp_70.png" />
     <Content Include="Info\Class_Map.png" />

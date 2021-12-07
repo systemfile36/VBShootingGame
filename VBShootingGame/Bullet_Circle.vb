@@ -35,7 +35,7 @@ Public Class Bullet_Circle
 		'단위 벡터에 스칼라배 해서 저장
 		Dim tempVector As Vector2 = NormalVector * USpeed
 		Direction = New SizeF(tempVector.X, tempVector.Y)
-		Debug.WriteLine(Direction)
+		'Debug.WriteLine(Direction)
 
 		SetCollider(UPos, UWidth, UHeight)
 

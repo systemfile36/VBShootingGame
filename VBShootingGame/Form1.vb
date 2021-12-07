@@ -107,6 +107,11 @@ Public Class Form1
 
 	Delegate Sub SoundEventDelegate()
 
+	'효과음 담당 사운드 스레드와 그의 제어를 위한 이벤트 변수
+	Private SoundThread As Thread
+	Private SoundThreadPause As New AutoResetEvent(False)
+	Private SoundThreadClose As New ManualResetEvent(False)
+
 	Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		'설정된 기체를 문자열로 넘긴다.
 		'반드시 플레이어를 제일 먼저 만들어야 한다.(설정 적용)
@@ -145,11 +150,9 @@ Public Class Form1
 		sound.AddSound("BGM", "Sound/bgm.mp3")
 		Debug.WriteLine(sound.AddSound("BGM_Boss", "Sound/bgm_boss.mp3"))
 		sound.Play("BGM", True)
-		sound.SetVolume("BGM", 500)
-		sound.SetVolume("BGM_Boss", 500)
+		sound.SetVolume("BGM", 450)
+		sound.SetVolume("BGM_Boss", 450)
 
-		sound.AddSound("Destroy", "Sound/Explode_07.mp3")
-		sound.AddSound("Destroy_Long", "Sound/Explode_Long.mp3")
 
 		'메인 루프를 담당하는 System.Timers.Timer
 		'모든 오브젝트 갱신 담당
@@ -158,6 +161,11 @@ Public Class Form1
 		AddHandler MainLoop.Elapsed, AddressOf TimerEvent
 		MainLoop.AutoReset = True
 		MainLoop.Enabled = True
+
+		'효과음을 담당하는 사운드 스레드
+		SoundThread = New Thread(AddressOf SoundThreadTask)
+		SoundThread.IsBackground = True
+		SoundThread.Start()
 
 		Me.KeyPreview = True
 	End Sub
@@ -187,8 +195,71 @@ Public Class Form1
 		Invalidate()
 	End Sub
 
-	'MainTimer용 변수
+	'보스 브금 판단용
 	Dim IsBossBgmPlayed = False
+
+	'적 발사음 재생을 위한 카운터
+	Dim EnemyShotCount As UInt32 = 0
+
+	'최적화를 위한 사운드 스레드
+	Private Sub SoundThreadTask()
+		Dim TSound As New GameSounds()
+		TSound.AddSound("Destroy", "Sound/Explode_07.mp3")
+		TSound.AddSound("Destroy_Long", "Sound/Explode_Long.mp3")
+		TSound.AddSound("EnemyShot", "Sound/Laser_one_Enemy.mp3")
+		Do
+			'파괴음 재생 후 플래그를 다시 False로 (중복 재생 방지)
+			'IsKilled 플래그들은 scoreboard에 있음
+			If scoremanager.IsKilled = True Then
+				Debug.WriteLine(TSound.Play("Destroy"))
+				scoremanager.IsKilled = False
+			End If
+
+			If scoremanager.IsBossKilled = True Then
+				Debug.WriteLine(TSound.Play("Destroy_Long"))
+				scoremanager.IsBossKilled = False
+			End If
+
+			If EnemyShotCount <> 0 Then
+				Debug.WriteLine(TSound.Play("EnemyShot"))
+				EnemyShotCount = 0
+			End If
+
+			'AutoResetEvent를 통한 일시정지 구현
+			'Set()로 신호가 들어오면 if문으로 진입
+			If SoundThreadPause.WaitOne(0) Then
+				'신호 받은 직후 다시 False로 리셋됨
+				Debug.WriteLine("SoundThread Paused")
+				'일시 정지 중에도 종료 여부 확인 위해
+				'재개 신호가 오거나 종료 될때까지 반복
+				Do
+					If SoundThreadClose.WaitOne(0) Then
+						Debug.WriteLine("SoundThread Exited")
+						TSound.Dispose()
+						Exit Sub
+					End If
+
+					If SoundThreadPause.WaitOne(0) Then
+						Debug.WriteLine("SoundThread Resume")
+						Exit Do
+					End If
+					Thread.Sleep(10)
+				Loop
+			End If
+
+			If SoundThreadClose.WaitOne(0) Then
+				Debug.WriteLine("SoundThread Exited")
+				Exit Do
+			End If
+			Thread.Sleep(20)
+		Loop
+
+		TSound.Dispose()
+
+	End Sub
+
+
+
 	Dim P_Ammo As Integer = -1
 	'MainLoop 보조, 크로스 스레딩 방지 위함
 	Private Sub MainTimer_Tick(sender As Object, e As EventArgs) Handles MainTimer.Tick
@@ -199,18 +270,6 @@ Public Class Form1
 		'입력된 키들의 배열을 player객체에 전달해서 방향 세팅 후 move 호출(동시 입력 대응 위해)
 		'currentKey 리스트가 크로스 스레드를 일으킬 수 있기에 여기 둠
 		player.SetControl(currentKey)
-
-		'UI Thread에서 파괴음 재생 후 플래그를 다시 False로 (중복 재생 방지)
-		'IsKilled 플래그들은 scoreboard에 있음
-		If scoremanager.IsKilled = True Then
-			sound.Play("Destroy")
-			scoremanager.IsKilled = False
-		End If
-
-		If scoremanager.IsBossKilled = True Then
-			Debug.WriteLine(sound.Play("Destroy_Long"))
-			scoremanager.IsBossKilled = False
-		End If
 
 		'보스용 배경음악, 오버헤드 방지를 위해 플래그 생성
 		If Not IsNothing(BossObj) AndAlso IsBossBgmPlayed = False Then
@@ -360,12 +419,14 @@ Public Class Form1
 					drone.Move()
 					If drone.CheckFireTerm() Then
 						OtherObjects.Add(New Boss.B_Bullet(drone, game.GetGameMil()))
+						EnemyShotCount += 1
 					End If
 				Next
 
 				'유도탄 생성
 				If BossObj.CheckFireTerm() Then
 					OtherObjects.Add(New Boss.B_Bullet_S1(BossObj, player, game.GetGameMil()))
+					EnemyShotCount += 1
 				End If
 
 			End If
@@ -422,11 +483,13 @@ Public Class Form1
 							'추가할 물건 저장
 							If temp.NumOfBullets = 1 Then
 								addObj.Add(New Bullet(temp, False, game.GetGameMil()))
+								'발사했다는 표시
+								EnemyShotCount += 1
 							Else
 								For i As Integer = 0 To temp.NumOfBullets - 1
 									addObj.Add(New Bullet_Circle(temp, False, temp.VectorList(i), game.GetGameMil()))
 								Next
-
+								EnemyShotCount += 1
 							End If
 
 						End If
@@ -532,6 +595,8 @@ Public Class Form1
 		If IsBossBgmPlayed Then
 			sound.Pause("BGM_Boss")
 		End If
+		'효과음 스레드 일시 정지
+		SoundThreadPause.Set()
 		'입력키 초기화(이상 동작 예방)
 		player.SetControl(Keys.F)
 		player.ReleaseControl(Keys.Space)
@@ -558,6 +623,8 @@ Public Class Form1
 			game.ResumeTime()
 			MainTimer.Start()
 			MainLoop.Start()
+			'효과음 스레드 재개
+			SoundThreadPause.Set()
 			'플래그에 따라 브금 선택
 			If IsBossBgmPlayed Then
 				sound.Resume("BGM_Boss")
@@ -571,7 +638,7 @@ Public Class Form1
 			sound.Dispose()
 			MainTimer.Stop()
 			MainLoop.Stop()
-
+			SoundThreadClose.Set()
 			'반드시 타이머를 멈춘 뒤 플래그 바꿔야 함(중복참조)
 			'Form_Closing에서 참조 위해
 			IsGameEnd = True
@@ -596,6 +663,7 @@ Public Class Form1
 		MainLoop.Enabled = False
 		sound.Stop("BGM")
 		sound.Dispose()
+		SoundThreadClose.Set()
 		'Form_Closing에서 참조 위해
 		IsGameEnd = True
 

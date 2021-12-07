@@ -172,7 +172,7 @@ Public MustInherit Class Boss
 		If GetIsDest() Then
 			'체력을 1 줄인다.
 			HealthByCount -= 1
-			Debug.WriteLine("BossHelath = " & HealthByCount)
+			'Debug.WriteLine("BossHelath = " & HealthByCount)
 			SetIsDest(False)
 			'체력이 0 이하인지 체크하고 0이하라면 콜라이더 제거 후 True를 반환한다.
 			'0이 아니라면 체력의 양을 측정해서 그에 맞게 스프라이트 교체
